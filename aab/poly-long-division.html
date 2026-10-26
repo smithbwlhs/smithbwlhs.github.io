@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Polynomial Long Division, Step by Step</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FBFCFE; --grid:#DCE7F2; --ink:#1B2A4A; --muted:#5A6782; --line:#1B2A4A;
+  --hl:#FFE45C; --red:#B8322B; --green:#1E7A4A; --blue:#2457A6;
+  --panel:#FFFFFF; --panel-border:#C9D6E6; --btn:#1B2A4A; --btn-ink:#FFFFFF; --field:#FFFFFF;
+  --work-bg:rgba(36,87,166,.07); --err:#B8322B;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#1F2B26; --grid:#2A3832; --ink:#EEF1EA; --muted:#A9B5AD; --line:#EEF1EA;
+    --hl:rgba(232,197,71,.34); --red:#FF9A90; --green:#8FE0A8; --blue:#9CC3FF;
+    --panel:#24332D; --panel-border:#3A4B43; --btn:#EEF1EA; --btn-ink:#1F2B26; --field:#1A2420;
+    --work-bg:rgba(156,195,255,.08); --err:#FF9A90;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#1F2B26; --grid:#2A3832; --ink:#EEF1EA; --muted:#A9B5AD; --line:#EEF1EA;
+  --hl:rgba(232,197,71,.34); --red:#FF9A90; --green:#8FE0A8; --blue:#9CC3FF;
+  --panel:#24332D; --panel-border:#3A4B43; --btn:#EEF1EA; --btn-ink:#1F2B26; --field:#1A2420;
+  --work-bg:rgba(156,195,255,.08); --err:#FF9A90;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0; color:var(--ink); background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px;
+  font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  font-size:17px; line-height:1.5;
+}
+.wrap{max-width:1140px;margin:0 auto;padding:28px 20px 56px}
+.m{font-family:"STIX Two Text","Cambria Math",Cambria,Georgia,serif}
+i{font-style:italic}
+sup{font-size:.62em;line-height:0;vertical-align:.55em}
+
+header h1{font-family:"STIX Two Text",Georgia,serif;font-weight:600;font-size:clamp(1.8rem,4.2vw,2.7rem);line-height:1.1;margin:0 0 .35rem}
+header p{margin:0;color:var(--muted);max-width:62ch}
+
+.inputs{margin-top:22px;background:var(--panel);border:1.5px solid var(--panel-border);border-radius:10px;padding:18px 18px 14px}
+.fields{display:grid;grid-template-columns:1fr 1fr auto;gap:16px;align-items:start}
+.field label{font-weight:700;display:block;margin-bottom:4px}
+input[type=text]{width:100%;font:inherit;font-size:1.1rem;padding:10px 12px;border:1.5px solid var(--panel-border);border-radius:8px;background:var(--field);color:var(--ink)}
+.preview{min-height:1.7em;margin-top:5px;color:var(--muted);font-size:.95rem}
+.preview .m{font-size:1.15rem;color:var(--ink)}
+.preview.err{color:var(--err)}
+.go-col{padding-top:calc(1.5em + 4px)}
+.hint{margin:4px 0 0;color:var(--muted);font-size:.93rem}
+.examples{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.examples span.lead{color:var(--muted);font-size:.95rem;margin-right:2px}
+.chip{font-family:"STIX Two Text",Georgia,serif;font-weight:400;font-size:1.02rem;padding:5px 12px;border-radius:999px;border:1.5px solid var(--panel-border);background:var(--field);color:var(--ink)}
+.chip:hover{border-color:var(--ink)}
+#status{color:var(--err);font-weight:700;margin:8px 0 0;min-height:0}
+#status:empty{display:none}
+
+button{font:inherit;font-weight:700;cursor:pointer;border-radius:8px;padding:10px 16px;border:1.5px solid var(--btn);background:transparent;color:var(--btn)}
+button.primary{background:var(--btn);color:var(--btn-ink)}
+button:disabled{opacity:.38;cursor:not-allowed}
+input:focus-visible,button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+
+.main{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(290px,1fr);gap:24px;margin-top:24px}
+.problem{font-size:1.35rem;margin:0 0 10px}
+.cycle{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:14px;font-weight:700;font-size:.95rem}
+.phase{padding:4px 12px;border-radius:999px;border:1.5px solid var(--panel-border);background:var(--panel);color:var(--muted)}
+.phase.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.cycle .arr{color:var(--muted)}
+.board{overflow-x:auto;padding:6px 2px 16px}
+
+.ld{border-collapse:collapse;font-family:"STIX Two Text","Cambria Math",Cambria,Georgia,serif;font-size:clamp(1.25rem,2.7vw,1.75rem)}
+.ld td{padding:.1em .32em;white-space:nowrap;text-align:center;height:1.95em}
+.ld .gutter{text-align:right;padding-right:0}
+.ld .dv{border-top:2px solid var(--line)}
+.ld .bracket{font-size:1.45em;line-height:0;margin-left:.08em;position:relative;top:.06em}
+.ld .q{color:var(--blue)}
+.ld .prod{color:var(--red);border-bottom:2px solid var(--line)}
+.ld .brought{color:var(--green)}
+.ld .pz{color:var(--muted)}
+.ld .paren{color:var(--red)}
+.op{padding-right:.22em}
+.ld td.hl,.hlspan{background:linear-gradient(transparent 10%,var(--hl) 10%,var(--hl) 90%,transparent 90%)}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;font-size:.64em;line-height:1.08;text-align:center;margin:0 .08em}
+.fr>span:first-child{border-bottom:1px solid currentColor;padding:0 .12em}
+.bigfrac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.25;font-size:.9em;margin:0 .1em}
+.bigfrac>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .2em .05em}
+.bigfrac>span:last-child{padding-top:.05em}
+
+.panel{background:var(--panel);border:1.5px solid var(--panel-border);border-radius:10px;padding:18px 20px 20px;align-self:start;position:sticky;top:calc(env(safe-area-inset-top,0px) + 14px)}
+.count{color:var(--muted);font-size:.95rem;margin:0}
+.panel h2{font-family:"STIX Two Text",Georgia,serif;font-weight:600;font-size:1.65rem;line-height:1.2;margin:.1rem 0 .5rem}
+.explain{margin:0;font-size:1.05rem}
+.explain .m{font-size:1.14em}
+.work{margin-top:14px;padding:10px 14px;border-left:4px solid var(--blue);background:var(--work-bg);font-size:1.28rem;overflow-x:auto}
+.work div{white-space:nowrap}
+.work div+div{margin-top:4px}
+.work .note{font-family:"Atkinson Hyperlegible",system-ui,sans-serif;font-size:.8rem;color:var(--muted);margin-left:.5em}
+.answer{margin-top:16px;padding:14px 16px;border:2px solid var(--green);border-radius:8px;overflow-x:auto}
+.ans-line{display:flex;gap:10px;align-items:baseline}
+.ans-line .lbl{font-weight:700;min-width:6.2em}
+.ans-line .m{font-size:1.2rem}
+.ans-big{margin-top:10px;padding-top:10px;border-top:1px solid var(--panel-border);font-size:1.5rem;white-space:nowrap}
+.progress{height:6px;background:var(--grid);border-radius:3px;overflow:hidden;margin-top:18px}
+.progress>div{height:100%;background:var(--blue);transition:width .2s}
+.nav{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.nav .primary{flex:1 1 auto}
+.keys{margin:10px 0 0;color:var(--muted);font-size:.85rem}
+
+@media (max-width:860px){
+  .main{grid-template-columns:1fr}
+  .panel{position:static}
+}
+@media (max-width:640px){
+  .fields{grid-template-columns:1fr}
+  .go-col{padding-top:0}
+  .go-col button{width:100%}
+  .keys{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Polynomial long division, one step at a time</h1>
+    <p>Type a dividend and a divisor, then walk through the cycle: divide, multiply, subtract, bring down.</p>
+  </header>
+
+  <section class="inputs" aria-label="Enter a problem">
+    <div class="fields">
+      <div class="field">
+        <label for="inN">Dividend (inside)</label>
+        <input id="inN" type="text" autocomplete="off" spellcheck="false" placeholder="x^3 - 2x^2 - 4">
+        <div class="preview" id="pvN" aria-live="polite"></div>
+      </div>
+      <div class="field">
+        <label for="inD">Divisor (outside)</label>
+        <input id="inD" type="text" autocomplete="off" spellcheck="false" placeholder="x - 3">
+        <div class="preview" id="pvD" aria-live="polite"></div>
+      </div>
+      <div class="go-col"><button class="primary" id="go">Show the steps</button></div>
+    </div>
+    <p class="hint">Use ^ for exponents, like 3x^4 − 2x + 1. Fractions (1/2) and decimals work too.</p>
+    <p id="status" role="alert"></p>
+    <div class="examples" id="examples"><span class="lead">Try one:</span></div>
+  </section>
+
+  <section class="main" id="main" hidden>
+    <div>
+      <p class="problem m" id="problem"></p>
+      <div class="cycle" aria-hidden="true">
+        <span class="phase">Divide</span><span class="arr">›</span>
+        <span class="phase">Multiply</span><span class="arr">›</span>
+        <span class="phase">Subtract</span><span class="arr">›</span>
+        <span class="phase">Bring down</span><span class="arr">↻</span>
+      </div>
+      <div class="board" id="board"></div>
+    </div>
+    <aside class="panel" aria-live="polite">
+      <p class="count" id="count"></p>
+      <h2 id="title"></h2>
+      <p class="explain" id="explain"></p>
+      <div class="work m" id="work"></div>
+      <div class="answer" id="answer" hidden></div>
+      <div class="progress"><div id="bar"></div></div>
+      <div class="nav">
+        <button id="back">Back</button>
+        <button class="primary" id="next">Next step</button>
+      </div>
+      <div class="nav">
+        <button id="first">Start over</button>
+        <button id="last">Jump to answer</button>
+      </div>
+      <p class="keys">Tip: the ← and → keys also move between steps.</p>
+    </aside>
+  </section>
+</div>
+
+<script>
+/* ---------- Fractions ---------- */
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a||1;}
+class Fr{
+  constructor(n,d=1){
+    if(d===0) throw new Error('div0');
+    if(!Number.isSafeInteger(n)||!Number.isSafeInteger(d)) throw new Error('big');
+    if(d<0){n=-n;d=-d;}
+    const g=gcd(n,d); this.n=n/g; this.d=d/g; if(this.n===0){this.n=0;this.d=1;}
+  }
+  add(o){return new Fr(this.n*o.d+o.n*this.d,this.d*o.d)}
+  sub(o){return new Fr(this.n*o.d-o.n*this.d,this.d*o.d)}
+  mul(o){return new Fr(this.n*o.n,this.d*o.d)}
+  div(o){return new Fr(this.n*o.d,this.d*o.n)}
+  neg(){return new Fr(-this.n,this.d)}
+  abs(){return new Fr(Math.abs(this.n),this.d)}
+  isZero(){return this.n===0}
+  isNeg(){return this.n<0}
+  isOne(){return this.n===1&&this.d===1}
+}
+const ZERO=()=>new Fr(0);
+
+/* ---------- Parsing ---------- */
+class PErr extends Error{}
+const SUP={'⁰':'0','¹':'1','²':'2','³':'3','⁴':'4','⁵':'5','⁶':'6','⁷':'7','⁸':'8','⁹':'9'};
+function parsePoly(raw){
+  let s=raw.replace(/[\u2212\u2013\u2014]/g,'-').replace(/\s+/g,'').replace(/\*\*/g,'^');
+  s=s.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]+/g,m=>'^'+[...m].map(c=>SUP[c]).join(''));
+  if(!s) throw new PErr('Type a polynomial here.');
+  if(/^\(.*\)$/.test(s)&&!/[()]/.test(s.slice(1,-1))) s=s.slice(1,-1);
+  if(/[()]/.test(s)) throw new PErr('Write it without parentheses — multiply it out first.');
+  const bad=s.match(/[^0-9a-zA-Z+\-^.\/*]/);
+  if(bad) throw new PErr(`The character “${bad[0]}” isn’t allowed. Use numbers, one letter, +, −, and ^.`);
+  const terms=s.match(/[+-]?[^+-]+/g);
+  if(!terms||terms.join('')!==s) throw new PErr('Two signs are next to each other, or a sign is hanging at the end.');
+  const coefs=new Map(); let v=null;
+  for(const t of terms){
+    const m=t.match(/^([+-]?)(\d+\/\d+|\d*\.\d+|\d+)?(?:\*?([a-zA-Z])(?:\^(\d+))?)?$/);
+    if(!m||(!m[2]&&!m[3])){
+      if(/[a-zA-Z]\d/.test(t)) throw new PErr(`In “${t}”, put ^ before the exponent (like x^2).`);
+      throw new PErr(`The term “${t}” can’t be read. Check for typos.`);
+    }
+    let c;
+    if(!m[2]) c=new Fr(1);
+    else if(m[2].includes('/')){
+      const [a,b]=m[2].split('/').map(Number);
+      if(b===0) throw new PErr('A fraction has 0 on the bottom.');
+      c=new Fr(a,b);
+    } else if(m[2].includes('.')){
+      const [w,f]=m[2].split('.');
+      c=new Fr(Number((w||'0')+f),10**f.length);
+    } else c=new Fr(Number(m[2]));
+    if(m[1]==='-') c=c.neg();
+    let deg=0;
+    if(m[3]){
+      const L=m[3].toLowerCase();
+      if(v&&v!==L) throw new PErr(`Use just one variable (this has ${v} and ${L}).`);
+      v=L; deg=m[4]!==undefined?Number(m[4]):1;
+    }
+    if(deg>12) throw new PErr('Keep exponents at 12 or below.');
+    coefs.set(deg,(coefs.get(deg)||ZERO()).add(c));
+  }
+  return {coefs,v};
+}
+function toArr(coefs){
+  let deg=-1;
+  for(const [d,c] of coefs) if(!c.isZero()&&d>deg) deg=d;
+  if(deg<0) return [ZERO()];
+  const a=[]; for(let d=deg;d>=0;d--) a.push(coefs.get(d)||ZERO());
+  return a;
+}
+
+/* ---------- Formatting ---------- */
+let V='x';
+function fracHTML(f){return f.d===1?String(f.n):`<span class="fr"><span>${f.n}</span><span>${f.d}</span></span>`;}
+function varHTML(deg){if(deg===0)return '';if(deg===1)return `<i>${V}</i>`;return `<i>${V}</i><sup>${deg}</sup>`;}
+function T(f,deg,first=true){
+  const a=f.abs();
+  const coef=(deg>0&&a.isOne())?'':fracHTML(a);
+  const body=coef+varHTML(deg);
+  if(first) return (f.isNeg()?'−':'')+body;
+  return `<span class="op">${f.isNeg()?'−':'+'}</span>${body}`;
+}
+function P(arr){
+  const n=arr.length-1; let out='',first=true;
+  arr.forEach((c,i)=>{if(c.isZero())return; out+=T(c,n-i,first); first=false;});
+  return first?'0':out;
+}
+const M=h=>`<span class="m">${h}</span>`;
+function colName(deg){return deg===0?'constant':M(varHTML(deg));}
+function answerHTML(q,r,D){
+  const qz=q.every(c=>c.isZero()), rz=r.every(c=>c.isZero());
+  if(rz) return P(q);
+  let rr=r,sign='+';
+  const nz=r.filter(c=>!c.isZero());
+  if(nz.length===1&&nz[0].isNeg()){rr=r.map(c=>c.neg());sign='−';}
+  const frac=`<span class="bigfrac"><span>${P(rr)}</span><span>${P(D)}</span></span>`;
+  if(qz) return (sign==='−'?'−':'')+frac;
+  return `${P(q)} <span class="op">${sign}</span> ${frac}`;
+}
+
+/* ---------- Solver: builds every step with a snapshot of the board ---------- */
+function solve(N,D){
+  const n=N.length-1, m=D.length-1, steps=[];
+  const st={q:{},rows:[]};
+  const snap=o=>steps.push({...o,
+    state:{q:{...st.q},rows:st.rows.map(r=>({kind:r.kind,cells:{...r.cells}}))},
+    hl:new Set(o.hl||[])});
+  const key=(row,c)=>row<0?`d:${c}`:`r:${row}:${c}`;
+
+  // Setup
+  const phN=[]; if(n>0) N.forEach((c,i)=>{if(c.isZero())phN.push(i);});
+  const dHasPh=m>0&&D.some(c=>c.isZero());
+  let setup=`The divisor ${M(P(D))} goes outside and the dividend goes inside. Both are written in standard form: highest power first.`;
+  if(phN.length) setup+=` The dividend skips ${phN.length===1?'a power':'some powers'}, so ${phN.length===1?'a 0 placeholder fills the gap':'0 placeholders fill the gaps'} (highlighted). That keeps every column lined up.`;
+  if(dHasPh) setup+=` The divisor skips a power too, so it gets a 0 placeholder as well.`;
+  snap({phase:'setup',title:'Set up the problem',html:setup,hl:phN.map(i=>'d:'+i)});
+
+  if(n<m){
+    snap({phase:'done',title:'Nothing to divide',
+      html:`The dividend has a lower degree (${n}) than the divisor (${m}), so the divisor can’t go into it even once. The quotient is 0 and the whole dividend is the remainder.`,
+      final:{q:[ZERO()],r:N},hl:N.map((_,i)=>'d:'+i)});
+    return {steps};
+  }
+
+  const cur=N.slice(), qArr=[]; let row=-1;
+  for(let i=0;i<=n-m;i++){
+    const lead=cur[i], qc=lead.div(D[0]), qdeg=n-m-i, col=m+i;
+    qArr.push(qc);
+    st.q[col]={f:qc,deg:qdeg};
+    const leadKey=key(row,i);
+    const hasNext=i+m+1<=n;
+
+    if(qc.isZero()){
+      const extra=[];
+      if(hasNext){
+        const c=i+m+1;
+        if(row>=0) st.rows[row].cells[c]={f:cur[c],deg:n-c,brought:true};
+        extra.push('d:'+c,key(row,c));
+      }
+      snap({phase:'zero',cycle:hasNext?[0,3]:[0],title:'The first term is 0',
+        html:`What you’re dividing now starts with ${M(T(lead,n-i))}. Since 0 divided by anything is 0, the next quotient term is 0. Multiplying and subtracting 0 changes nothing, so skip ahead${hasNext?` and bring down the next term, ${M(T(cur[i+m+1],n-i-m-1))}`:''}.`,
+        work:`<div>0 ÷ ${T(D[0],m)} = 0</div>`,
+        hl:[leadKey,'div:lead','q:'+col,...extra]});
+      continue;
+    }
+
+    // Divide
+    snap({phase:'divide',cycle:[0],title:'Divide',
+      html:`Look only at the first term of what you’re dividing, ${M(T(lead,n-i))}, and the first term of the divisor, ${M(T(D[0],m))}. Divide them, then write the answer on top, above the ${colName(qdeg)} column.`,
+      work:`<div>${T(lead,n-i)} ÷ ${T(D[0],m)} = ${T(qc,qdeg)}</div>`,
+      hl:[leadKey,'div:lead','q:'+col]});
+
+    // Multiply
+    const prod=D.map(c=>c.mul(qc));
+    const pr={kind:'product',cells:{}};
+    prod.forEach((f,k)=>{pr.cells[i+k]={f,deg:n-i-k};});
+    st.rows.push(pr); const pIdx=st.rows.length-1;
+    const qShown=(qc.isNeg()||qc.d!==1&&qdeg===0)?`(${T(qc,qdeg)})`:T(qc,qdeg);
+    snap({phase:'multiply',cycle:[1],title:'Multiply',
+      html:`Multiply ${M(T(qc,qdeg))} by the <b>whole</b> divisor. Write the result underneath, lining each term up under its matching power.`,
+      work:`<div>${qShown}(${P(D)}) = ${P(prod)}</div>`,
+      hl:['q:'+col,'div:all',...prod.map((_,k)=>`r:${pIdx}:${i+k}`)]});
+
+    // Subtract
+    const rr={kind:'result',cells:{}};
+    const lines=[];
+    const fmtB=(b,deg)=>b.isNeg()?`(${T(b,deg)})`:T(b,deg);
+    lines.push(`<div>${T(cur[i],n-i)} − ${fmtB(prod[0],n-i)} = 0<span class="note">first terms always cancel</span></div>`);
+    const prevKeys=[leadKey];
+    for(let c=i+1;c<=i+m;c++){
+      const nv=cur[c].sub(prod[c-i]);
+      lines.push(`<div>${T(cur[c],n-c)} − ${fmtB(prod[c-i],n-c)} = ${T(nv,n-c)}</div>`);
+      prevKeys.push(key(row,c));
+      cur[c]=nv; rr.cells[c]={f:nv,deg:n-c};
+    }
+    cur[i]=ZERO();
+    if(m===0) rr.cells[i]={f:ZERO(),deg:n-i,zeroOnly:true};
+    st.rows.push(rr); const rIdx=st.rows.length-1;
+    snap({phase:'subtract',cycle:[2],title:'Subtract',
+      html:`Subtract the red line from the line above it, one column at a time. A reliable way: change every sign in the red line, then add. Watch the negatives.`,
+      work:lines.join(''),
+      hl:[...prevKeys,...prod.map((_,k)=>`r:${pIdx}:${i+k}`),...Object.keys(rr.cells).map(c=>`r:${rIdx}:${c}`)]});
+    row=rIdx;
+
+    // Bring down
+    if(hasNext){
+      const c=i+m+1;
+      if(rr.cells[i]&&rr.cells[i].zeroOnly) delete rr.cells[i];
+      rr.cells[c]={f:cur[c],deg:n-c,brought:true};
+      const newLine=cur.slice(i+1,c+1);
+      snap({phase:'bring',cycle:[3],title:'Bring down',
+        html:`Bring down the next term from the dividend, ${M(T(cur[c],n-c))}. That gives a new line to work with. Now repeat the cycle: divide, multiply, subtract, bring down.`,
+        work:`<div>New line: ${P(newLine)}</div>`,
+        hl:['d:'+c,`r:${rIdx}:${c}`]});
+    }
+  }
+
+  const R=m===0?[ZERO()]:cur.slice(n-m+1);
+  const rZero=R.every(c=>c.isZero());
+  const remKeys=[];
+  if(m===0) remKeys.push(key(row,n)); else for(let c=n-m+1;c<=n;c++) remKeys.push(key(row,c));
+  const qKeys=Object.keys(st.q).map(c=>'q:'+c);
+  snap({phase:'done',title:'Done!',
+    html:`There’s nothing left to bring down, and what’s left (${M(P(R))}) has a lower degree than the divisor, so we stop.`+
+      (rZero?` The remainder is 0, which means ${M(P(D))} is a factor of the dividend.`:` What’s left is the remainder. It goes over the divisor in the final answer.`),
+    final:{q:qArr,r:R},hl:[...qKeys,...remKeys]});
+  return {steps};
+}
+
+/* ---------- Rendering ---------- */
+const $=s=>document.querySelector(s);
+let app=null;
+
+function boardHTML(s){
+  const {state,hl}=s, N=app.N, D=app.D, cols=N.length, n=cols-1, m=D.length-1;
+  const td=(k,inner,cls)=>`<td class="${cls}${hl.has(k)?' hl':''}">${inner}</td>`;
+  let h='<table class="ld" aria-label="Long division work"><tbody>';
+  const qk=Object.keys(state.q).map(Number), qf=Math.min(...qk);
+  h+='<tr><td class="gutter"></td>';
+  for(let c=0;c<cols;c++){const e=state.q[c]; h+=e?td('q:'+c,T(e.f,e.deg,c===qf),'q'):'<td></td>';}
+  h+='</tr>';
+  const dAll=hl.has('div:all'), dLead=hl.has('div:lead');
+  const dterms=D.map((c,i)=>`<span class="${c.isZero()&&m>0?'pz':''}${i===0&&dLead?' hlspan':''}">${T(c,m-i,i===0)}</span>`).join('');
+  h+=`<tr><td class="gutter"><span class="${dAll?'hlspan':''}">${dterms}</span><span class="bracket">)</span></td>`;
+  N.forEach((c,i)=>{h+=td('d:'+i,T(c,n-i,i===0),'dv'+(c.isZero()&&n>0?' pz':''));});
+  h+='</tr>';
+  state.rows.forEach((r,ri)=>{
+    const ks=Object.keys(r.cells).map(Number), f=Math.min(...ks), l=Math.max(...ks);
+    h+='<tr><td class="gutter"></td>';
+    for(let c=0;c<cols;c++){
+      const e=r.cells[c];
+      if(!e){h+='<td></td>';continue;}
+      let inner=e.zeroOnly?'0':T(e.f,e.deg,c===f);
+      if(r.kind==='product'){
+        if(c===f) inner='<span class="paren">−(</span>'+inner;
+        if(c===l) inner+='<span class="paren">)</span>';
+      }
+      h+=td(`r:${ri}:${c}`,inner,r.kind==='product'?'prod':('res'+(e.brought?' brought':'')));
+    }
+    h+='</tr>';
+  });
+  return h+'</tbody></table>';
+}
+
+function finalHTML(f){
+  return `<div class="ans-line"><span class="lbl">Quotient</span><span class="m">${P(f.q)}</span></div>`+
+    `<div class="ans-line"><span class="lbl">Remainder</span><span class="m">${P(f.r)}</span></div>`+
+    `<div class="ans-big m">${answerHTML(f.q,f.r,app.D)}</div>`;
+}
+
+function render(){
+  const s=app.steps[app.idx], last=app.steps.length-1;
+  $('#main').hidden=false;
+  $('#problem').innerHTML=`(${P(app.N)}) ÷ (${P(app.D)})`;
+  $('#board').innerHTML=boardHTML(s);
+  document.querySelectorAll('.phase').forEach((el,i)=>el.classList.toggle('on',(s.cycle||[]).includes(i)));
+  $('#count').textContent=`Step ${app.idx+1} of ${app.steps.length}`;
+  $('#title').textContent=s.title;
+  $('#explain').innerHTML=s.html;
+  $('#work').innerHTML=s.work||''; $('#work').hidden=!s.work;
+  $('#answer').innerHTML=s.final?finalHTML(s.final):''; $('#answer').hidden=!s.final;
+  $('#bar').style.width=`${last?app.idx/last*100:100}%`;
+  $('#back').disabled=$('#first').disabled=app.idx===0;
+  $('#next').disabled=$('#last').disabled=app.idx===last;
+}
+function goTo(i){if(!app)return; app.idx=Math.max(0,Math.min(app.steps.length-1,i)); render();}
+
+/* ---------- Inputs ---------- */
+const inN=$('#inN'), inD=$('#inD');
+function errMsg(e){return e instanceof PErr?e.message:'Those numbers are too big to work with here.';}
+function preview(input,out){
+  out.classList.remove('err');
+  if(!input.value.trim()){out.innerHTML='';return;}
+  try{
+    const p=parsePoly(input.value); const old=V; V=p.v||'x';
+    out.innerHTML=`Reads as ${M(P(toArr(p.coefs)))}`; V=old;
+  }catch(e){out.classList.add('err'); out.textContent=errMsg(e);}
+}
+function fail(msg){$('#status').textContent=msg;}
+function run(){
+  $('#status').textContent='';
+  let a,b;
+  try{a=parsePoly(inN.value);}catch(e){return fail('Dividend: '+errMsg(e));}
+  try{b=parsePoly(inD.value);}catch(e){return fail('Divisor: '+errMsg(e));}
+  if(a.v&&b.v&&a.v!==b.v) return fail(`Use the same variable in both boxes (the dividend uses ${a.v}, the divisor uses ${b.v}).`);
+  V=a.v||b.v||'x';
+  const N=toArr(a.coefs), D=toArr(b.coefs);
+  if(D.length===1&&D[0].isZero()) return fail('The divisor can’t be 0. Dividing by zero is undefined.');
+  try{ app={...solve(N,D),N,D,idx:0}; }
+  catch(e){ return fail('The numbers in this problem get too big to work with here. Try smaller coefficients.'); }
+  render();
+}
+inN.addEventListener('input',()=>preview(inN,$('#pvN')));
+inD.addEventListener('input',()=>preview(inD,$('#pvD')));
+[inN,inD].forEach(el=>el.addEventListener('keydown',e=>{if(e.key==='Enter')run();}));
+$('#go').addEventListener('click',run);
+$('#next').addEventListener('click',()=>goTo(app.idx+1));
+$('#back').addEventListener('click',()=>goTo(app.idx-1));
+$('#first').addEventListener('click',()=>goTo(0));
+$('#last').addEventListener('click',()=>goTo(app.steps.length-1));
+document.addEventListener('keydown',e=>{
+  if(!app||e.target.tagName==='INPUT'||e.metaKey||e.ctrlKey||e.altKey) return;
+  if(e.key==='ArrowRight'){e.preventDefault();goTo(app.idx+1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();goTo(app.idx-1);}
+});
+
+const EXAMPLES=[
+  ['x^3 - 2x^2 - 4','x - 3'],
+  ['2x^3 + 3x^2 - 11x - 6','x + 3'],
+  ['x^4 - 16','x - 2'],
+  ['4x^3 + 2x^2 - 6x + 5','2x^2 - 1'],
+];
+EXAMPLES.forEach(([a,b])=>{
+  const btn=document.createElement('button'); btn.className='chip';
+  const pa=parsePoly(a), pb=parsePoly(b); V='x';
+  btn.innerHTML=`(${P(toArr(pa.coefs))}) ÷ (${P(toArr(pb.coefs))})`;
+  btn.addEventListener('click',()=>{inN.value=a;inD.value=b;preview(inN,$('#pvN'));preview(inD,$('#pvD'));run();});
+  $('#examples').appendChild(btn);
+});
+
+inN.value=EXAMPLES[0][0]; inD.value=EXAMPLES[0][1];
+preview(inN,$('#pvN')); preview(inD,$('#pvD')); run();
+</script>
+</body>
+</html>
