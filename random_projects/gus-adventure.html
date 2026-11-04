@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>The Autumnal Adventures of Gus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --fog: #e6e9e1;
+        --page: #f3f5ef;
+        --ink: #1f2a24;
+        --muted: #5d6b62;
+        --gold: #d4a017;
+        --gold-ink: #1f2a24;
+        --maple: #9e2a2b;
+        --line: #cfd5c9;
+        color-scheme: light;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --fog: #141917;
+          --page: #1c2320;
+          --ink: #e6e9e1;
+          --muted: #a3afa7;
+          --gold: #e0b23a;
+          --gold-ink: #141917;
+          --maple: #e46a63;
+          --line: #2f3833;
+          color-scheme: dark;
+        }
+      }
+      :root[data-theme="dark"] {
+        --fog: #141917;
+        --page: #1c2320;
+        --ink: #e6e9e1;
+        --muted: #a3afa7;
+        --gold: #e0b23a;
+        --gold-ink: #141917;
+        --maple: #e46a63;
+        --line: #2f3833;
+        color-scheme: dark;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: inherit;
+      }
+      html {
+        height: 100%;
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: var(--fog);
+        color: var(--ink);
+        font-family: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+        font-size: 1.125rem;
+        line-height: 1.6;
+      }
+      main {
+        max-width: 38rem;
+        margin: 0 auto;
+        padding: 2.5rem 1.25rem 4rem;
+      }
+      h1 {
+        font-family: "Young Serif", Georgia, "Times New Roman", serif;
+        font-weight: 400;
+        font-size: clamp(2rem, 7vw, 3rem);
+        line-height: 1.1;
+        margin: 0 0 0.25rem;
+        letter-spacing: -0.01em;
+      }
+      .leaf {
+        color: var(--maple);
+        display: inline-block;
+        transform: rotate(-12deg);
+      }
+      .byline {
+        color: var(--muted);
+        margin: 0 0 2rem;
+      }
+      .book {
+        background: var(--page);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 1.5rem 1.5rem 1.75rem;
+      }
+      #story p {
+        margin: 0 0 1rem;
+      }
+      #story p.new {
+        animation: appear 0.4s ease-out;
+      }
+      #story p.pick {
+        color: var(--muted);
+        font-style: italic;
+        margin: -0.25rem 0 1.25rem;
+      }
+      #story p.ending {
+        border-left: 4px solid var(--maple);
+        padding-left: 1rem;
+      }
+      #story p.fin {
+        font-family: "Young Serif", Georgia, serif;
+        font-size: 1.5rem;
+        text-align: center;
+        margin-top: 1.75rem;
+      }
+      @keyframes appear {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      #controls:empty {
+        display: none;
+      }
+      #controls {
+        margin-top: 0.5rem;
+      }
+      .prompt {
+        font-weight: 700;
+        margin: 0 0 0.75rem;
+      }
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        align-items: center;
+      }
+      button {
+        font: inherit;
+        font-weight: 700;
+        background: var(--gold);
+        color: var(--gold-ink);
+        border: none;
+        border-radius: 999px;
+        padding: 0.6rem 1.5rem;
+        cursor: pointer;
+      }
+      button:hover {
+        filter: brightness(1.06);
+      }
+      button:focus-visible,
+      input:focus-visible {
+        outline: 3px solid var(--maple);
+        outline-offset: 2px;
+      }
+      input[type="number"] {
+        font: inherit;
+        width: 6rem;
+        padding: 0.5rem 0.75rem;
+        border: 2px solid var(--line);
+        border-radius: 10px;
+        background: var(--fog);
+        color: var(--ink);
+      }
+      .hint {
+        color: var(--maple);
+        margin: 0.5rem 0 0;
+        font-size: 1rem;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #story p.new {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>
+        The Autumnal Adventures of Gus
+        <span class="leaf" aria-hidden="true">🍁</span>
+      </h1>
+      <p class="byline">A choose-your-path story by Mr. Smith and Gus</p>
+      <div class="book">
+        <div id="story" aria-live="polite"></div>
+        <div id="controls"></div>
+      </div>
+    </main>
+    <script>
+      const story = document.getElementById("story");
+      const controls = document.getElementById("controls");
+      let destination = "";
+      let lotsOfTreats = false;
+      let letSniff = false;
+
+      function say(text, cls) {
+        const p = document.createElement("p");
+        p.className = "new" + (cls ? " " + cls : "");
+        p.textContent = text;
+        story.appendChild(p);
+      }
+
+      function showPick(text) {
+        say("🐾 " + text, "pick");
+      }
+
+      function settle() {
+        controls.scrollIntoView({ behavior: "smooth", block: "end" });
+      }
+
+      function ask(prompt, options, next) {
+        controls.innerHTML = "";
+        const q = document.createElement("p");
+        q.className = "prompt";
+        q.textContent = prompt;
+        const row = document.createElement("div");
+        row.className = "row";
+        options.forEach(([label, value]) => {
+          const b = document.createElement("button");
+          b.textContent = label;
+          b.addEventListener("click", () => {
+            controls.innerHTML = "";
+            showPick(label);
+            next(value);
+          });
+          row.appendChild(b);
+        });
+        controls.append(q, row);
+        row.querySelector("button").focus({ preventScroll: true });
+        settle();
+      }
+
+      function askNumber(prompt, next) {
+        controls.innerHTML = "";
+        const q = document.createElement("p");
+        q.className = "prompt";
+        q.textContent = prompt;
+        const row = document.createElement("div");
+        row.className = "row";
+        const input = document.createElement("input");
+        input.type = "number";
+        input.min = "0";
+        input.max = "99";
+        input.inputMode = "numeric";
+        input.setAttribute("aria-label", prompt);
+        const b = document.createElement("button");
+        b.textContent = "Toss the treats";
+        const hint = document.createElement("p");
+        hint.className = "hint";
+        const submit = () => {
+          const n = Number(input.value);
+          if (input.value.trim() === "" || !Number.isInteger(n) || n < 0) {
+            hint.textContent = "Enter a whole number, like 2 or 5.";
+            return;
+          }
+          controls.innerHTML = "";
+          showPick(n === 1 ? "1 treat" : n + " treats");
+          next(n);
+        };
+        b.addEventListener("click", submit);
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") submit();
+        });
+        row.append(input, b);
+        controls.append(q, row, hint);
+        input.focus({ preventScroll: true });
+        settle();
+      }
+
+      function start() {
+        story.innerHTML = "";
+        say(
+          "Early on a foggy morning, Gus steps out of the garage and onto the driveway. He has a decision to make…",
+        );
+        ask(
+          "Does he go left or right?",
+          [
+            ["Left", "left"],
+            ["Right", "right"],
+          ],
+          decisionOne,
+        );
+      }
+
+      function decisionOne(choice) {
+        const turnLeft = choice === "left";
+        if (turnLeft) {
+          destination = "the next block";
+          say(
+            "Gus turns to the left and walks past the house of his nemesis, the golden doodle Honey.",
+          );
+        } else {
+          destination = "the park";
+          say(
+            "Gus turns to the right and heads toward his favorite squirrel-hunting area: the park.",
+          );
+        }
+        say(
+          "Gus is starting to feel hungry. He looks up at Mr. Smith to let him know he’s ready for treats.",
+        );
+        askNumber(
+          "How many treats does Mr. Smith toss out for Gus?",
+          decisionTwo,
+        );
+      }
+
+      function decisionTwo(numTreats) {
+        lotsOfTreats = numTreats >= 3;
+        if (lotsOfTreats) {
+          say(
+            "Gus is excited but gets confused trying to eat all of the treats.",
+          );
+        } else {
+          say("Gus happily eats all of the treats.");
+        }
+        say("Gus now continues on his journey toward " + destination + ".");
+        say(
+          "Gus is happily prancing through the leaves on the street when he catches a good smell. He heads over to the bush…",
+        );
+        ask(
+          "Does Mr. Smith stop and let him sniff?",
+          [
+            ["Yes", "yes"],
+            ["No", "no"],
+          ],
+          decisionThree,
+        );
+      }
+
+      function decisionThree(choice) {
+        letSniff = choice === "yes";
+        if (letSniff) {
+          say("Gus takes his time and ultimately claims the bush as his.");
+        } else {
+          say(
+            "Gus is annoyed, but he catches another good smell, so it works out… for now.",
+          );
+        }
+        say("After that, Gus can continue on his way to " + destination + ".");
+        endings();
+      }
+
+      function endings() {
+        const atPark = destination === "the park";
+        if (atPark && !letSniff) {
+          say(
+            "Gus is frantically pulling on his leash, trying to reach the squirrels. Mr. Smith should have let him sniff that bush.",
+            "ending",
+          );
+        }
+        if (atPark && letSniff) {
+          say(
+            "Gus walks calmly on his leash. When he sees the squirrels, he patiently watches them, fondly recalling the time he caught that one squirrel.",
+            "ending",
+          );
+        }
+        if (!atPark && letSniff) {
+          say(
+            "Gus walks down the street like a good little man. He knows that Honey knows that bush is his, so there’s nothing to worry about as he sees Honey look through the window.",
+            "ending",
+          );
+        }
+        if (!atPark && !letSniff) {
+          say(
+            "Gus sees Honey looking out the window and panics. She doesn’t know that bush belongs to him! He has to let her know this is his area, so he starts barking and growling at her. She has to know! Mr. Smith is annoyed as he tries to use more treats to move Gus along.",
+            "ending",
+          );
+        }
+        if (!lotsOfTreats || !letSniff) {
+          say(
+            "Because Mr. Smith didn’t listen to Gus, this walk has been a total disaster. He should have given him more treats or let him claim that bush…",
+            "ending",
+          );
+        }
+        say("The End", "fin");
+        ask(
+          "Want to take Gus on another walk?",
+          [["Walk again", "again"]],
+          () => start(),
+        );
+      }
+
+      start();
+    </script>
+  </body>
+</html>
