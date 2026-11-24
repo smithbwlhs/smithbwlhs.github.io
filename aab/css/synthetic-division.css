@@ -1,0 +1,14 @@
+/* Synthetic division: page-specific styles (shared styles live in common.css) */
+.sd{border-collapse:collapse;font-family:"STIX Two Text","Cambria Math",Cambria,Georgia,serif;font-size:clamp(1.25rem,2.7vw,1.75rem)}
+.sd td{padding:.1em .5em;white-space:nowrap;text-align:center;height:1.95em;min-width:2.6em}
+.sd .lbl{color:var(--muted);font-size:.7em;text-align:right;padding-right:.8em;font-family:"Atkinson Hyperlegible",system-ui,sans-serif}
+.sd .root{border-right:2px solid var(--line);color:var(--blue);font-weight:600}
+.sd .prod{color:var(--red);border-bottom:2px solid var(--line)}
+.sd .prod.nob{border-bottom:2px solid var(--line)}
+.sd .sum{color:var(--green)}
+.sd .rem{color:var(--green);outline:2px solid var(--green);outline-offset:-2px;border-radius:4px}
+.sd .ph{color:var(--muted)}
+.sd td.hl{background:linear-gradient(transparent 10%,var(--hl) 10%,var(--hl) 90%,transparent 90%)}
+.sd .cl{color:var(--muted);font-size:.65em;font-family:"Atkinson Hyperlegible",system-ui,sans-serif}
+
+.ans-line{flex-wrap:wrap}

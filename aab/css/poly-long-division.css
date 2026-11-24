@@ -1,0 +1,20 @@
+/* Polynomial long division: page-specific styles (shared styles live in common.css) */
+.preview{min-height:1.7em;margin-top:5px;color:var(--muted);font-size:.95rem}
+.preview .m{font-size:1.15rem;color:var(--ink)}
+.preview.err{color:var(--err)}
+.hint{margin-top:4px}
+
+.ld{border-collapse:collapse;font-family:"STIX Two Text","Cambria Math",Cambria,Georgia,serif;font-size:clamp(1.25rem,2.7vw,1.75rem)}
+.ld td{padding:.1em .32em;white-space:nowrap;text-align:center;height:1.95em}
+.ld .gutter{text-align:right;padding-right:0}
+.ld .dv{border-top:2px solid var(--line)}
+.ld .bracket{font-size:1.45em;line-height:0;margin-left:.08em;position:relative;top:.06em}
+.ld .q{color:var(--blue)}
+.ld .prod{color:var(--red);border-bottom:2px solid var(--line)}
+.ld .brought{color:var(--green)}
+.ld .pz{color:var(--muted)}
+.ld .paren{color:var(--red)}
+.ld td.hl,.hlspan{background:linear-gradient(transparent 10%,var(--hl) 10%,var(--hl) 90%,transparent 90%)}
+
+.work div+div{margin-top:4px}
+.work .note{font-family:"Atkinson Hyperlegible",system-ui,sans-serif;font-size:.8rem;color:var(--muted);margin-left:.5em}
