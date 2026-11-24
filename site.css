@@ -1,0 +1,116 @@
+/* Homepage styles. Blue and gold come from the prime-number art. */
+:root {
+  --bg: #fcfbf8;
+  --ink: #1c1e22;
+  --muted: #5f646d;
+  --rule: #e3e0d8;
+  --link: #2c5fca;
+  --gold: #c8901a;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #16181c;
+    --ink: #e8e6e1;
+    --muted: #9da2ab;
+    --rule: #2c2f35;
+    --link: #8fb0f2;
+    --gold: #e0b04a;
+    color-scheme: dark;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+  font-size: 1.125rem;
+  line-height: 1.55;
+}
+
+.art {
+  display: block;
+  width: 100%;
+  height: 48px;
+  object-fit: cover;
+}
+
+main {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 3.5rem 1.25rem 3rem;
+}
+
+.back { margin: -1.5rem 0 1.5rem; font-size: .95rem; }
+.back a { color: var(--muted); }
+
+header { margin-bottom: 3rem; }
+h1 {
+  font-size: 2.6rem;
+  font-weight: 600;
+  line-height: 1.1;
+  margin: 0 0 .4rem;
+}
+header p { margin: 0; color: var(--muted); font-size: 1.2rem; }
+
+section {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  gap: 1rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--rule);
+}
+h2 {
+  margin: 0;
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-top: .3rem;
+}
+h2::before {
+  content: "";
+  display: inline-block;
+  width: .5rem;
+  height: .5rem;
+  margin-right: .5rem;
+  background: var(--gold);
+  vertical-align: .05rem;
+}
+
+ul { list-style: none; margin: 0; padding: 0; }
+li + li { margin-top: .7rem; }
+li p { margin: .1rem 0 0; color: var(--muted); font-size: 1rem; }
+
+a {
+  color: var(--link);
+  text-decoration-thickness: 1px;
+  text-underline-offset: .18em;
+}
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; border-radius: 2px; }
+
+.where {
+  color: var(--muted);
+  font-size: .85rem;
+  margin-left: .35rem;
+}
+
+footer {
+  border-top: 1px solid var(--rule);
+  padding-top: 1.5rem;
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: .9rem;
+}
+footer p { margin: 0; }
+
+@media (max-width: 600px) {
+  main { padding-top: 2.5rem; }
+  h1 { font-size: 2.1rem; }
+  section { grid-template-columns: 1fr; gap: .6rem; }
+}

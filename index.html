@@ -1,48 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="favicon.ico">
-  <link rel="stylesheet" type="text/css" href="reset.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
-  <link rel="stylesheet" type="text/css" href="main.css">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <title>Mr. Smith Computer Science</title>
+  <title>Mr. Smith · Computer Science &amp; Math</title>
+  <meta name="description" content="Class pages, math tools, and projects from Mr. Smith at West Linn High School.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
 </head>
-
 <body>
-  <header>
-    <div id="header-img"><img src="grid_image.png" alt="prime number art">
-    </div>
-    <nav class="main-navigation">
-      <ul class="menu">
-        <li><a href="#">Home</a></li>
-        <li class="menu-item-has-children"><a href="#">Classes</a>
-          <ul class="sub-menu">
-            <li><a href="https://github.com/WLHS-APCSA">AP CS A</a></li>
-            <li><a href="https://github.com/WLHS-APCSP">AP CS P</a> </li>
-            <li><a href="https://github.com/WLHS-Computer-Programming1">Computer Programming 1</a> </li>
-            <li><a href="https://github.com/WLHS-Computer-Programming2">Computer Programming 2</a></li>
-            <li><a href="#">Data Analysis - Coming Someday</a> </li>
-            <li><a href="#">Data Structures - Coming Someday</a></li>
-            <li><a href="#">Web Design - Coming Someday</a></li>
-          </ul>
-        <li><a href="https://www.wlhscomputerscience.com/">WLHS Computer
-        Science Club</a></li>
-        <li><a href="cs_resources.html">CS Resources</a></li>
-        <li><a href="#">Personal Projects</a></li>
-      </ul>
-    </nav>
-  </header>
+  <img class="art" src="grid_image.png" alt="">
 
   <main>
-    <h1>Mr. Smith's Computer Science Page</h1>
-    <p>I teach computer science and math at West Linn High School. You can
-      use the links above to find more information about my classes, our
-      Computer Science Club, etc.</p>
-  </main>
+    <header>
+      <h1>Mr. Smith</h1>
+      <p>I teach computer science and math at West Linn High School.</p>
+    </header>
 
+    <section aria-labelledby="classes">
+      <h2 id="classes">Classes</h2>
+      <ul>
+        <li><a href="https://github.com/WLHS-APCSA">AP Computer Science A</a> <span class="where">GitHub</span></li>
+        <li><a href="https://github.com/WLHS-APCSP">AP Computer Science Principles</a> <span class="where">GitHub</span></li>
+        <li><a href="https://github.com/WLHS-Computer-Programming1">Computer Programming 1</a> <span class="where">GitHub</span></li>
+        <li><a href="https://github.com/WLHS-Computer-Programming2">Computer Programming 2</a> <span class="where">GitHub</span></li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="math">
+      <h2 id="math">Math tools</h2>
+      <ul>
+        <li>
+          <a href="aab/poly-long-division.html">Polynomial long division</a>
+          <p>Step through divide, multiply, subtract, bring down.</p>
+        </li>
+        <li>
+          <a href="aab/synthetic-division.html">Synthetic division</a>
+          <p>Bring down, multiply, add, repeat — using only the coefficients.</p>
+        </li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="other">
+      <h2 id="other">Other things</h2>
+      <ul>
+        <li>
+          <a href="https://www.wlhscomputerscience.com/">WLHS Computer Science Club</a>
+        </li>
+        <li>
+          <a href="random_projects/gus-adventure.html">The Autumnal Adventures of Gus</a>
+          <p>A choose-your-path story, written with Gus.</p>
+        </li>
+      </ul>
+    </section>
+
+    <footer>
+      <p>The strip at the top is a picture of prime numbers.</p>
+    </footer>
+  </main>
 </body>
 </html>
