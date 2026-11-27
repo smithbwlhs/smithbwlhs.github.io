@@ -1,0 +1,18 @@
+/* Lesson 4.3 only (shared styles live in common.css) */
+.hero-age{display:flex;flex-direction:column;gap:6px;align-items:center;width:220px}
+.hero-age label{font:600 13px var(--sans);color:var(--muted)}
+.hero-age input[type=range]{width:200px;accent-color:var(--accent)}
+.switch button[aria-disabled="true"]{cursor:default}
+.bench{display:grid;grid-template-columns:repeat(2,minmax(0,160px));gap:10px;margin-bottom:12px}
+.bench label,.inrow label{display:flex;flex-direction:column;gap:4px;font:600 13px var(--sans);color:var(--muted)}
+.bench input,.inrow input{font:16px var(--mono);padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);width:100%}
+.inrow{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}
+.inrow label{width:120px}
+.strip{display:flex;flex-wrap:wrap;gap:4px;margin:10px 0 4px}
+.cell{width:40px;height:40px;border-radius:7px;display:grid;place-items:center;font:600 13px var(--mono);border:2px solid}
+.cell.t{background:var(--true-soft);border-color:var(--true);color:var(--true)}
+.cell.f{background:var(--false-soft);border-color:var(--false);color:var(--false)}
+.cell.edge{box-shadow:0 0 0 3px var(--gold)}
+.console{background:var(--code-bg);color:var(--code-ink);font:14px/1.6 var(--mono);border-radius:8px;padding:10px 14px;white-space:pre-wrap;overflow-wrap:anywhere;min-height:42px;margin:0 0 10px}
+.console .in{color:#82c3ff}.console .err{color:#ff9b9b}.console .ok{color:#7ee0a8}.console .bad{color:#ff9a9a}.console .dim{color:#7f8b99}
+@media (max-width:640px){.hero-age{align-items:flex-start}}

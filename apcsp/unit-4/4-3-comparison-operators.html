@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>4.3 Comparison Operators — AP CSP Unit 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/common.css">
+<link rel="stylesheet" href="../css/4-3-comparison-operators.css">
+</head>
+<body>
+<div class="layout">
+<nav id="nav" aria-label="Sections">
+  <div class="brand">4.3 Comparison Operators</div>
+  <div class="sub">AP CSP · Unit 4: Python Control Structures</div>
+  <a href="#map"><span class="n">00</span>Lesson map</a>
+  <a href="#six"><span class="n">01</span>Six comparisons</a>
+  <a href="#vote"><span class="n">02</span>Comparing input</a>
+  <a href="#range"><span class="n">03</span>Ranges &amp; boundaries</a>
+  <a href="#trap"><span class="n">04</span>The input() trap</a>
+  <a href="#mix"><span class="n">05</span>Comparisons + and/or</a>
+  <a href="#ap"><span class="n">06</span>On the AP exam</a>
+  <a href="#ex"><span class="n">07</span>Exercises 4.3.5–4.3.6</a>
+  <a href="#quiz"><span class="n">08</span>Predict the output</a>
+  <a href="#ship"><span class="n">09</span>Before you submit</a>
+</nav>
+
+<main>
+<section class="hero" id="top">
+  <div>
+    <h1>Comparison Operators</h1>
+    <p class="lead">So far you’ve typed <span class="tv">True</span> and <span class="fv">False</span> yourself. Real programs <em>calculate</em> them by comparing values: is this age over 17? Are these two dice the same? Drag the slider and watch Python decide.</p>
+  </div>
+  <div class="switch">
+    <button id="heroSwitch" role="switch" aria-checked="false" aria-label="Result of age > 17. Click to jump across the boundary."></button>
+    <code id="heroCode">age > 17  →  False</code>
+    <div class="hero-age">
+      <label for="heroAge">age = <span id="heroAgeVal">16</span></label>
+      <input id="heroAge" type="range" min="0" max="30" value="16">
+    </div>
+  </div>
+</section>
+
+<!-- 00 -->
+<section id="map">
+  <h2><span class="n">00</span>Lesson map</h2>
+  <p>Here’s how this page lines up with your CodeHS assignments for 4.3. Work through the page first, then do the CodeHS items in order.</p>
+  <div class="scroll"><table>
+    <tr><th>CodeHS item</th><th>What it is</th><th>Where this page helps</th></tr>
+    <tr><td>4.3.1 Comparison Operators</td><td>Video</td><td>01–03</td></tr>
+    <tr><td>4.3.2 Comparison Operators Quiz</td><td>Check for understanding</td><td>01</td></tr>
+    <tr><td>4.3.3 Voting Age</td><td>Example: comparing typed input</td><td>02</td></tr>
+    <tr><td>4.3.4 Grade Range</td><td>Example: a range with <code>and</code></td><td>03</td></tr>
+    <tr><td>4.3.5 Rolling Dice</td><td>Exercise you write</td><td>01, 02, 04, 07</td></tr>
+    <tr><td>4.3.6 All Star</td><td>Exercise you write</td><td>03, 05, 07</td></tr>
+    <tr><td>4.3.7 AP Practice: Comparison Operators</td><td>AP-style questions</td><td>05, 06, then 08 for practice</td></tr>
+  </table></div>
+</section>
+
+<!-- 01 -->
+<section id="six">
+  <h2><span class="n">01</span>Six comparisons</h2>
+  <p>A <strong>comparison</strong> asks a yes-or-no question about two values, and the answer is always a Boolean. Python has six of them:</p>
+  <div class="scroll"><table>
+    <tr><th>Operator</th><th>Asks</th><th>Example</th><th>Result</th></tr>
+    <tr><td><code>==</code></td><td>equal to?</td><td><code>4 == 4</code></td><td class="tv">True</td></tr>
+    <tr><td><code>!=</code></td><td>not equal to?</td><td><code>4 != 4</code></td><td class="fv">False</td></tr>
+    <tr><td><code>&gt;</code></td><td>greater than?</td><td><code>18 &gt; 17</code></td><td class="tv">True</td></tr>
+    <tr><td><code>&lt;</code></td><td>less than?</td><td><code>18 &lt; 17</code></td><td class="fv">False</td></tr>
+    <tr><td><code>&gt;=</code></td><td>greater than <em>or equal to</em>? (“at least”)</td><td><code>25 &gt;= 25</code></td><td class="tv">True</td></tr>
+    <tr><td><code>&lt;=</code></td><td>less than <em>or equal to</em>? (“at most”)</td><td><code>26 &lt;= 25</code></td><td class="fv">False</td></tr>
+  </table></div>
+  <div class="callout warn"><p><strong><code>=</code> stores, <code>==</code> asks.</strong> One equals sign puts a value into a variable. Two equals signs compare. <code>roll1 = roll2</code> copies a value; <code>roll1 == roll2</code> asks whether they match. For the two-character operators, the <code>=</code> always goes second: <code>&gt;=</code>, never <code>=&gt;</code>.</p></div>
+
+  <div class="lab">
+    <div class="lab-title">Lab: comparison bench</div>
+    <p class="mini">Change either number and all six comparisons update. Try making them equal, then one apart.</p>
+    <div class="bench">
+      <label>a <input id="benchA" type="text" inputmode="decimal" value="7" autocomplete="off" spellcheck="false"></label>
+      <label>b <input id="benchB" type="text" inputmode="decimal" value="7" autocomplete="off" spellcheck="false"></label>
+    </div>
+    <div class="scroll"><table class="tt" id="benchOut" aria-live="polite"></table></div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section id="vote">
+  <h2><span class="n">02</span>Comparing what the user types</h2>
+  <p>Example <strong>4.3.3 Voting Age</strong> puts it together in three lines:</p>
+<pre class="code">age = <span class="fn">int</span>(<span class="fn">input</span>(<span class="st">"What is your age? "</span>))
+old_enough = age &gt; <span class="mono">17</span>
+<span class="fn">print</span>(<span class="st">"Can vote: "</span> + <span class="fn">str</span>(old_enough))</pre>
+  <ol>
+    <li><code>int(input(...))</code> reads text and turns it into a whole number (you did this in Unit 3).</li>
+    <li><code>age &gt; 17</code> compares, and the Boolean answer is stored in <code>old_enough</code>.</li>
+    <li>The result is printed with a label, using <code>str()</code> like in 4.1 and 4.2.</li>
+  </ol>
+  <div class="lab">
+    <div class="lab-title">Lab: run Voting Age</div>
+    <div class="prompt"><span>What is your age? </span><input id="voteIn" type="text" autocomplete="off" spellcheck="false" aria-label="Type an age, then press Enter" placeholder="type, then Enter"></div>
+    <pre class="console" id="voteOut" aria-live="polite"><span class="dim"># press Enter to run the program</span></pre>
+    <div class="explain" id="voteWhy"></div>
+  </div>
+  <p>Notice that <code>age &gt; 17</code> and <code>age &gt;= 18</code> give the same answer for every whole number. When you read a rule like “18 or older,” either works. <code>&gt;= 18</code> usually matches the wording better.</p>
+</section>
+
+<!-- 03 -->
+<section id="range">
+  <h2><span class="n">03</span>Ranges &amp; boundaries</h2>
+  <p>To check that a number is <em>between</em> two values, you need two comparisons joined with <code>and</code>. That’s example <strong>4.3.4 Grade Range</strong>:</p>
+<pre class="code">grade = <span class="fn">int</span>(<span class="fn">input</span>(<span class="st">"What is your grade? "</span>))
+got_b = grade &gt;= <span class="mono">80</span> <span class="kw">and</span> grade &lt; <span class="mono">90</span>
+<span class="fn">print</span>(<span class="st">"Got a B: "</span> + <span class="fn">str</span>(got_b))
+<span class="cm"># always test values at the boundaries</span></pre>
+  <p>That last comment is the most important line in the example. A <strong>boundary</strong> is where the answer flips from <span class="fv">False</span> to <span class="tv">True</span>. Bugs hide there: one wrong <code>&gt;</code> instead of <code>&gt;=</code> changes exactly one value. Here that’s the difference between a student with an 80 getting a B or not.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: number line</div>
+    <p class="mini">Every number in the range is tested. Gold outlines mark the boundaries, where the answer flips. Try each chip and compare which numbers change color.</p>
+    <div class="chips" id="lineChips"></div>
+    <div class="prompt"><span>&gt;&gt;&gt;</span><input id="lineIn" type="text" autocomplete="off" spellcheck="false" aria-label="Expression using one variable"></div>
+    <div class="inrow">
+      <label>from <input id="lineLo" type="number" value="70"></label>
+      <label>to <input id="lineHi" type="number" value="100"></label>
+    </div>
+    <div id="lineOut" aria-live="polite"></div>
+    <div class="explain" id="lineWhy"></div>
+  </div>
+  <div class="callout warn"><p><strong>Each side of <code>and</code> needs its own complete comparison.</strong> In English you can say “at least 80 and below 90.” In Python, <code>grade &gt;= 80 and &lt; 90</code> is a syntax error. Write the variable again: <code>grade &gt;= 80 and grade &lt; 90</code>.</p></div>
+  <p class="mini">Python also allows a shortcut, <code>80 &lt;= grade &lt; 90</code>, which the number line understands. The CodeHS examples and the AP exam use the <code>and</code> form, so that’s the one to practice.</p>
+</section>
+
+<!-- 04 -->
+<section id="trap">
+  <h2><span class="n">04</span>The <code>input()</code> trap</h2>
+  <p><code>input()</code> always gives you a <strong>string</strong>, even when the user types digits. Strings compare differently from numbers. <code>==</code> checks if the text matches exactly, and <code>&lt;</code> / <code>&gt;</code> compare letter by letter like a dictionary. That’s why every CodeHS example wraps <code>input()</code> in <code>int()</code> before comparing.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: text vs. numbers</div>
+    <p class="mini">Pretend the user typed these two answers. Spaces count.</p>
+    <div class="chips" id="trapChips"></div>
+    <div class="bench">
+      <label>a = input() gave <input id="trapA" type="text" value="10" autocomplete="off" spellcheck="false"></label>
+      <label>b = input() gave <input id="trapB" type="text" value="9" autocomplete="off" spellcheck="false"></label>
+    </div>
+    <div class="scroll"><table class="tt" id="trapOut" aria-live="polite"></table></div>
+    <div class="explain" id="trapWhy"></div>
+  </div>
+  <div class="callout"><p><strong>Comparing a string to a number crashes.</strong> If you forget <code>int()</code> and write <code>age &gt; 17</code>, Python stops with <code>TypeError: '&gt;' not supported between instances of 'str' and 'int'</code>. <code>==</code> doesn’t crash, but <code>"4" == 4</code> is always <span class="fv">False</span>, which is harder to notice.</p></div>
+</section>
+
+<!-- 05 -->
+<section id="mix">
+  <h2><span class="n">05</span>Comparisons + <code>and</code> / <code>or</code></h2>
+  <p>Comparisons produce Booleans, so you can feed them straight into the logical operators from 4.2. Python does all the comparisons first, then <code>not</code>, then <code>and</code>, then <code>or</code>. Parentheses still go first of all.</p>
+  <p>Here’s a theme-park rule: you can ride if you’re at least 48 inches tall, <em>or</em> if you’re at least 42 inches and riding with an adult.</p>
+<pre class="code">can_ride = height &gt;= <span class="mono">48</span> <span class="kw">or</span> (height &gt;= <span class="mono">42</span> <span class="kw">and</span> with_adult)</pre>
+  <p>The parentheses aren’t required here, because <code>and</code> already goes before <code>or</code>, but they make the two ways to qualify easy to see. Put numbers into expressions like this in the lab and step through them.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: one step at a time, now with numbers</div>
+    <div class="chips" id="evChips"></div>
+    <div class="prompt"><span>&gt;&gt;&gt; print(</span><input id="evIn" type="text" autocomplete="off" spellcheck="false" aria-label="Expression to evaluate" value="45 >= 48 or 45 >= 42 and True"><span style="margin:0 8px 0 0">)</span></div>
+    <pre class="term" id="evOut" aria-live="polite"></pre>
+    <div id="evSteps"></div>
+    <div class="explain" id="evWhy"></div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section id="ap">
+  <h2><span class="n">06</span>On the AP exam</h2>
+  <p>The AP reference sheet calls these <strong>relational operators</strong>. Most of them are written with math symbols instead of two characters.</p>
+  <div class="scroll"><table>
+    <tr><th>Idea</th><th>Python</th><th>AP pseudocode</th></tr>
+    <tr><td>Equal to</td><td><code>a == b</code></td><td><code>a = b</code></td></tr>
+    <tr><td>Not equal to</td><td><code>a != b</code></td><td><code>a ≠ b</code></td></tr>
+    <tr><td>Greater / less than</td><td><code>a &gt; b</code>, <code>a &lt; b</code></td><td><code>a &gt; b</code>, <code>a &lt; b</code></td></tr>
+    <tr><td>At least / at most</td><td><code>a &gt;= b</code>, <code>a &lt;= b</code></td><td><code>a ≥ b</code>, <code>a ≤ b</code></td></tr>
+    <tr><td>Store a value</td><td><code>a = 5</code></td><td><code>a ← 5</code></td></tr>
+  </table></div>
+  <div class="callout ap"><p><strong>A single <code>=</code> means different things.</strong> On the AP exam, <code>=</code> <em>compares</em>, because storing uses the arrow <code>←</code>. In Python, <code>=</code> <em>stores</em> and <code>==</code> compares. When you read an exam question, <code>a = b</code> is a question with a true/false answer.</p></div>
+  <p><strong>4.3.7 AP Practice</strong> mixes relational operators with <code>AND</code>, <code>OR</code>, <code>NOT</code>, and asks which expressions are <strong>equivalent</strong>, meaning they agree for every possible input. You can check that with a truth table. This one accepts Python or AP spelling for the logical operators.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: are these equivalent?</div>
+    <div class="chips" id="ttChips"></div>
+    <div class="ttin">
+      <label>A <input id="ttA" type="text" autocomplete="off" spellcheck="false" aria-label="Expression A"></label>
+      <label>B <input id="ttB" type="text" autocomplete="off" spellcheck="false" aria-label="Expression B (optional)" placeholder="optional: a second expression to compare"></label>
+    </div>
+    <div class="scroll" id="ttOut" aria-live="polite"></div>
+    <div class="explain" id="ttWhy"></div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section id="ex">
+  <h2><span class="n">07</span>Exercises 4.3.5–4.3.6</h2>
+  <p>Read the instructions in CodeHS carefully; they’re the specification you’re graded on, including the prompts and the sample output. The hints below point you at the right ideas without writing the code for you. Open one only when you’re stuck.</p>
+
+  <h3>4.3.5 Rolling Dice</h3>
+  <details><summary>Hint 1: reading the rolls</summary>
+    <p>The instructions say the rolls are integers, so read them the same way 4.3.3 reads an age. Copy the prompt text from the sample output exactly, including the space after the question mark.</p>
+  </details>
+  <details><summary>Hint 2: why does each number appear twice?</summary>
+    <p>In the sample output, the first <code>4</code> is what the user typed. The second <code>4</code> is your program printing it back. Right after you read each roll, print that variable by itself on its own line.</p>
+  </details>
+  <details><summary>Hint 3: the comparison is already there</summary>
+    <p>The starter code already has the line that sets <code>rolled_doubles</code>. Read it closely: it tells you what to name your two roll variables. Then print the result with the label from the sample output.</p>
+  </details>
+  <details><summary>Hint 4: testing</summary>
+    <p>Run it at least twice: once with doubles and once without. If doubles still says <span class="fv">False</span>, check whether your rolls went through <code>int()</code> (section 04).</p>
+  </details>
+
+  <h3>4.3.6 All Star</h3>
+  <details><summary>Hint 1: reading three stats</summary>
+    <p>Ask for points, rebounds, and assists in that order, with the prompts from the sample output. Per-game stats are averages, and averages can have decimals. <code>int()</code> crashes on <code>12.5</code>; <code>float()</code> accepts both <code>12</code> and <code>12.5</code>.</p>
+  </details>
+  <details><summary>Hint 2: “at least”</summary>
+    <p>“At least 25” means 25 itself counts. Which operator from section 01 includes the number itself?</p>
+  </details>
+  <details><summary>Hint 3: two ways to be an all star</summary>
+    <p>The instructions describe two separate ways to qualify. Write each one as its own expression first. The second way has three requirements that must <em>all</em> be met. Then think about which word joins the two ways. The theme-park rule in section 05 has the same kind of structure.</p>
+  </details>
+  <details><summary>Hint 4: testing the boundaries</summary>
+    <p>Test exactly 25 points with low rebounds and assists. Test exactly 10, 10, and 10. Then test 10, 10, and 9. Each one should land where the instructions say. Match the last line of the sample output exactly.</p>
+  </details>
+</section>
+
+<!-- 08 -->
+<section id="quiz">
+  <h2><span class="n">08</span>Predict the output</h2>
+  <p>Decide on your answer before you click. Each answer explains why, so wrong answers are worth reading too.</p>
+  <div class="score" id="score" aria-live="polite">Score: 0 / 0</div>
+  <div id="quizBox"></div>
+  <button id="quizReset">Reset quiz</button>
+</section>
+
+<!-- 09 -->
+<section id="ship">
+  <h2><span class="n">09</span>Before you submit</h2>
+  <p>Run through this list for 4.3.5 and 4.3.6. Checks aren’t saved, so it resets when you reload.</p>
+  <div class="checklist">
+    <label><input type="checkbox"> <span>Every <code>input()</code> goes through <code>int()</code> or <code>float()</code> before I compare it.</span></label>
+    <label><input type="checkbox"> <span>My prompts match the sample output exactly, including spaces.</span></label>
+    <label><input type="checkbox"> <span>I used <code>==</code> to test equality, not <code>=</code>.</span></label>
+    <label><input type="checkbox"> <span>Every “at least” became <code>&gt;=</code>, and I tested the exact boundary values.</span></label>
+    <label><input type="checkbox"> <span>Every comparison next to <code>and</code> or <code>or</code> has its own variable on the left.</span></label>
+    <label><input type="checkbox"> <span>Where I mixed <code>and</code> with <code>or</code>, I used parentheses to show what goes together.</span></label>
+    <label><input type="checkbox"> <span>My last line of output matches the sample, and I used <code>str()</code> when joining with <code>+</code>.</span></label>
+  </div>
+  <p class="next" style="margin-top:28px">Next up: <strong>4.4 If Statements</strong>, where your program finally <em>does</em> something different depending on a Boolean.</p>
+</section>
+</main>
+</div>
+<script src="../js/4-3-comparison-operators.js"></script>
+</body>
+</html>

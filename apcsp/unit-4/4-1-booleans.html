@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>4.1 Booleans — AP CSP Unit 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+<div class="layout">
+<nav id="nav" aria-label="Sections">
+  <div class="brand">4.1 Booleans</div>
+  <div class="sub">AP CSP · Unit 4: Python Control Structures</div>
+  <a href="#map"><span class="n">00</span>Lesson map</a>
+  <a href="#what"><span class="n">01</span>Only two values</a>
+  <a href="#vars"><span class="n">02</span>Boolean variables</a>
+  <a href="#trace"><span class="n">03</span>Trace a program</a>
+  <a href="#trap"><span class="n">04</span>The bool("False") trap</a>
+  <a href="#ap"><span class="n">05</span>On the AP exam</a>
+  <a href="#cat"><span class="n">06</span>Exercises 4.1.4–4.1.5</a>
+  <a href="#quiz"><span class="n">07</span>Predict the output</a>
+  <a href="#ship"><span class="n">08</span>Before you submit</a>
+</nav>
+
+<main>
+<section class="hero" id="top">
+  <div>
+    <h1>Booleans</h1>
+    <p class="lead">Every decision a program makes comes down to one question with two possible answers. This page lets you try Python’s <span class="tv">True</span> and <span class="fv">False</span> before you start the CodeHS exercises for lesson 4.1.</p>
+  </div>
+  <div class="switch">
+    <button id="heroSwitch" role="switch" aria-checked="false" aria-label="Toggle power"></button>
+    <code id="heroCode">power = False</code>
+  </div>
+</section>
+
+<!-- 00 -->
+<section id="map">
+  <h2><span class="n">00</span>Lesson map</h2>
+  <p>Here’s how this page lines up with your CodeHS assignments for 4.1. Work through the page first, then do the CodeHS items in order.</p>
+  <div class="scroll"><table>
+    <tr><th>CodeHS item</th><th>What it is</th><th>Where this page helps</th></tr>
+    <tr><td>4.1.1 Booleans</td><td>Video</td><td>01, 02</td></tr>
+    <tr><td>4.1.2 Booleans Quiz</td><td>Check for understanding</td><td>07 is good practice first</td></tr>
+    <tr><td>4.1.3 First Boolean</td><td>Example program to run and read</td><td>02 (printing with <code>str()</code>), 03</td></tr>
+    <tr><td>4.1.4 Do You Have a Cat?</td><td>Exercise you write</td><td>02, 06</td></tr>
+    <tr><td>4.1.5 Fun Facts</td><td>Exercise you write</td><td>02, 06</td></tr>
+  </table></div>
+</section>
+
+<!-- 01 -->
+<section id="what">
+  <h2><span class="n">01</span>Only two values</h2>
+  <p>A <strong>Boolean</strong> is a value that can only ever be one of two things: <span class="tv">True</span> or <span class="fv">False</span>. It’s named after George Boole, a mathematician who worked out the rules for reasoning with true and false in the 1800s, long before computers existed.</p>
+  <p>You already know three Python types from Unit 3: <code>int</code> (whole numbers), <code>float</code> (decimals), and <code>str</code> (text). Booleans are the fourth, and Python calls the type <code>bool</code>.</p>
+<pre class="code"><span class="fn">print</span>(<span class="fn">type</span>(<span class="bt">True</span>))    <span class="cm"># &lt;class 'bool'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="st">"True"</span>))  <span class="cm"># &lt;class 'str'&gt;   the quotes make it text</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="mono">1</span>))       <span class="cm"># &lt;class 'int'&gt;</span></pre>
+  <div class="callout warn"><p><strong>Two rules Python is strict about:</strong> the first letter must be a capital (<code>True</code>, never <code>true</code>), and there are no quotes. <code>true</code> gives a <code>NameError</code> because Python thinks you mean a variable that doesn’t exist, and <code>"True"</code> is just a string of four letters.</p></div>
+
+  <div class="lab">
+    <div class="lab-title">Lab: type detective</div>
+    <p>Type a value and Python will tell you its type. Try the chips first, then make up your own.</p>
+    <div class="chips" id="typeChips"></div>
+    <div class="prompt"><span>&gt;&gt;&gt; type(</span><input id="typeIn" type="text" autocomplete="off" spellcheck="false" aria-label="Value to check" value="True"><span style="margin:0 8px 0 0">)</span></div>
+    <pre class="term" id="typeOut" aria-live="polite"></pre>
+    <div class="explain" id="typeWhy"></div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section id="vars">
+  <h2><span class="n">02</span>Boolean variables</h2>
+  <p>You store a Boolean in a variable the same way as any other value. Good Boolean names read like a yes-or-no question, so the code explains itself: <code>is_raining</code>, <code>has_key</code>, <code>game_over</code>, <code>can_vote</code>.</p>
+<pre class="code">light_on = <span class="bf">False</span>
+<span class="fn">print</span>(light_on)   <span class="cm"># False</span>
+
+light_on = <span class="bt">True</span>     <span class="cm"># reassign: the old value is replaced</span>
+<span class="fn">print</span>(light_on)   <span class="cm"># True</span></pre>
+  <p>Like any variable, it holds one value at a time. Assigning a new value replaces the old one completely.</p>
+
+  <div class="lab">
+    <div class="lab-title">Lab: the light switch</div>
+    <div class="lampgrid">
+      <div class="lamp" id="lamp" aria-hidden="true">off</div>
+      <div>
+        <div class="row">
+          <button id="setT"><code style="background:none;padding:0">light_on = True</code></button>
+          <button id="setF"><code style="background:none;padding:0">light_on = False</code></button>
+          <button id="doPrint"><code style="background:none;padding:0">print(light_on)</code></button>
+        </div>
+        <div class="vars"><div><span class="h">variable</span><span class="h">current value</span></div><div><span>light_on</span><span id="lampVal" class="fv">False</span></div></div>
+        <pre class="term" id="lampOut" aria-live="polite"><span class="dim"># output appears here when you print</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <h3>Printing a Boolean with a label</h3>
+  <p>A bare <code>True</code> on the screen doesn’t tell the user much. The CodeHS examples print a label in front of the value, like this line from 4.1.3 First Boolean:</p>
+<pre class="code"><span class="fn">print</span>(<span class="st">"User logged in?: "</span> + <span class="fn">str</span>(logged_in))   <span class="cm"># User logged in?: False</span></pre>
+  <p>The <code>+</code> sign can only glue a string to another string. <code>str()</code> turns the Boolean into the text <code>"False"</code> so the two can be joined. Leave it out and Python stops with an error:</p>
+<pre class="code"><span class="fn">print</span>(<span class="st">"User logged in?: "</span> + logged_in)
+<span class="cm"># TypeError: can only concatenate str (not "bool") to str</span></pre>
+  <div class="callout"><p><strong>Another way:</strong> <code>print("User logged in?:", logged_in)</code> also works. A comma lets <code>print</code> show several values, adds one space between them, and converts the Boolean for you, so no <code>str()</code> is needed.</p></div>
+</section>
+
+<!-- 03 -->
+<section id="trace">
+  <h2><span class="n">03</span>Trace a program</h2>
+  <p>Tracing means running the code in your head one line at a time, keeping track of every variable. It’s the most useful skill for the AP exam, where you can’t run anything. Step through this program, and before each click, predict what will change.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: step through it</div>
+    <div class="stepper">
+      <div class="src" id="src"></div>
+      <div>
+        <div class="vars" id="traceVars"></div>
+        <pre class="term" id="traceOut"></pre>
+      </div>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <button class="primary" id="stepBtn">Run next line</button>
+      <button id="resetBtn">Start over</button>
+    </div>
+    <div class="explain" id="traceWhy"></div>
+  </div>
+  <p>Notice line 3: <code>has_umbrella = is_raining</code> copies the <em>value</em> <span class="tv">True</span> into the new variable. When <code>is_raining</code> changes on line 4, <code>has_umbrella</code> stays the same. The two variables aren’t linked.</p>
+  <p>When you open <strong>4.1.3 First Boolean</strong> in CodeHS, trace it the same way before you press Run, then check yourself against the output. Look closely at its last assignment: it uses lowercase <code>true</code> on purpose. Predict what happens before you run it. (Section 01 has the answer.)</p>
+</section>
+
+<!-- 04 -->
+<section id="trap">
+  <h2><span class="n">04</span>The <code>bool("False")</code> trap</h2>
+  <p>In Unit 3 you used <code>int(input(...))</code> to turn typed text into a number. It’s tempting to try the same thing with Booleans, but <code>bool()</code> doesn’t read the words. For a string, it only asks “is this string empty?” Any string with at least one character, including <code>"False"</code> and <code>"no"</code>, becomes <span class="tv">True</span>.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: what does bool() really do?</div>
+    <div class="chips" id="boolChips"></div>
+    <div class="prompt"><span>&gt;&gt;&gt; bool(</span><input id="boolIn" type="text" autocomplete="off" spellcheck="false" aria-label="Value to convert" value='"False"'><span style="margin:0 8px 0 0">)</span></div>
+    <pre class="term" id="boolOut" aria-live="polite"></pre>
+    <div class="explain" id="boolWhy"></div>
+  </div>
+  <div class="callout"><p><strong>The takeaway:</strong> to turn a user’s typed answer into a Boolean, you compare it to something, like <code>answer == "yes"</code>. That’s lesson 4.3 (Comparison Operators). For now, if you need a Boolean, write <code>True</code> or <code>False</code> directly.</p></div>
+</section>
+
+<!-- 05 -->
+<section id="ap">
+  <h2><span class="n">05</span>On the AP exam</h2>
+  <p>The AP exam doesn’t use Python. It uses its own pseudocode, shown on the reference sheet you’ll have during the test. Booleans work the same way, but they look a little different.</p>
+  <div class="scroll"><table>
+    <tr><th>Idea</th><th>Python</th><th>AP pseudocode</th></tr>
+    <tr><td>The two values</td><td><code>True</code>, <code>False</code></td><td><code>true</code>, <code>false</code></td></tr>
+    <tr><td>Assign a variable</td><td><code>done = False</code></td><td><code>done ← false</code></td></tr>
+    <tr><td>Show a value</td><td><code>print(done)</code></td><td><code>DISPLAY(done)</code></td></tr>
+  </table></div>
+  <div class="callout ap"><p><strong>Watch the capitals.</strong> AP pseudocode writes <code>true</code> in lowercase, and that’s correct there. In Python, lowercase <code>true</code> is an error. Keep the two languages straight by asking “am I writing Python or reading the exam?”</p></div>
+  <p>This shows up under the AP topic <strong>Boolean Expressions</strong>, which grows over the next two lessons once you can build Booleans with <code>and</code>, <code>or</code>, <code>not</code>, and comparisons like <code>&gt;</code> and <code>==</code>.</p>
+</section>
+
+<!-- 06 -->
+<section id="cat">
+  <h2><span class="n">06</span>Exercises 4.1.4–4.1.5</h2>
+  <p>Read the instructions in CodeHS carefully; they’re the specification you’re graded on. The hints below cover the ideas the exercises use without writing them for you. Open one only when you’re stuck.</p>
+  <h3>4.1.4 Do You Have a Cat?</h3>
+  <details><summary>Hint 1: naming the variable</summary>
+    <p>The instructions don’t give you a name, so you choose one. Pick a name that reads like a yes-or-no question about you, using the naming style from section 02.</p>
+  </details>
+  <details><summary>Hint 2: giving it a value</summary>
+    <p>The value is one of Python’s two Boolean values. Check the capital letter, and make sure there are no quotation marks around it. If you print <code>type()</code> of your variable, it should say <code>&lt;class 'bool'&gt;</code>, not <code>&lt;class 'str'&gt;</code>.</p>
+  </details>
+  <details><summary>Hint 3: printing it</summary>
+    <p>The instructions say to print the value of your Boolean, and the starter comment asks for an informative message. That means a label <em>and</em> the value, using one of the two ways in section 02. If you join with <code>+</code>, remember <code>str()</code>.</p>
+  </details>
+  <details><summary>Hint 4: if the autograder disagrees with you</summary>
+    <p>Common causes: a lowercase <code>true</code>, quotes that turned your Boolean into a string, a <code>TypeError</code> from <code>+</code> without <code>str()</code>, or using <code>bool(input(...))</code> (see section 04 for why that’s always <span class="tv">True</span>).</p>
+  </details>
+
+  <h3>4.1.5 Fun Facts</h3>
+  <details><summary>Hint 1: the variable names</summary>
+    <p>This time the instructions <em>do</em> give you the three names. Copy them exactly, underscores included. Python names are case-sensitive, so <code>has_Pet</code> is a different variable from the one asked for.</p>
+  </details>
+  <details><summary>Hint 2: hard-coded values</summary>
+    <p>“Hard-coded” means you type the value straight into the program instead of asking the user. Each variable gets one of the two Boolean values, with a capital letter and no quotes. Make them true for you!</p>
+  </details>
+  <details><summary>Hint 3: one line per fact</summary>
+    <p>Each fact gets its own <code>print</code>, with a short label in front of the value. Look at the sample output in the instructions for the label style, then use either way of printing from section 02.</p>
+  </details>
+</section>
+
+<!-- 07 -->
+<section id="quiz">
+  <h2><span class="n">07</span>Predict the output</h2>
+  <p>Decide on your answer before you click. Each answer explains why, so wrong answers are worth reading too.</p>
+  <div class="score" id="score" aria-live="polite">Score: 0 / 0</div>
+  <div id="quizBox"></div>
+  <button id="quizReset">Reset quiz</button>
+</section>
+
+<!-- 08 -->
+<section id="ship">
+  <h2><span class="n">08</span>Before you submit</h2>
+  <p>Run through this list for 4.1.4 and 4.1.5. Checks aren’t saved, so it resets when you reload.</p>
+  <div class="checklist">
+    <label><input type="checkbox"> <span>For 4.1.4, my variable name reads like a yes-or-no question. For 4.1.5, my three names match the instructions exactly.</span></label>
+    <label><input type="checkbox"> <span>Every value is <code>True</code> or <code>False</code> with a capital first letter and no quotes.</span></label>
+    <label><input type="checkbox"> <span>Every <code>print</code> shows a label and the value, and I used <code>str()</code> anywhere I joined with <code>+</code>.</span></label>
+    <label><input type="checkbox"> <span>I ran the program with no errors, and 4.1.5’s output has one fact per line in the style of the sample output.</span></label>
+    <label><input type="checkbox"> <span>I can explain to a classmate why <code>"True"</code> and <code>True</code> are different.</span></label>
+  </div>
+  <p class="next" style="margin-top:28px">Next up: <strong>4.2 Logical Operators</strong>, where you combine Booleans with <code>and</code>, <code>or</code>, and <code>not</code>.</p>
+</section>
+</main>
+</div>
+
+<script src="../js/4-1-booleans.js"></script>
+</body>
+</html>

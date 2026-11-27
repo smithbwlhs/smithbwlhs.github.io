@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>4.2 Logical Operators — AP CSP Unit 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+<div class="layout">
+<nav id="nav" aria-label="Sections">
+  <div class="brand">4.2 Logical Operators</div>
+  <div class="sub">AP CSP · Unit 4: Python Control Structures</div>
+  <a href="#map"><span class="n">00</span>Lesson map</a>
+  <a href="#not"><span class="n">01</span>not flips it</a>
+  <a href="#and"><span class="n">02</span>and needs both</a>
+  <a href="#or"><span class="n">03</span>or needs one</a>
+  <a href="#mix"><span class="n">04</span>Mixing operators</a>
+  <a href="#parens"><span class="n">05</span>Parentheses &amp; truth tables</a>
+  <a href="#ap"><span class="n">06</span>On the AP exam</a>
+  <a href="#ex"><span class="n">07</span>Exercises 4.2.6–4.2.8</a>
+  <a href="#quiz"><span class="n">08</span>Predict the output</a>
+  <a href="#ship"><span class="n">09</span>Before you submit</a>
+</nav>
+
+<main>
+<section class="hero" id="top">
+  <div>
+    <h1>Logical Operators</h1>
+    <p class="lead">In 4.1 you stored <span class="tv">True</span> and <span class="fv">False</span> in variables. Now you’ll build new Booleans out of old ones with three small words: <code>not</code>, <code>and</code>, and <code>or</code>. Try them here before you start the CodeHS exercises for lesson 4.2.</p>
+  </div>
+  <div class="switch">
+    <button id="heroSwitch" role="switch" aria-checked="true" aria-label="Run light_on = not light_on"></button>
+    <code id="heroCode">light_on = True</code>
+  </div>
+</section>
+
+<!-- 00 -->
+<section id="map">
+  <h2><span class="n">00</span>Lesson map</h2>
+  <p>Here’s how this page lines up with your CodeHS assignments for 4.2. Work through the page first, then do the CodeHS items in order.</p>
+  <div class="scroll"><table>
+    <tr><th>CodeHS item</th><th>What it is</th><th>Where this page helps</th></tr>
+    <tr><td>4.2.1 Logical Operators</td><td>Video</td><td>01–04</td></tr>
+    <tr><td>4.2.2 Logical Operators Quiz</td><td>Check for understanding</td><td>08 is good practice first</td></tr>
+    <tr><td>4.2.3 Light Switch</td><td>Example: <code>not</code></td><td>01</td></tr>
+    <tr><td>4.2.4 President</td><td>Example: <code>and</code></td><td>02</td></tr>
+    <tr><td>4.2.5 Wasting Time</td><td>Example: <code>or</code></td><td>03</td></tr>
+    <tr><td>4.2.6 Can You Graduate?</td><td>Exercise you write</td><td>02, 07</td></tr>
+    <tr><td>4.2.7 School’s Out</td><td>Exercise you write</td><td>01, 02, 04, 07</td></tr>
+    <tr><td>4.2.8 Can You Go Outside?</td><td>Exercise you write</td><td>04, 05, 07</td></tr>
+  </table></div>
+</section>
+
+<!-- 01 -->
+<section id="not">
+  <h2><span class="n">01</span><code>not</code> flips it</h2>
+  <p><code>not</code> takes one Boolean and gives you the opposite. That’s the whole job.</p>
+  <div class="scroll"><table style="width:auto">
+    <tr><th>expression</th><th>result</th></tr>
+    <tr><td><code>not True</code></td><td class="fv">False</td></tr>
+    <tr><td><code>not False</code></td><td class="tv">True</td></tr>
+  </table></div>
+  <p>Example <strong>4.2.3 Light Switch</strong> uses this to flip a light. The line <code>light_on = not light_on</code> reads the current value, flips it, and stores the flipped value back in the same variable. Run it a few times and watch it toggle.</p>
+
+  <div class="lab">
+    <div class="lab-title">Lab: the 4.2.3 light switch</div>
+    <div class="lampgrid">
+      <div class="lamp on" id="lamp" aria-hidden="true">on</div>
+      <div>
+        <div class="row">
+          <button id="flip"><code style="background:none;padding:0">light_on = not light_on</code></button>
+          <button id="lprint"><code style="background:none;padding:0">print("Light on? " + str(light_on))</code></button>
+          <button id="lreset">Start over</button>
+        </div>
+        <div class="vars"><div><span class="h">variable</span><span class="h">current value</span></div><div><span>light_on</span><span id="lampVal" class="tv">True</span></div></div>
+        <pre class="term" id="lampOut" aria-live="polite"><span class="dim"># output appears here when you print</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout"><p><strong>Why <code>str()</code>?</strong> Every CodeHS example in this lesson prints with <code>"Light on? " + str(light_on)</code>. The <code>+</code> sign can only glue a string to another string. Without <code>str()</code>, Python stops with <code>TypeError: can only concatenate str (not "bool") to str</code>. You’ll need it again in all three exercises.</p></div>
+</section>
+
+<!-- 02 -->
+<section id="and">
+  <h2><span class="n">02</span><code>and</code> needs both</h2>
+  <p><code>a and b</code> is <span class="tv">True</span> only when <em>both</em> sides are <span class="tv">True</span>. If either one is <span class="fv">False</span>, the whole thing is <span class="fv">False</span>.</p>
+  <p>Example <strong>4.2.4 President</strong> checks two requirements: you must be at least 35 <em>and</em> be a US citizen. Flip the two variables and watch which row of the truth table lights up. A <strong>truth table</strong> lists every possible combination of inputs, so you can see the whole rule at once.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: 4.2.4 President</div>
+    <div id="gateAnd"></div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section id="or">
+  <h2><span class="n">03</span><code>or</code> needs at least one</h2>
+  <p><code>a or b</code> is <span class="tv">True</span> when <em>at least one</em> side is <span class="tv">True</span>. It’s only <span class="fv">False</span> when both sides are <span class="fv">False</span>.</p>
+  <p>Example <strong>4.2.5 Wasting Time</strong> says you’re wasting time if you’re on TikTok or on Instagram. Its comment spells out the rule: true if one, or the other, <em>or both</em>.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: 4.2.5 Wasting Time</div>
+    <div id="gateOr"></div>
+  </div>
+  <div class="callout warn"><p><strong>English “or” is sloppier than Python’s.</strong> When a menu says “soup or salad,” it usually means one, not both. Python’s <code>or</code> always counts “both” as <span class="tv">True</span>. Compare the two truth tables: <code>and</code> and <code>or</code> agree when both inputs match, and disagree in the two middle rows, where exactly one input is True.</p></div>
+</section>
+
+<!-- 04 -->
+<section id="mix">
+  <h2><span class="n">04</span>Mixing operators</h2>
+  <p>You can combine operators in one expression. When you do, Python has an order, just like multiplication before addition in math:</p>
+  <ol>
+    <li>Anything in <strong>parentheses</strong> first</li>
+    <li>then <code>not</code></li>
+    <li>then <code>and</code></li>
+    <li>then <code>or</code> last</li>
+  </ol>
+  <p>So <code>True or False and False</code> is <span class="tv">True</span>, because the <code>and</code> happens first. Use the lab to see each step. The highlighted part is what Python works out next.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: one step at a time</div>
+    <div class="chips" id="evChips"></div>
+    <div class="prompt"><span>&gt;&gt;&gt; print(</span><input id="evIn" type="text" autocomplete="off" spellcheck="false" aria-label="Expression to evaluate" value="not True and False"><span style="margin:0 8px 0 0">)</span></div>
+    <pre class="term" id="evOut" aria-live="polite"></pre>
+    <div id="evSteps"></div>
+    <div class="explain" id="evWhy"></div>
+  </div>
+  <div class="callout"><p><strong><code>not</code> only grabs the thing right next to it.</strong> In <code>not a and b</code>, only <code>a</code> gets flipped. If you want to flip a whole group, put the group in parentheses: <code>not (a and b)</code>.</p></div>
+</section>
+
+<!-- 05 -->
+<section id="parens">
+  <h2><span class="n">05</span>Parentheses &amp; truth tables</h2>
+  <p>Say a theater rule is: “You can go to the movies if you have money, and it’s either the weekend or a holiday.” These two lines look almost the same:</p>
+<pre class="code">go = has_money <span class="kw">and</span> (is_weekend <span class="kw">or</span> is_holiday)   <span class="cm"># what the rule says</span>
+go = has_money <span class="kw">and</span> is_weekend <span class="kw">or</span> is_holiday     <span class="cm"># not the same!</span></pre>
+  <p>Because <code>and</code> goes first, Python reads the second line as <code>(has_money and is_weekend) or is_holiday</code>. That lets you in on any holiday, even with no money. You won’t spot that by trying one or two values. You spot it by checking <em>every</em> combination, which is exactly what a truth table does.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: truth table machine</div>
+    <p class="mini">Type any expression using up to four variable names. Fill in B too, and the machine highlights every row where A and B disagree. Pick an example to start.</p>
+    <div class="chips" id="ttChips"></div>
+    <div class="ttin">
+      <label>A <input id="ttA" type="text" autocomplete="off" spellcheck="false" aria-label="Expression A"></label>
+      <label>B <input id="ttB" type="text" autocomplete="off" spellcheck="false" aria-label="Expression B (optional)" placeholder="optional: a second expression to compare"></label>
+    </div>
+    <div class="scroll" id="ttOut" aria-live="polite"></div>
+    <div class="explain" id="ttWhy"></div>
+  </div>
+  <p>When you mix <code>and</code> with <code>or</code>, add parentheses even when you think Python already does what you want. It costs nothing and it makes your intent obvious to anyone reading the code, including you next week.</p>
+</section>
+
+<!-- 06 -->
+<section id="ap">
+  <h2><span class="n">06</span>On the AP exam</h2>
+  <p>The AP exam reference sheet has all three operators. They mean exactly the same thing as in Python, but they’re written in capitals.</p>
+  <div class="scroll"><table>
+    <tr><th>Idea</th><th>Python</th><th>AP pseudocode</th></tr>
+    <tr><td>Opposite</td><td><code>not is_raining</code></td><td><code>NOT is_raining</code></td></tr>
+    <tr><td>Both</td><td><code>a and b</code></td><td><code>a AND b</code></td></tr>
+    <tr><td>At least one</td><td><code>a or b</code></td><td><code>a OR b</code></td></tr>
+    <tr><td>The values</td><td><code>True</code>, <code>False</code></td><td><code>true</code>, <code>false</code></td></tr>
+  </table></div>
+  <div class="callout ap"><p><strong>The capitals are exactly backwards.</strong> Python writes operators in lowercase and values with a capital (<code>not True</code>). AP pseudocode writes operators in capitals and values in lowercase (<code>NOT true</code>). Writing <code>AND</code> in Python is a syntax error.</p></div>
+  <p>This is the AP topic <strong>Boolean Expressions</strong>. Exam questions often describe a rule in words and ask which expression matches it, or show two expressions and ask if they’re equivalent. The truth table machine in section 05 is the same check you’d do on paper.</p>
+</section>
+
+<!-- 07 -->
+<section id="ex">
+  <h2><span class="n">07</span>Exercises 4.2.6–4.2.8</h2>
+  <p>Read the instructions in CodeHS carefully; they’re the specification you’re graded on, including the exact variable names and the example output. The hints below point you at the right ideas without writing the code for you. Open one only when you’re stuck.</p>
+
+  <h3>4.2.6 Can You Graduate?</h3>
+  <details><summary>Hint 1: which operator?</summary>
+    <p>Find the one word in the instructions that connects the two requirements. Which section of this page is named after that word? Your program has the same shape as the 4.2.4 President example.</p>
+  </details>
+  <details><summary>Hint 2: compute it, don’t type it</summary>
+    <p><code>can_graduate</code> has to be <em>built from</em> the other two variables with an operator. If you type <span class="tv">True</span> or <span class="fv">False</span> into it directly, it won’t change when the inputs change, and the autograder will notice.</p>
+  </details>
+  <details><summary>Hint 3: matching the output</summary>
+    <p>Compare your output to the example output exactly, including the question mark and the space after it. If you join text with <code>+</code>, the Boolean has to go through <code>str()</code> first (see section 01).</p>
+  </details>
+
+  <h3>4.2.7 School’s Out</h3>
+  <details><summary>Hint 1: split the sentence into pieces</summary>
+    <p>“School happens if it is a weekday and it is not a holiday.” Translate each piece on its own. “It is a weekday” is already one of your variables. “It is not a holiday” is one of your variables with one operator in front of it. Then use the word that joins the two pieces.</p>
+  </details>
+  <details><summary>Hint 2: what does not grab?</summary>
+    <p><code>not</code> flips only the value right after it. Make sure it’s attached to the variable the sentence says “not” about, and nothing else. Paste your expression into the lab in section 04 with the values from Example 1 to watch it evaluate.</p>
+  </details>
+  <details><summary>Hint 3: check all four cases</summary>
+    <p>There are only four combinations of <code>is_weekday</code> and <code>is_holiday</code>. Before you code, decide what the answer should be for each one. Then change your hard-coded values to test all four, not just the two examples. Watch the result variable’s name: it’s <code>have_school_today</code>.</p>
+  </details>
+
+  <h3>4.2.8 Can You Go Outside?</h3>
+  <details><summary>Hint 1: three conditions, all required</summary>
+    <p>The instructions list three conditions that must <em>all</em> be met. Which operator means “all of these”? You can chain it: <code>x and y and z</code> works.</p>
+  </details>
+  <details><summary>Hint 2: build the third condition first</summary>
+    <p>The third condition is a small expression of its own, with an <code>or</code> inside it. Write and test just that piece first, on its own line or in the truth table machine, before joining it to the other two.</p>
+  </details>
+  <details><summary>Hint 3: when and meets or</summary>
+    <p>You’ll be mixing <code>and</code> with <code>or</code> in one expression. Reread section 05 and decide where the parentheses go. A good test: what should happen when it’s raining and you have an umbrella? When it’s raining and you don’t? Those are Examples 1 and 2.</p>
+  </details>
+  <details><summary>Hint 4: check every row</summary>
+    <p>Four variables means sixteen combinations. Type your expression into the truth table machine in section 05 and read down the result column. For each row, ask: does this match the three rules in the instructions?</p>
+  </details>
+</section>
+
+<!-- 08 -->
+<section id="quiz">
+  <h2><span class="n">08</span>Predict the output</h2>
+  <p>Decide on your answer before you click. Each answer explains why, so wrong answers are worth reading too.</p>
+  <div class="score" id="score" aria-live="polite">Score: 0 / 0</div>
+  <div id="quizBox"></div>
+  <button id="quizReset">Reset quiz</button>
+</section>
+
+<!-- 09 -->
+<section id="ship">
+  <h2><span class="n">09</span>Before you submit</h2>
+  <p>Run through this list for each of 4.2.6, 4.2.7, and 4.2.8. Checks aren’t saved, so it resets when you reload.</p>
+  <div class="checklist">
+    <label><input type="checkbox"> <span>Every variable name matches the instructions exactly, including the result variable.</span></label>
+    <label><input type="checkbox"> <span>My operators are the lowercase words <code>and</code>, <code>or</code>, <code>not</code>: no <code>&amp;&amp;</code>, <code>||</code>, <code>!</code>, or capitals.</span></label>
+    <label><input type="checkbox"> <span>My result variable is computed from the other variables, not typed in as <code>True</code> or <code>False</code>.</span></label>
+    <label><input type="checkbox"> <span>Wherever I mixed <code>and</code> with <code>or</code>, I used parentheses to show what goes together.</span></label>
+    <label><input type="checkbox"> <span>My output matches the example output exactly, and I used <code>str()</code> when joining with <code>+</code>.</span></label>
+    <label><input type="checkbox"> <span>I tested more combinations than the two examples in the instructions.</span></label>
+  </div>
+  <p class="next" style="margin-top:28px">Next up: <strong>4.3 Comparison Operators</strong>, where you make Booleans by comparing values with <code>&gt;</code>, <code>&lt;</code>, and <code>==</code>.</p>
+</section>
+</main>
+</div>
+<script src="../js/4-2-logical-operators.js"></script>
+</body>
+</html>
