@@ -186,7 +186,7 @@ function nameErrorHelp(n) {
 
 /* highlight the current section in the nav */
 (() => {
-  const links = [...document.querySelectorAll('nav a')];
+  const links = [...document.querySelectorAll('nav a[href^="#"]')];
   const obs = new IntersectionObserver(es => {
     es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id)); });
   }, {rootMargin: '-30% 0px -60% 0px'});
