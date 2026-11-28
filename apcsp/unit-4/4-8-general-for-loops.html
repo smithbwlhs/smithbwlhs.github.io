@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>4.8 General For Loops — AP CSP Unit 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+<div class="layout">
+<nav id="nav" aria-label="Sections">
+  <div class="brand">4.8 General For Loops</div>
+  <div class="sub">AP CSP · Unit 4: Python Control Structures</div>
+  <a href="#map"><span class="n">00</span>Lesson map</a>
+  <a href="#forms"><span class="n">01</span>Three forms of range</a>
+  <a href="#down"><span class="n">02</span>Counting down</a>
+  <a href="#target"><span class="n">03</span>Hit the target</a>
+  <a href="#powers"><span class="n">04</span>Growing values</a>
+  <a href="#errors"><span class="n">05</span>range() errors</a>
+  <a href="#ap"><span class="n">06</span>On the AP exam</a>
+  <a href="#ex"><span class="n">07</span>Exercises 4.8.5–4.8.6</a>
+  <a href="#quiz"><span class="n">08</span>Predict the output</a>
+  <a href="#ship"><span class="n">09</span>Before you submit</a>
+</nav>
+
+<main>
+<section class="hero" id="top">
+  <div>
+    <h1>General For Loops</h1>
+    <p class="lead">In 4.7, <code>range(n)</code> always started at 0 and went up by 1. Give <code>range</code> more numbers and it can start anywhere, count by 2s or 7s, or even count backwards. Drag the sliders to build your own.</p>
+  </div>
+  <div class="hero-range">
+    <div class="rc" id="hrCode"></div>
+    <label>start <input type="range" id="hrA" min="0" max="20" value="2"><span class="v" id="hrAv"></span></label>
+    <label>stop <input type="range" id="hrB" min="0" max="20" value="15"><span class="v" id="hrBv"></span></label>
+    <label>step <input type="range" id="hrC" min="-4" max="4" value="3"><span class="v" id="hrCv"></span></label>
+    <div class="rstrip sm" id="hrStrip" aria-hidden="true"></div>
+    <div class="rinfo" id="hrInfo" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- 00 -->
+<section id="map">
+  <h2><span class="n">00</span>Lesson map</h2>
+  <p>Here’s how this page lines up with your CodeHS assignments for 4.8. Work through the page first, then do the CodeHS items in order.</p>
+  <div class="scroll"><table>
+    <tr><th>CodeHS item</th><th>What it is</th><th>Where this page helps</th></tr>
+    <tr><td>4.8.1 General For Loop</td><td>Video</td><td>01–03</td></tr>
+    <tr><td>4.8.2 General For Loop Quiz</td><td>Check for understanding</td><td>01</td></tr>
+    <tr><td>4.8.3 Countdown</td><td>Example: counting backwards</td><td>02</td></tr>
+    <tr><td>4.8.4 Count By Twos</td><td>Example: counting by a step</td><td>01, 03</td></tr>
+    <tr><td>4.8.5 Count By Sevens</td><td>Exercise you write</td><td>03, 07</td></tr>
+    <tr><td>4.8.6 Powers of Two</td><td>Exercise you write</td><td>04, 07</td></tr>
+  </table></div>
+</section>
+
+<!-- 01 -->
+<section id="forms">
+  <h2><span class="n">01</span>Three forms of <code>range</code></h2>
+  <div class="scroll"><table>
+    <tr><th>Form</th><th>Example</th><th>Numbers</th><th>Means</th></tr>
+    <tr><td><code>range(stop)</code></td><td><code>range(5)</code></td><td><code>0 1 2 3 4</code></td><td>Start at 0, count up by 1, stop before 5. (This is 4.7.)</td></tr>
+    <tr><td><code>range(start, stop)</code></td><td><code>range(2, 6)</code></td><td><code>2 3 4 5</code></td><td>Start at 2, count up by 1, stop before 6.</td></tr>
+    <tr><td><code>range(start, stop, step)</code></td><td><code>range(1, 10, 3)</code></td><td><code>1 4 7</code></td><td>Start at 1, add 3 each time, stop before reaching 10.</td></tr>
+  </table></div>
+  <div class="callout"><p><strong>One rule never changes: <code>stop</code> is never included.</strong> The first number is always <code>start</code>. The loop keeps adding <code>step</code> and quits as soon as the next number would reach or pass <code>stop</code>.</p></div>
+  <div class="lab">
+    <div class="lab-title">Lab: range explorer</div>
+    <div class="chips" id="rxChips"></div>
+    <div class="rargs">
+      <label>start <input type="text" id="rxA" value="0" inputmode="numeric" autocomplete="off"></label>
+      <label>stop <input type="text" id="rxB" value="101" inputmode="numeric" autocomplete="off"></label>
+      <label>step <input type="text" id="rxC" value="2" inputmode="numeric" autocomplete="off"></label>
+      <span class="code" id="rxCode"></span>
+    </div>
+    <div class="rstrip sm" id="rxStrip" aria-hidden="true"></div>
+    <div class="explain" id="rxWhy" aria-live="polite"></div>
+  </div>
+  <p>Example <strong>4.8.4 Count By Twos</strong> is the default in the lab: <code>range(0, 101, 2)</code>. Why 101 and not 100? Change it to 100 and look at the last number.</p>
+</section>
+
+<!-- 02 -->
+<section id="down">
+  <h2><span class="n">02</span>Counting down</h2>
+  <p>A <strong>negative step</strong> counts backwards. Now <code>start</code> is the big number and <code>stop</code> is the small one, and the loop quits as soon as the next number would reach or go <em>below</em> <code>stop</code>.</p>
+  <p>Example <strong>4.8.3 Countdown</strong> has a comment that makes a promise. Read the comment, then predict the last number before you run it.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: run 4.8.3 Countdown</div>
+    <div class="chips" id="cdChips"></div>
+    <div class="stepper2">
+      <div class="src" id="cdSrc"></div>
+      <pre class="term" id="cdOut"></pre>
+    </div>
+    <div class="explain" id="cdWhy" aria-live="polite"></div>
+  </div>
+  <div class="callout warn"><p><strong>The comment and the code disagree.</strong> The comment says “ten down to zero,” but <code>range(10, 0, -1)</code> stops <em>before</em> 0, so the last number printed is 1. Comments don’t run; only code does. To include 0, the stop has to be one step past it: <code>-1</code>.</p></div>
+</section>
+
+<!-- 03 -->
+<section id="target">
+  <h2><span class="n">03</span>Hit the target</h2>
+  <p>The hardest part of a general <code>for</code> loop is choosing <code>stop</code>. A good habit: decide the <strong>last number you want printed</strong>, then pick a stop that’s just past it in the direction you’re counting. Try these. Type the numbers that go inside <code>range( )</code>, separated by commas.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: make range produce exactly these numbers</div>
+    <div id="tasks"></div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section id="powers">
+  <h2><span class="n">04</span>Growing values</h2>
+  <p>Some sequences don’t go up by the same amount each time. Powers of 3 (1, 3, 9, 27, …) <em>multiply</em> by 3 each time, and <code>range</code> can only add a step. There are two ways to handle that:</p>
+  <div class="duo">
+<pre class="code"><span class="cm"># Way 1: use i as the exponent</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="mono">7</span>):
+    <span class="fn">print</span>(<span class="mono">3</span> ** i)</pre>
+<pre class="code"><span class="cm"># Way 2: a value that keeps growing</span>
+power = <span class="mono">1</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="mono">7</span>):
+    <span class="fn">print</span>(power)
+    power = power * <span class="mono">3</span></pre>
+  </div>
+  <p>Both print the 7 powers of 3 that are less than 1,000. In Way 2, <code>range(7)</code> only decides <em>how many times</em> the loop runs; the numbers come from <code>power</code>. That’s the running-total pattern from 4.7, using multiplication instead of addition.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: trace both ways side by side</div>
+    <label class="toggle" style="display:inline-flex;align-items:center;gap:8px;font:600 14px var(--sans);margin-bottom:10px"><input type="checkbox" id="pwBug" style="width:18px;height:18px;accent-color:var(--accent)"> Plant a bug in Way 2: multiply <em>before</em> printing</label>
+    <div class="scroll" id="pwTable"></div>
+    <div class="explain" id="pwWhy"></div>
+  </div>
+  <div class="callout"><p><strong>Shortcut operators.</strong> <code>power *= 3</code> means exactly <code>power = power * 3</code>. The same works for the others: <code>total += 5</code>, <code>health -= 1</code>. You’ll see them in other people’s code, so it helps to recognize them.</p></div>
+</section>
+
+<!-- 05 -->
+<section id="errors">
+  <h2><span class="n">05</span><code>range()</code> errors and surprises</h2>
+  <p>Pick one to see what Python does and why.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: range decoder</div>
+    <div class="chips" id="erChips"></div>
+    <pre class="code" id="erCode"></pre>
+    <p class="errmsg" id="erMsg"></p>
+    <div class="explain" id="erWhy" style="margin-top:0"></div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section id="ap">
+  <h2><span class="n">06</span>On the AP exam</h2>
+  <p>AP pseudocode has no <code>range</code>. To count by a step, an exam question makes its own counter variable and changes it inside a <code>REPEAT</code> loop.</p>
+  <div class="duo">
+<pre class="code"><span class="cm"># Python</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="mono">10</span>, <span class="mono">0</span>, <span class="mono">-2</span>):
+    <span class="fn">print</span>(i)</pre>
+<pre class="code"><span class="cm">// AP pseudocode</span>
+i ← 10
+<span class="kw">REPEAT</span> 5 <span class="kw">TIMES</span>
+{
+   <span class="fn">DISPLAY</span>(i)
+   i ← i - 2
+}</pre>
+  </div>
+  <div class="callout ap"><p><strong>Count the passes.</strong> Both print 10, 8, 6, 4, 2. The pseudocode needs you to know it’s 5 passes, and many exam questions are exactly that: “how many times does this loop run?” or “what is the value of <code>i</code> after the loop?” (Here it’s 0: the last pass prints 2, then subtracts 2.)</p></div>
+</section>
+
+<!-- 07 -->
+<section id="ex">
+  <h2><span class="n">07</span>Exercises 4.8.5–4.8.6</h2>
+  <p>Read the instructions in CodeHS carefully; they’re the specification you’re graded on, and both include the full expected output. The hints below point you at the right ideas without writing the code for you. Open one only when you’re stuck.</p>
+
+  <h3>4.8.5 Count By Sevens</h3>
+  <details><summary>Hint 1: which form?</summary>
+    <p>You need to choose the start and the step, so it’s the three-number form of <code>range</code>, just like 4.8.4 Count By Twos. Look at the first line of the expected output to choose the start.</p>
+  </details>
+  <details><summary>Hint 2: choosing stop</summary>
+    <p>The expected output ends at 497, the last multiple of 7 that’s not more than 500. Pick a stop that lets 497 through but not 504. Test your guess in the range explorer in section 01.</p>
+  </details>
+  <details><summary>Hint 3: checking</summary>
+    <p>Compare your first three and last three lines to the expected output. If the last line is 504, your stop is too big; if it’s 490, it’s too small.</p>
+  </details>
+
+  <h3>4.8.6 Powers of Two</h3>
+  <details><summary>Hint 1: how many?</summary>
+    <p>The instructions tell you there are 20 powers of 2 under one million, and the expected output starts at 1. Make the loop run exactly 20 times.</p>
+  </details>
+  <details><summary>Hint 2: two ways</summary>
+    <p>Section 04 shows two ways to make values that multiply each time: use <code>i</code> as an exponent, or keep a variable that grows. Either one works here, with a different base.</p>
+  </details>
+  <details><summary>Hint 3: checking both ends</summary>
+    <p>The first line must be 1 and the last must be 524288. If you start at 2 or end at 1048576, check whether you print before or after you multiply (the bug in section 04’s lab).</p>
+  </details>
+</section>
+
+<!-- 08 -->
+<section id="quiz">
+  <h2><span class="n">08</span>Predict the output</h2>
+  <p>Decide on your answer before you click. Each answer explains why, so wrong answers are worth reading too.</p>
+  <div class="score" id="score" aria-live="polite">Score: 0 / 0</div>
+  <div id="quizBox"></div>
+  <button id="quizReset">Reset quiz</button>
+</section>
+
+<!-- 09 -->
+<section id="ship">
+  <h2><span class="n">09</span>Before you submit</h2>
+  <p>Run through this list for 4.8.5 and 4.8.6. Checks aren’t saved, so it resets when you reload.</p>
+  <div class="checklist">
+    <label><input type="checkbox"> <span>I can say what <code>start</code>, <code>stop</code>, and <code>step</code> are in my <code>range</code>.</span></label>
+    <label><input type="checkbox"> <span>My first printed number matches the expected output.</span></label>
+    <label><input type="checkbox"> <span>My last printed number matches too. I remembered that <code>stop</code> is never printed.</span></label>
+    <label><input type="checkbox"> <span>My loop runs the right number of times (20 for Powers of Two).</span></label>
+    <label><input type="checkbox"> <span>If a variable grows inside the loop, I start it before the loop and print it at the right moment.</span></label>
+    <label><input type="checkbox"> <span>There’s nothing extra in my output, like labels or blank lines.</span></label>
+  </div>
+  <p class="next" style="margin-top:28px">Next up: <strong>4.9 For Loop Practice</strong>.</p>
+</section>
+</main>
+</div>
+<script src="../js/4-8-general-for-loops.js"></script>
+</body>
+</html>

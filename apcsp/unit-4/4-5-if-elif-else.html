@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>4.5 If, Elif, Else — AP CSP Unit 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+<div class="layout">
+<nav id="nav" aria-label="Sections">
+  <div class="brand">4.5 If, Elif, Else</div>
+  <div class="sub">AP CSP · Unit 4: Python Control Structures</div>
+  <a href="#map"><span class="n">00</span>Lesson map</a>
+  <a href="#elif"><span class="n">01</span>First True wins</a>
+  <a href="#order"><span class="n">02</span>Order matters</a>
+  <a href="#choose"><span class="n">03</span>Choosing a pattern</a>
+  <a href="#gaps"><span class="n">04</span>No gaps, no overlaps</a>
+  <a href="#text"><span class="n">05</span>Checking text</a>
+  <a href="#ap"><span class="n">06</span>On the AP exam</a>
+  <a href="#ex"><span class="n">07</span>Exercises 4.5.6–4.5.8</a>
+  <a href="#quiz"><span class="n">08</span>Predict the output</a>
+  <a href="#ship"><span class="n">09</span>Before you submit</a>
+</nav>
+
+<main>
+<section class="hero" id="top">
+  <div>
+    <h1>If, Elif, Else</h1>
+    <p class="lead"><code>if</code>/<code>else</code> picks between two paths. Real decisions often have more: hot, warm, or cool; A, B, C, D, or F. <code>elif</code> lets you line up as many choices as you need, and Python runs exactly one. Drag the slider to see which branch wins.</p>
+  </div>
+  <div class="hero-chain">
+    <label for="heroT">temperature = <span id="heroTVal">72</span></label>
+    <input id="heroT" type="range" min="40" max="100" value="72">
+    <pre class="hero-code" id="heroCode" aria-live="polite"></pre>
+  </div>
+</section>
+
+<!-- 00 -->
+<section id="map">
+  <h2><span class="n">00</span>Lesson map</h2>
+  <p>Here’s how this page lines up with your CodeHS assignments for 4.5. Work through the page first, then do the CodeHS items in order.</p>
+  <div class="scroll"><table>
+    <tr><th>CodeHS item</th><th>What it is</th><th>Where this page helps</th></tr>
+    <tr><td>4.5.1 If, Elif, Else</td><td>Video</td><td>01, 02</td></tr>
+    <tr><td>4.5.2 If, Elif, Else Quiz</td><td>Check for understanding</td><td>01, 03</td></tr>
+    <tr><td>4.5.3 Choosing Between If-Else and Elif</td><td>Notes</td><td>03</td></tr>
+    <tr><td>4.5.4 Study Plan</td><td>Example: a long chain</td><td>01</td></tr>
+    <tr><td>4.5.5 Broken Movie Theater Pricing</td><td>Example: find the bug</td><td>02</td></tr>
+    <tr><td>4.5.6 Better Phone Battery Warning</td><td>Exercise you write</td><td>01, 02, 04, 07</td></tr>
+    <tr><td>4.5.7 Shipping Cost Calculator</td><td>Exercise you write</td><td>02, 04, 07</td></tr>
+    <tr><td>4.5.8 Meal Planner</td><td>Exercise you write</td><td>05, 07</td></tr>
+    <tr><td>4.5.9 Conditionals Badge</td><td>Badge</td><td>—</td></tr>
+    <tr><td>4.5.10 AP Pseudocode Reference</td><td>Reading</td><td>06</td></tr>
+    <tr><td>4.5.11 AP Pseudocode: Selection</td><td>AP-style practice</td><td>06, then 08 for practice</td></tr>
+  </table></div>
+</section>
+
+<!-- 01 -->
+<section id="elif">
+  <h2><span class="n">01</span>First True wins</h2>
+  <p>An <code>if</code>/<code>elif</code>/<code>else</code> chain is checked <strong>from the top down</strong>:</p>
+  <ol>
+    <li>Python checks the <code>if</code> condition. If it’s <span class="tv">True</span>, that body runs and the rest of the chain is skipped.</li>
+    <li>If not, it checks the first <code>elif</code>, then the next, and so on. The first one that’s <span class="tv">True</span> wins.</li>
+    <li>If none are <span class="tv">True</span>, the <code>else</code> body runs. The <code>else</code> is optional; without it, nothing runs.</li>
+  </ol>
+  <p>Once a branch wins, Python doesn’t even <em>look</em> at the conditions below it. Example <strong>4.5.4 Study Plan</strong> has six branches. Try the boundary values: what happens at exactly 5 hours?</p>
+  <div class="lab">
+    <div class="lab-title">Lab: run 4.5.4 Study Plan</div>
+    <div id="flowStudy"></div>
+  </div>
+  <div class="callout"><p><strong>Each <code>elif</code> already knows something.</strong> When Python reaches <code>elif hours &gt; 3</code>, every condition above it was <span class="fv">False</span>, so it already knows <code>hours</code> is not more than 5. That’s why each branch needs only one comparison.</p></div>
+</section>
+
+<!-- 02 -->
+<section id="order">
+  <h2><span class="n">02</span>Order matters</h2>
+  <p>Example <strong>4.5.5 Broken Movie Theater Pricing</strong> is supposed to follow these rules, but seniors never get their discount:</p>
+  <ul>
+    <li>Age 65 or older → senior discount</li>
+    <li>Age 18 or older → adult ticket</li>
+    <li>Otherwise → child ticket</li>
+  </ul>
+  <p>The lab runs the program against seven test ages and checks each answer against the rules. Run it, figure out <em>why</em> it fails, then use the arrows to reorder the branches until every test passes.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: fix the theater</div>
+    <div class="reorder" id="movieCode"></div>
+    <div class="scroll"><table class="tt" id="movieTests"></table></div>
+    <div class="explain" id="movieWhy"></div>
+  </div>
+  <div class="callout warn"><p><strong>Rule of thumb for <code>&gt;=</code> chains:</strong> check the <em>most specific</em> case first, which usually means the highest number. A 70-year-old is also “18 or older,” so if the adult check comes first, it wins every time and the senior branch can never run.</p></div>
+</section>
+
+<!-- 03 -->
+<section id="choose">
+  <h2><span class="n">03</span>Choosing a pattern</h2>
+  <p>The notes in <strong>4.5.3</strong> compare these patterns. The question to ask is always: <em>how many of these blocks should be able to run?</em></p>
+  <div class="scroll"><table>
+    <tr><th>Pattern</th><th>How many blocks run</th><th>Use it when</th></tr>
+    <tr><td><code>if</code></td><td>0 or 1</td><td>Something happens only sometimes, and otherwise nothing happens.</td></tr>
+    <tr><td><code>if</code> / <code>else</code></td><td>exactly 1 of 2</td><td>There are exactly two outcomes.</td></tr>
+    <tr><td><code>if</code> / <code>elif</code> / <code>else</code></td><td>exactly 1 of many</td><td>There are several categories and only one can be the “winner.”</td></tr>
+    <tr><td>separate <code>if</code>s</td><td>any number</td><td>Each check is independent, so several can be true at once.</td></tr>
+    <tr><td>nested <code>if</code></td><td>depends</td><td>One decision only matters after another one, like checking a score only if homework was turned in.</td></tr>
+  </table></div>
+  <div class="lab">
+    <div class="lab-title">Lab: pick the pattern</div>
+    <div class="score" id="pickScore" aria-live="polite"></div>
+    <div id="pickBox"></div>
+    <button id="pickReset">Reset</button>
+  </div>
+</section>
+
+<!-- 04 -->
+<section id="gaps">
+  <h2><span class="n">04</span>No gaps, no overlaps</h2>
+  <p>When the input can be a decimal (you’ll read it with <code>float()</code>), every possible number has to land in some branch. Ranges written like “80 to 89” leave holes: where does 89.5 go? Compare these two grade programs.</p>
+  <div class="duo">
+<pre class="code"><span class="cm"># Version 1: ranges on both ends</span>
+<span class="kw">if</span> pct &gt;= <span class="mono">90</span>:
+    grade = <span class="st">"A"</span>
+<span class="kw">elif</span> pct &gt;= <span class="mono">80</span> <span class="kw">and</span> pct &lt;= <span class="mono">89</span>:
+    grade = <span class="st">"B"</span>
+<span class="kw">elif</span> pct &gt;= <span class="mono">70</span> <span class="kw">and</span> pct &lt;= <span class="mono">79</span>:
+    grade = <span class="st">"C"</span>
+<span class="kw">else</span>:
+    grade = <span class="st">"F"</span></pre>
+<pre class="code"><span class="cm"># Version 2: one cutoff per branch</span>
+<span class="kw">if</span> pct &gt;= <span class="mono">90</span>:
+    grade = <span class="st">"A"</span>
+<span class="kw">elif</span> pct &gt;= <span class="mono">80</span>:
+    grade = <span class="st">"B"</span>
+<span class="kw">elif</span> pct &gt;= <span class="mono">70</span>:
+    grade = <span class="st">"C"</span>
+<span class="kw">else</span>:
+    grade = <span class="st">"F"</span></pre>
+  </div>
+  <div class="lab">
+    <div class="lab-title">Lab: where does each score land?</div>
+    <p class="mini">Every half-point from 65 to 95, run through both versions. Gold outlines mark scores where the two versions disagree.</p>
+    <div class="legend"><span><i class="cell gA"></i>A</span><span><i class="cell gB"></i>B</span><span><i class="cell gC"></i>C</span><span><i class="cell gF"></i>F</span></div>
+    <h4 style="margin:0 0 4px;font-size:14px;color:var(--muted)">Version 1</h4>
+    <div class="strip" id="gap1"></div>
+    <h4 style="margin:12px 0 4px;font-size:14px;color:var(--muted)">Version 2</h4>
+    <div class="strip" id="gap2"></div>
+    <div class="explain" id="gapWhy"></div>
+  </div>
+  <p>Version 2 is shorter <em>and</em> has no holes, because each <code>elif</code> already knows the conditions above it were <span class="fv">False</span> (section 01). The <code>else</code> catches everything left over.</p>
+</section>
+
+<!-- 05 -->
+<section id="text">
+  <h2><span class="n">05</span>Checking text</h2>
+  <p>Chains work with strings too: compare the input to each choice with <code>==</code>, and use <code>else</code> to catch anything you didn’t expect. Two things to watch:</p>
+  <ul>
+    <li><strong>Exact match.</strong> <code>"Dog" == "dog"</code> is <span class="fv">False</span>. Capitals and extra spaces count.</li>
+    <li><strong>Each side of <code>or</code> needs a full comparison.</strong> This is the 4.3 rule again, but with strings the mistake doesn’t crash. It quietly gives the wrong answer.</li>
+  </ul>
+  <div class="lab">
+    <div class="lab-title">Lab: the sneaky or</div>
+    <div id="flowPet"></div>
+  </div>
+  <div class="callout warn"><p><strong>Why is the left one always True?</strong> Python reads it as <code>(pet == "cat") or ("Cat")</code>. The right side is just the string <code>"Cat"</code>, and in 4.1 you saw that any non-empty string counts as <span class="tv">True</span>. So the whole condition is True no matter what the user types.</p></div>
+</section>
+
+<!-- 06 -->
+<section id="ap">
+  <h2><span class="n">06</span>On the AP exam</h2>
+  <p>The AP reference sheet (that’s <strong>4.5.10</strong>) has <code>IF</code> and <code>IF</code>/<code>ELSE</code>, but <strong>no <code>ELSE IF</code></strong>. A chain with more than two outcomes is written by putting another <code>IF</code> inside the <code>ELSE</code> block. It works exactly like <code>elif</code>.</p>
+  <div class="duo">
+<pre class="code"><span class="cm"># Python</span>
+<span class="kw">if</span> temp &gt;= <span class="mono">80</span>:
+    <span class="fn">print</span>(<span class="st">"Hot"</span>)
+<span class="kw">elif</span> temp &gt;= <span class="mono">60</span>:
+    <span class="fn">print</span>(<span class="st">"Warm"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="st">"Cool"</span>)</pre>
+<pre class="code"><span class="cm">// AP pseudocode</span>
+<span class="kw">IF</span> (temp ≥ 80)
+{
+   <span class="fn">DISPLAY</span>(<span class="st">"Hot"</span>)
+}
+<span class="kw">ELSE</span>
+{
+   <span class="kw">IF</span> (temp ≥ 60)
+   {
+      <span class="fn">DISPLAY</span>(<span class="st">"Warm"</span>)
+   }
+   <span class="kw">ELSE</span>
+   {
+      <span class="fn">DISPLAY</span>(<span class="st">"Cool"</span>)
+   }
+}</pre>
+  </div>
+  <p>Trace the pseudocode version below. <strong>4.5.11 AP Pseudocode: Selection</strong> gives you more practice with the same skill: decide each condition first, then follow the braces.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: trace the nested version</div>
+    <div id="flowAP"></div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section id="ex">
+  <h2><span class="n">07</span>Exercises 4.5.6–4.5.8</h2>
+  <p>Read the instructions in CodeHS carefully; they’re the specification you’re graded on, including the prompts and the exact messages. The hints below point you at the right ideas without writing the code for you. Open one only when you’re stuck.</p>
+
+  <h3>4.5.6 Better Phone Battery Warning</h3>
+  <details><summary>Hint 1: the input</summary>
+    <p>Copy the prompt from the example output, including the colon and space. Battery percentages are whole numbers, so read it the way 4.4.7 did.</p>
+  </details>
+  <details><summary>Hint 2: one chain, four messages</summary>
+    <p>Exactly one message prints every time, so this is one <code>if</code>/<code>elif</code>/<code>else</code> chain, not separate <code>if</code>s. Pick one end of the battery scale to start from, and keep going in order (section 02).</p>
+  </details>
+  <details><summary>Hint 3: one comparison per branch</summary>
+    <p>The ranges are written with two ends (“51 to 80”), but your conditions don’t need both. Reread section 04 and the callout in section 01.</p>
+  </details>
+  <details><summary>Hint 4: messages and testing</summary>
+    <p>One message has an apostrophe in “You’re,” so put that string in double quotes. Test every boundary: 100, 81, 80, 51, 50, 21, 20, and 0.</p>
+  </details>
+
+  <h3>4.5.7 Shipping Cost Calculator</h3>
+  <details><summary>Hint 1: the input</summary>
+    <p>The instructions say the weight can be a decimal, so use <code>float()</code>. Copy the prompt from the example output exactly.</p>
+  </details>
+  <details><summary>Hint 2: what about 4.5 pounds?</summary>
+    <p>The rate list uses whole numbers, but a 4.5 lb package still needs a price. Use the lab in section 04 to think about where your cutoffs should be so that every weight lands in exactly one branch.</p>
+  </details>
+  <details><summary>Hint 3: testing</summary>
+    <p>Try 0.5, 1, 4.5, 5, 9.9, and 10. Before running, write down what each one should cost. Copy each message exactly, including the dollar sign and the cents.</p>
+  </details>
+
+  <h3>4.5.8 Meal Planner</h3>
+  <details><summary>Hint 1: asking</summary>
+    <p>The instructions don’t give an exact prompt, so write a clear question that lists the three choices. The input is text, so there’s no <code>int()</code> this time.</p>
+  </details>
+  <details><summary>Hint 2: comparing</summary>
+    <p>Each branch compares the input to one meal word with <code>==</code>. If you decide to accept more than one spelling in a branch, reread section 05 first.</p>
+  </details>
+  <details><summary>Hint 3: anything else</summary>
+    <p>Which part of a chain catches “everything that didn’t match”? Its message must include a phrase like “invalid” or “not a valid option.”</p>
+  </details>
+  <details><summary>Hint 4: testing</summary>
+    <p>Run it five times: breakfast, lunch, dinner, a different word like snack, and Breakfast with a capital B. Every run should print exactly one message.</p>
+  </details>
+</section>
+
+<!-- 08 -->
+<section id="quiz">
+  <h2><span class="n">08</span>Predict the output</h2>
+  <p>Decide on your answer before you click. Each answer explains why, so wrong answers are worth reading too.</p>
+  <div class="score" id="score" aria-live="polite">Score: 0 / 0</div>
+  <div id="quizBox"></div>
+  <button id="quizReset">Reset quiz</button>
+</section>
+
+<!-- 09 -->
+<section id="ship">
+  <h2><span class="n">09</span>Before you submit</h2>
+  <p>Run through this list for 4.5.6, 4.5.7, and 4.5.8. Checks aren’t saved, so it resets when you reload.</p>
+  <div class="checklist">
+    <label><input type="checkbox"> <span>Each chain starts with <code>if</code>, continues with <code>elif</code>, and ends with at most one <code>else</code>. Every one of those lines ends with a colon.</span></label>
+    <label><input type="checkbox"> <span>When exactly one message should print, I used one chain, not separate <code>if</code> statements.</span></label>
+    <label><input type="checkbox"> <span>My branches go in order from one end of the range, so no branch is blocked by an earlier one.</span></label>
+    <label><input type="checkbox"> <span>Every possible input lands in some branch, including decimals between my cutoffs.</span></label>
+    <label><input type="checkbox"> <span>Every comparison is complete on both sides of any <code>or</code> or <code>and</code>.</span></label>
+    <label><input type="checkbox"> <span>My messages match the instructions exactly, including apostrophes, dollar signs, and punctuation.</span></label>
+    <label><input type="checkbox"> <span>I tested every boundary value and at least one unexpected input.</span></label>
+  </div>
+  <p class="next" style="margin-top:28px">Next up: <strong>4.6 Key Events</strong>.</p>
+</section>
+</main>
+</div>
+<script src="../js/4-5-if-elif-else.js"></script>
+</body>
+</html>

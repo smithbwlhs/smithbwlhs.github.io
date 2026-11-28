@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Unit 4 Review — AP CSP Unit 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/common.css">
+<link rel="stylesheet" href="../css/4-13-review.css">
+</head>
+<body>
+<div class="layout">
+<nav id="nav" aria-label="Sections">
+  <div class="brand">Unit 4 Review</div>
+  <div class="sub">AP CSP · before 4.13 Python Control Structures Quiz</div>
+  <a href="#how"><span class="n">00</span>How this works</a>
+  <a href="#ideas"><span class="n">01</span>Key ideas</a>
+  <a href="#test"><span class="n">02</span>Practice test</a>
+  <a href="#results"><span class="n">03</span>Your results</a>
+  <a href="#email"><span class="n">04</span>Email my results</a>
+</nav>
+
+<main>
+<section class="hero" id="top">
+  <div>
+    <h1>Unit 4 Review</h1>
+    <p class="lead">Everything from Booleans to random numbers, in one place. Skim the key ideas, take the practice test, and get a list of exactly what to review before you take <strong>4.13 Python Control Structures Quiz</strong> in CodeHS.</p>
+  </div>
+  <div class="scorecard" aria-live="polite">
+    <div class="lbl">Practice test</div>
+    <div class="big" id="scBig">0 / <span id="scTotal"></span></div>
+    <div class="sub" id="scSub">answered · 0 correct</div>
+    <div class="meter"><i id="scBar"></i></div>
+  </div>
+</section>
+
+<!-- 00 -->
+<section id="how">
+  <h2><span class="n">00</span>How this works</h2>
+  <ol>
+    <li><strong>Key ideas</strong>: a one-screen recap of each lesson, with a link back to its full page.</li>
+    <li><strong>Practice test</strong>: <span id="qCount"></span> predict-the-output questions covering every lesson plus AP pseudocode. Each answer explains itself.</li>
+    <li><strong>Your results</strong>: your score by topic, what to review first, and practice problems for the topics you missed.</li>
+    <li><strong>Email my results</strong> (optional): send yourself the summary so you can study from it later.</li>
+  </ol>
+  <p class="mini">Nothing you do on this page is saved. If you reload, the test starts over.</p>
+</section>
+
+<!-- 01 -->
+<section id="ideas">
+  <h2><span class="n">01</span>Key ideas</h2>
+  <div class="cards" id="ideaCards"></div>
+</section>
+
+<!-- 02 -->
+<section id="test">
+  <h2><span class="n">02</span>Practice test</h2>
+  <p>Decide on your answer before you click. You can do the topics in any order, and you don’t have to finish before checking your results.</p>
+  <div id="quizBox"></div>
+  <div class="row"><button class="primary" id="toResults">See my results</button><button id="quizReset">Start the test over</button></div>
+</section>
+
+<!-- 03 -->
+<section id="results">
+  <h2><span class="n">03</span>Your results</h2>
+  <div id="resBody"><p class="mini">Answer some questions in section 02, then your results show up here.</p></div>
+</section>
+
+<!-- 04 -->
+<section id="email">
+  <h2><span class="n">04</span>Email my results (optional)</h2>
+  <p>Get your score, your review list, and your practice problems in your inbox. Your email address is used only to send this one message. It isn’t saved anywhere, and your teacher doesn’t get a copy.</p>
+  <div class="lab">
+    <div class="emailrow">
+      <label for="emIn">Your school email</label>
+      <input id="emIn" type="email" autocomplete="email" placeholder="you@school.org" spellcheck="false">
+      <button class="primary" id="emSend">Send my results</button>
+    </div>
+    <div id="emStatus" aria-live="polite"></div>
+    <div class="row" style="margin-top:10px">
+      <button id="emCopy">Copy summary instead</button>
+      <button id="emGmail">Open in Gmail instead</button>
+    </div>
+  </div>
+  <p class="next" style="margin-top:28px">When your review list is short, go take <strong>4.13 Python Control Structures Quiz</strong> in CodeHS. Good luck!</p>
+</section>
+</main>
+</div>
+<script src="../js/4-13-review.js"></script>
+</body>
+</html>

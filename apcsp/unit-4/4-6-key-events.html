@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>4.6 Key Events — AP CSP Unit 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+<div class="layout">
+<nav id="nav" aria-label="Sections">
+  <div class="brand">4.6 Key Events</div>
+  <div class="sub">AP CSP · Unit 4: Python Control Structures</div>
+  <a href="#map"><span class="n">00</span>Lesson map</a>
+  <a href="#events"><span class="n">01</span>Programs that wait</a>
+  <a href="#keys"><span class="n">02</span>Which key was it?</a>
+  <a href="#move"><span class="n">03</span>Moving on the canvas</a>
+  <a href="#grow"><span class="n">04</span>Read, change, write</a>
+  <a href="#limits"><span class="n">05</span>Setting limits</a>
+  <a href="#ap"><span class="n">06</span>On the AP exam</a>
+  <a href="#ex"><span class="n">07</span>Exercise 4.6.4</a>
+  <a href="#quiz"><span class="n">08</span>Predict the result</a>
+  <a href="#ship"><span class="n">09</span>Before you submit</a>
+</nav>
+
+<main>
+<section class="hero" id="top">
+  <div>
+    <h1>Key Events</h1>
+    <p class="lead">Every program so far ran from top to bottom and stopped. Now your programs will <em>wait</em> for the user and react each time they press a key, using the <code>if</code> statements you just learned. Click the box, then use your arrow keys.</p>
+  </div>
+  <div>
+    <div class="stage hero-stage" id="heroStage" tabindex="0" aria-label="Practice canvas. Click, then press arrow keys to move the square."></div>
+    <div class="keyread" id="heroRead">event.key = <b>(press a key)</b></div>
+  </div>
+</section>
+
+<!-- 00 -->
+<section id="map">
+  <h2><span class="n">00</span>Lesson map</h2>
+  <p>Here’s how this page lines up with your CodeHS assignments for 4.6. Work through the page first, then do the CodeHS items in order.</p>
+  <div class="scroll"><table>
+    <tr><th>CodeHS item</th><th>What it is</th><th>Where this page helps</th></tr>
+    <tr><td>4.6.1 Key Events</td><td>Video</td><td>01, 02</td></tr>
+    <tr><td>4.6.2 Key Events Quiz</td><td>Check for understanding</td><td>01</td></tr>
+    <tr><td>4.6.3 Keyboard Square</td><td>Example: arrow keys move a square</td><td>01–03</td></tr>
+    <tr><td>4.6.4 Growing Circle</td><td>Exercise you write</td><td>02, 04, 05, 07</td></tr>
+    <tr><td>4.6.5 Graphics Badge</td><td>Badge</td><td>—</td></tr>
+  </table></div>
+</section>
+
+<!-- 01 -->
+<section id="events">
+  <h2><span class="n">01</span>Programs that wait</h2>
+  <p>An <strong>event</strong> is something that happens while a program is running, like a key press or a mouse click. An event-driven program works in two parts:</p>
+  <ol>
+    <li><strong>Setup</strong> runs once, top to bottom, when you press Run: make the shapes, add them to the canvas, and tell Python which code to run when a key is pressed.</li>
+    <li><strong>The handler</strong> runs again <em>every time</em> a key is pressed. It’s the code inside <code>def key_down(event):</code>.</li>
+  </ol>
+  <p>Example <strong>4.6.3 Keyboard Square</strong> shows both parts. Click the canvas and press the arrow keys (or use the buttons). Watch which lines run for each key.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: run 4.6.3 Keyboard Square</div>
+    <div class="ks">
+      <div class="src" id="ksCode"></div>
+      <div>
+        <div class="stage" id="ksStage" tabindex="0" aria-label="Keyboard Square canvas. Click, then press arrow keys."></div>
+        <div class="pad" id="ksPad"></div>
+      </div>
+    </div>
+    <pre class="log" id="ksLog" aria-live="polite"></pre>
+  </div>
+  <div class="callout"><p><strong>New syntax: <code>def</code>.</strong> <code>def key_down(event):</code> creates a named block of code, called a <em>function</em>, that doesn’t run right away. It waits until something calls it. You’ll learn to write your own functions in Unit 5; for now, the pattern is all you need. The indented lines belong to the function, just like an <code>if</code> body.</p></div>
+  <div class="callout warn"><p><strong>No parentheses when you hand it over.</strong> <code>add_key_down_handler(key_down)</code> gives Python the <em>name</em> of your function so it can call it later. Writing <code>key_down()</code> there would try to run it immediately, before any key has been pressed.</p></div>
+</section>
+
+<!-- 02 -->
+<section id="keys">
+  <h2><span class="n">02</span>Which key was it?</h2>
+  <p>When Python calls your handler, it passes in <code>event</code>, which holds information about what just happened. <code>event.key</code> is a <strong>string</strong> naming the key. That’s why the handler uses <code>if event.key == "ArrowLeft":</code>, a string comparison like the ones in 4.4.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: key inspector</div>
+    <div class="keybox" id="keyBox" tabindex="0" aria-label="Key inspector. Click here, then press any key.">
+      <div class="big" id="keyBig">click here, then press a key</div>
+      <div class="hint" id="keyHint">Try the arrows, a letter, Shift + a letter, the space bar, and Enter.</div>
+    </div>
+    <pre class="log" id="keyLog" aria-live="polite"><span class="dim"># every key you press is listed here</span></pre>
+  </div>
+  <div class="callout warn"><p><strong>The name must match exactly.</strong> It’s <code>"ArrowLeft"</code>: capital A, capital L, no space. <code>"arrowleft"</code>, <code>"Left"</code>, and <code>"Arrow Left"</code> are all different strings, so the <code>if</code> would never be True. Letters are case-sensitive too: holding Shift turns <code>"a"</code> into <code>"A"</code>.</p></div>
+  <p>The example uses four separate <code>if</code> statements. A single key press can only match one of them, so <code>if</code>/<code>elif</code> from lesson 4.5 would behave the same here. Either is fine.</p>
+</section>
+
+<!-- 03 -->
+<section id="move">
+  <h2><span class="n">03</span>Moving on the canvas</h2>
+  <p><code>square.move(dx, dy)</code> moves a shape <em>relative to where it is now</em>: <code>dx</code> is the change in x and <code>dy</code> is the change in y. The surprise is the y direction: on a computer canvas, <strong>(0, 0) is the top-left corner and y gets bigger going down</strong>. That’s why “up” is <code>move(0, -5)</code>.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: move it yourself</div>
+    <div class="ks">
+      <div>
+        <div class="stage" id="mvStage" tabindex="-1" aria-label="Canvas with grid"></div>
+      </div>
+      <div>
+        <div class="row" id="mvBtns"></div>
+        <div class="readout" id="mvRead"></div>
+        <pre class="log" id="mvLog" aria-live="polite"></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section id="grow">
+  <h2><span class="n">04</span>Read, change, write</h2>
+  <p><code>move()</code> changes a position for you. To change something like a circle’s size, you do it in three steps:</p>
+  <ol>
+    <li><strong>Read</strong> the current value with a <code>get_</code> method, like <code>get_radius()</code>.</li>
+    <li><strong>Change</strong> it with math: add or subtract.</li>
+    <li><strong>Write</strong> the new value back with the matching <code>set_</code> method, like <code>set_radius(new_radius)</code>.</li>
+  </ol>
+  <p>It’s the same idea as <code>score = score + 10</code>: you can’t add to a value until you know what it is. Try it on a circle. The log shows each step.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: read → change → write</div>
+    <div class="ks">
+      <div class="stage" id="grStage" tabindex="0" aria-label="Circle canvas. Click, then press left or right arrow."></div>
+      <div>
+        <div class="row" id="grBtns"></div>
+        <div class="readout" id="grRead"></div>
+        <pre class="log" id="grLog" aria-live="polite"></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section id="limits">
+  <h2><span class="n">05</span>Setting limits</h2>
+  <p>Without limits, pressing the left arrow enough times shrinks the circle to nothing, and then to a negative radius, which makes no sense. Growing Circle’s challenge asks you to stop at 10 and 400. That’s an <code>if</code> with a comparison <em>inside</em> the handler, deciding whether to change the size at all.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: hold down an arrow</div>
+    <label class="toggle"><input type="checkbox" id="limOn"> Limits on (radius stays between 10 and 400)</label>
+    <div class="ks" style="margin-top:10px">
+      <div class="stage" id="limStage" tabindex="0" aria-label="Circle canvas with optional limits. Click, then hold left or right arrow."></div>
+      <div>
+        <div class="row" id="limBtns"></div>
+        <div class="readout" id="limRead"></div>
+        <pre class="log" id="limLog" aria-live="polite"></pre>
+      </div>
+    </div>
+  </div>
+  <div class="callout"><p><strong>Test the boundary, like 4.3 and 4.4.</strong> Start at 100 and shrink: the radius goes 90, 80, …, 20, 10. What should happen on the next press? And when you grow to exactly 400? Your conditions decide whether 10 and 400 are allowed to change.</p></div>
+</section>
+
+<!-- 06 -->
+<section id="ap">
+  <h2><span class="n">06</span>On the AP exam</h2>
+  <p>The AP pseudocode has no key events, so you won’t trace <code>add_key_down_handler</code> on the exam. The <em>idea</em> is part of the course, though: AP CSP describes <strong>event-driven programming</strong>, where some code runs when it’s <em>triggered</em> by an event such as a key press, a click, or a timer, rather than straight through from top to bottom.</p>
+  <div class="scroll"><table>
+    <tr><th>Sequential program</th><th>Event-driven program</th></tr>
+    <tr><td>Runs top to bottom, then ends</td><td>Runs its setup, then waits</td></tr>
+    <tr><td>The program decides what happens next</td><td>The user’s actions decide what happens next</td></tr>
+    <tr><td>Example: 4.5 Study Plan asks, answers, and stops</td><td>Example: 4.6.3 Keyboard Square keeps reacting until you stop it</td></tr>
+  </table></div>
+  <div class="callout ap"><p><strong>Create Performance Task tip:</strong> if your Create task program uses events, be ready to explain which code runs at startup and which code runs in response to the user. Section 01’s lab is exactly that distinction.</p></div>
+</section>
+
+<!-- 07 -->
+<section id="ex">
+  <h2><span class="n">07</span>Exercise 4.6.4: Growing Circle</h2>
+  <p>Read the instructions in CodeHS carefully; they’re the specification you’re graded on, including the variable name and the numbers. The hints below point you at the right ideas without writing the code for you. Open one only when you’re stuck.</p>
+  <details><summary>Hint 1: setup</summary>
+    <p>The Quick Docs on the left of the CodeHS editor show how to make a circle, set its position, and add it. Use the exact variable name from the instructions, and the radius and position they give.</p>
+  </details>
+  <details><summary>Hint 2: the handler</summary>
+    <p>Use 4.6.3 Keyboard Square as your model: a <code>def</code> that takes <code>event</code>, with <code>if</code> statements comparing <code>event.key</code> to the exact key names from section 02. Then connect it with <code>add_key_down_handler</code>, with no parentheses after the function name.</p>
+  </details>
+  <details><summary>Hint 3: changing the size</summary>
+    <p>There’s no <code>grow()</code> command. Use the read → change → write steps from section 04 with <code>get_radius()</code> and <code>set_radius(...)</code>. Which arrow makes it bigger, and which makes it smaller?</p>
+  </details>
+  <details><summary>Hint 4: testing</summary>
+    <p>Click the canvas first, or no keys will register. Press each arrow several times, and also press a key you didn’t program, like the space bar: nothing should happen.</p>
+  </details>
+  <details><summary>Hint 5: the challenge</summary>
+    <p>Put a comparison in front of the change so it only happens when it’s allowed (section 05). Test by pressing until you reach exactly 10, then once more. Do the same at 400.</p>
+  </details>
+</section>
+
+<!-- 08 -->
+<section id="quiz">
+  <h2><span class="n">08</span>Predict the result</h2>
+  <p>Decide on your answer before you click. Each answer explains why, so wrong answers are worth reading too.</p>
+  <div class="score" id="score" aria-live="polite">Score: 0 / 0</div>
+  <div id="quizBox"></div>
+  <button id="quizReset">Reset quiz</button>
+</section>
+
+<!-- 09 -->
+<section id="ship">
+  <h2><span class="n">09</span>Before you submit</h2>
+  <p>Run through this list for 4.6.4. Checks aren’t saved, so it resets when you reload.</p>
+  <div class="checklist">
+    <label><input type="checkbox"> <span>My circle variable has the exact name, radius, and position from the instructions, and I added it to the canvas.</span></label>
+    <label><input type="checkbox"> <span>My handler is a <code>def</code> that takes <code>event</code>, and everything inside it is indented.</span></label>
+    <label><input type="checkbox"> <span>I compare <code>event.key</code> to the exact key names, with matching capitals.</span></label>
+    <label><input type="checkbox"> <span>I connected the handler with <code>add_key_down_handler</code>, without parentheses after the function name.</span></label>
+    <label><input type="checkbox"> <span>I read the radius, changed it by the right amount, and set it back, for both arrows.</span></label>
+    <label><input type="checkbox"> <span>I clicked the canvas and tested both arrows many times, plus a key that should do nothing.</span></label>
+    <label><input type="checkbox"> <span>(Challenge) The radius stops at exactly 10 and exactly 400.</span></label>
+  </div>
+  <p class="next" style="margin-top:28px">Next up: <strong>4.7 For Loops in Python</strong>, where code repeats on its own instead of waiting for a key.</p>
+</section>
+</main>
+</div>
+<script src="../js/4-6-key-events.js"></script>
+</body>
+</html>

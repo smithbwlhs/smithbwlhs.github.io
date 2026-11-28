@@ -1,0 +1,53 @@
+/* Mini Adventure walkthrough only (shared styles live in common.css) */
+.found{display:flex;flex-direction:column;gap:10px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;min-width:250px}
+.found .lbl{font:600 13px var(--sans);color:var(--muted)}
+.badges{display:flex;gap:8px}
+.badge{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font:700 14px var(--mono);border:2px dashed var(--line);color:var(--muted);background:var(--bg);transition:background .25s,border-color .25s}
+.badge.on{border-style:solid;border-color:var(--true);background:var(--true-soft);color:var(--true)}
+.found .msg{font-size:13px;color:var(--muted);max-width:230px}
+.stepnav{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.stepnav button{font:600 13px var(--sans);min-height:34px;padding:5px 12px;border-radius:99px}
+.stepnav button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.steptitle{font-size:18px;font-weight:700;margin:4px 0 8px}
+.src.code-view{max-height:520px;overflow:auto;margin-bottom:12px}
+.src.code-view div.new{background:rgba(126,224,168,.13);border-left-color:#7ee0a8}
+.src.code-view div.ph{color:#9aa5b4;font-style:italic}
+.src .kw{color:#c792ea}.src .st{color:#f2c27a}.src .cm{color:#7f8b99;font-style:italic}.src .fn{color:#82c3ff}
+.playrow{display:flex;align-items:center;background:var(--code-bg);border-radius:10px;padding:4px 4px 4px 14px;margin:0 0 10px}
+.playrow span{color:#7ee0a8;font:14px var(--mono);margin-right:6px;overflow-wrap:anywhere;flex:0 1 auto}
+.playrow input{flex:1 1 90px;min-width:70px;background:transparent;border:0;color:#fff;font:16px var(--mono);padding:9px 4px;outline:none}
+.playrow:focus-within{box-shadow:0 0 0 2px var(--accent)}
+.console.play{max-height:340px;overflow:auto}
+.console .end{color:#f2c230;font-weight:700}
+.mapwrap{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px;max-width:820px;margin-bottom:16px}
+.mp{width:100%;height:auto;display:block}
+.mp text{font:12.5px var(--sans);fill:var(--ink);text-anchor:middle;dominant-baseline:central}
+.mp .nd{stroke-width:1.5}
+.mp .start .nd{fill:var(--gold-soft);stroke:#c99a00}
+.mp .in .nd{fill:var(--chip);stroke:var(--muted)}
+.mp .dec .nd{fill:var(--accent-soft);stroke:var(--accent)}
+.mp .end .nd{fill:var(--true-soft);stroke:var(--true)}
+.mp .end text{font-weight:600}
+.mp .edge{fill:none;stroke:var(--muted);stroke-width:1.5}
+.mp .elbl rect{fill:var(--panel)}
+.mp .elbl text{font:600 11.5px var(--mono);fill:var(--muted)}
+.mp g.hot .nd{stroke:var(--gold);stroke-width:3.5}
+.mp .edge.hot{stroke:var(--gold);stroke-width:3.5}
+.mp.active g.node:not(.hot),.mp.active .edge:not(.hot),.mp.active .elbl:not(.hot){opacity:.35}
+.mp .arrow{fill:var(--muted)}.mp .arrow.hot{fill:var(--gold)}
+.vars2{font:14px var(--mono);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.vars2 div{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);border-bottom:1px solid var(--line)}
+.vars2 div:last-child{border-bottom:0}
+.vars2 span{padding:5px 10px}
+.vars2 .h{background:var(--chip);color:var(--muted);font:600 12.5px var(--sans)}
+.muts{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.muts button{font:500 13px var(--sans);min-height:36px}
+.muts button[aria-pressed="true"]{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
+.diffline{font:14px/1.6 var(--mono);background:var(--code-bg);border-radius:10px;padding:10px 14px;margin:0 0 10px;white-space:pre;overflow-x:auto;color:var(--code-ink)}
+.diffline .old{color:#ff9a9a;text-decoration:line-through}.diffline .neu{color:#7ee0a8}
+.reqs{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;max-width:760px}
+.reqs button{text-align:left;font:500 14px var(--sans);display:flex;gap:10px;align-items:flex-start}
+.reqs button[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.reqs .tick{color:var(--true);font-weight:700}
+.src.code-view div.req{background:rgba(242,194,48,.18);border-left-color:var(--gold)}
+@media (max-width:640px){.found{width:100%}}

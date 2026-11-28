@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mini Adventure Walkthrough — AP CSP Unit 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/common.css">
+<link rel="stylesheet" href="../css/unit-4-mini-adventure.css">
+</head>
+<body>
+<div class="layout">
+<nav id="nav" aria-label="Sections">
+  <div class="brand">Mini Adventure</div>
+  <div class="sub">AP CSP · Unit 4 Project 1 · Haunted Library walkthrough</div>
+  <a href="#map"><span class="n">00</span>Project map</a>
+  <a href="#plan"><span class="n">01</span>Plan first</a>
+  <a href="#build"><span class="n">02</span>Build it step by step</a>
+  <a href="#play"><span class="n">03</span>Play it</a>
+  <a href="#test"><span class="n">04</span>Test every ending</a>
+  <a href="#break"><span class="n">05</span>Break it on purpose</a>
+  <a href="#reqs"><span class="n">06</span>Requirements check</a>
+  <a href="#quiz"><span class="n">07</span>Predict the ending</a>
+  <a href="#yours"><span class="n">08</span>Make it yours</a>
+  <a href="#ship"><span class="n">09</span>Before you submit</a>
+</nav>
+
+<main>
+<section class="hero" id="top">
+  <div>
+    <h1>The Haunted Library</h1>
+    <p class="lead">This is the exemplar from your handout, built one step at a time. You’ll see the plan, watch the code grow, play the finished game, and then test it the way you’ll test your own Mini Adventure. Everything you need comes from lessons 4.1–4.4.</p>
+  </div>
+  <div class="found" aria-live="polite">
+    <div class="lbl">Endings you’ve found in section 03</div>
+    <div class="badges" id="badges"></div>
+    <div class="msg" id="foundMsg">Play the game and try to reach all five.</div>
+  </div>
+</section>
+
+<!-- 00 -->
+<section id="map">
+  <h2><span class="n">00</span>Project map</h2>
+  <p>Here’s every requirement from the CodeHS project <strong>Choose-Your-Path Mini Adventure (4.1–4.4 Project)</strong>, and where this walkthrough shows how the exemplar meets it.</p>
+  <div class="scroll"><table>
+    <tr><th>Your program must have…</th><th>The Haunted Library has…</th><th>See</th></tr>
+    <tr><td>A title and a 1–2 line intro</td><td>“=== The Haunted Library ===” and two intro lines</td><td>02 step 1</td></tr>
+    <tr><td>At least 3 decisions using <code>input()</code>, at least 1 with <code>int(input(...))</code></td><td>4 decisions, 2 of them numbers</td><td>02 steps 2–4, 7</td></tr>
+    <tr><td>At least 3 Boolean variables that each store a comparison</td><td><code>has_flashlight</code>, <code>is_brave</code>, <code>went_left</code></td><td>02 steps 2–4</td></tr>
+    <tr><td><code>and</code>, <code>or</code>, <code>not</code>, each in an <code>if</code> condition</td><td>One of each, all inside <code>if</code> lines</td><td>02 steps 6–7</td></tr>
+    <tr><td>At least 3 different comparison operators</td><td><code>==</code>, <code>&gt;=</code>, <code>&gt;</code></td><td>06</td></tr>
+    <tr><td>At least 4 endings, all reachable, using <code>if</code>/<code>else</code></td><td>5 endings with nested <code>if</code>/<code>else</code>, no <code>elif</code></td><td>02 steps 5–7, 04</td></tr>
+    <tr><td>Both partners’ names, and <code># ENDING</code> above each ending</td><td>Names in the header, five <code># ENDING</code> comments</td><td>06</td></tr>
+    <tr><td>A completed Test Table on your handout</td><td>5 ending tests and 6 boundary tests</td><td>04, 05</td></tr>
+  </table></div>
+</section>
+
+<!-- 01 -->
+<section id="plan">
+  <h2><span class="n">01</span>Plan first</h2>
+  <p>The exemplar was planned on paper before any code was written. The plan answers two questions: <strong>what will you ask?</strong> and <strong>which answers lead to which ending?</strong></p>
+  <h3>Decisions</h3>
+  <div class="scroll"><table>
+    <tr><th>#</th><th>Question</th><th>They type…</th><th>Stored as</th></tr>
+    <tr><td>1</td><td>There’s a flashlight on the desk. Grab it?</td><td>yes / no</td><td><code>has_flashlight = flashlight_answer == "yes"</code></td></tr>
+    <tr><td>2</td><td>On a scale of 1–10, how brave are you feeling?</td><td>a number</td><td><code>is_brave = courage &gt;= 7</code></td></tr>
+    <tr><td>3</td><td>Two doors: do you go left or right?</td><td>left / right</td><td><code>went_left = door == "left"</code></td></tr>
+    <tr><td>4*</td><td>(Right path only) How many books did you return late?</td><td>a number</td><td>No variable: compared right inside the <code>if</code> conditions</td></tr>
+  </table></div>
+  <h3>Endings</h3>
+  <div class="scroll"><table>
+    <tr><th>#</th><th>Ending</th><th>Conditions that lead here</th></tr>
+    <tr><td>1</td><td>The Secret Exit</td><td>went left, <strong>and</strong> has the flashlight <strong>and</strong> is brave</td></tr>
+    <tr><td>2</td><td>A Very Long Night</td><td>went left, but <strong>not</strong> (flashlight and brave)</td></tr>
+    <tr><td>3</td><td>The Ghost’s Blessing</td><td>went right, and 0 late books <strong>or</strong> brave</td></tr>
+    <tr><td>4</td><td>Overdue for Eternity</td><td>went right, not Ending 3, and more than 5 late books <strong>and not</strong> the flashlight</td></tr>
+    <tr><td>5*</td><td>Lights Out, Ghost</td><td>went right, not Ending 3, not Ending 4 (the final <code>else</code>)</td></tr>
+  </table></div>
+  <h3>Story map</h3>
+  <p>Each blue box is an <code>if</code>/<code>else</code> decision: <span class="tv">True</span> goes left, <span class="fv">False</span> goes right. Gray boxes are questions the player answers. Green boxes are endings. Notice that the fourth question is only asked on the right path.</p>
+  <div class="mapwrap"><svg class="mp" id="mapPlan" role="img" aria-label="Story map: three questions lead to a left/right decision. The left path ends in endings 1 or 2. The right path asks about late books and ends in endings 3, 4, or 5."></svg></div>
+</section>
+
+<!-- 02 -->
+<section id="build">
+  <h2><span class="n">02</span>Build it step by step</h2>
+  <p>Good programmers don’t type the whole thing and then press Run. They add a little, run it, and make sure it works before adding more. Step through how the exemplar was built. <span style="background:rgba(126,224,168,.25);padding:0 4px;border-radius:3px">Green lines</span> are new in that step, and the console runs the program <em>as it is at that step</em>.</p>
+  <div class="lab">
+    <div class="stepnav" id="stepNav" role="tablist" aria-label="Build steps"></div>
+    <div class="steptitle" id="stepTitle"></div>
+    <div class="explain" id="stepWhy" style="margin:0 0 12px"></div>
+    <div class="src code-view" id="stepCode"></div>
+    <div class="lab-title">Run the program as it is at this step</div>
+    <div id="stepRun"></div>
+    <div class="row" style="margin-top:12px">
+      <button id="stepPrev">← Previous step</button>
+      <button class="primary" id="stepNext">Next step →</button>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section id="play">
+  <h2><span class="n">03</span>Play it</h2>
+  <p>Here’s the finished game. Type your answers and press Enter. The story map lights up the path your answers take, and the variables table shows what the program stored. Try to find all five endings (the tracker at the top of the page keeps count).</p>
+  <div class="lab">
+    <div class="duo">
+      <div>
+        <div id="playRun"></div>
+      </div>
+      <div>
+        <div class="lab-title">Variables</div>
+        <div class="vars2" id="playVars"></div>
+      </div>
+    </div>
+    <div class="mapwrap" style="margin:14px 0 0"><svg class="mp" id="mapPlay" role="img" aria-label="Story map with your current path highlighted"></svg></div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section id="test">
+  <h2><span class="n">04</span>Test every ending</h2>
+  <p>The Test Table on your handout has two parts. <strong>Every ending</strong> proves each ending can be reached. <strong>Boundary tests</strong> check each inequality right at its cutoff and one step past it, because that’s where off-by-one bugs hide. This lab runs the exemplar’s Test Table for you.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: run the exemplar’s Test Table</div>
+    <div class="scroll" id="testTable"></div>
+    <div class="explain" id="testWhy"></div>
+  </div>
+  <div class="callout"><p><strong>Change only one input at a time.</strong> Look at the boundary rows: each pair is identical except for one number. If the ending changes, you know exactly which comparison caused it.</p></div>
+</section>
+
+<!-- 05 -->
+<section id="break">
+  <h2><span class="n">05</span>Break it on purpose</h2>
+  <p>Why bother with boundary tests if every ending already works? Pick a bug below. The lab changes one line of the exemplar and reruns the whole Test Table, so you can see which tests catch it.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: plant a bug</div>
+    <div class="muts" id="muts" role="group" aria-label="Choose a bug"></div>
+    <pre class="diffline" id="mutDiff"></pre>
+    <div class="scroll" id="mutTable"></div>
+    <div class="explain" id="mutWhy"></div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section id="reqs">
+  <h2><span class="n">06</span>Requirements check</h2>
+  <p>Click a requirement to highlight the lines in the finished program that meet it. Do the same check on your own code before you submit.</p>
+  <div class="reqs" id="reqList"></div>
+  <div class="src code-view" id="reqCode" style="max-height:none"></div>
+  <div class="callout warn"><p><strong>“Each used in an <code>if</code> condition” means the <code>if</code> line itself.</strong> Writing <code>ready = has_key and is_brave</code> and then <code>if ready:</code> is fine code, but the <code>and</code> isn’t in an <code>if</code> condition, so it doesn’t count toward this requirement.</p></div>
+</section>
+
+<!-- 07 -->
+<section id="quiz">
+  <h2><span class="n">07</span>Predict the ending</h2>
+  <p>Trace the program in your head: work out each Boolean first, then follow the <code>if</code>s. Use the story map in section 01 if it helps.</p>
+  <div class="score" id="score" aria-live="polite">Score: 0 / 0</div>
+  <div id="quizBox"></div>
+  <button id="quizReset">Reset quiz</button>
+</section>
+
+<!-- 08 -->
+<section id="yours">
+  <h2><span class="n">08</span>Make it yours</h2>
+  <p>Your story should be your own: different setting, different questions, different endings. These hints are about the <em>process</em>, so open one when you’re stuck.</p>
+  <details><summary>Hint 1: plan the endings before the questions</summary>
+    <p>Write your 4 or more endings first, then ask: what does the player need to decide to get to each one? Draw your story map on the handout. If two endings need the exact same answers, they’re really one ending.</p>
+  </details>
+  <details><summary>Hint 2: tell the player exactly what to type</summary>
+    <p>Put the choices in the prompt, like <code>(yes/no)</code> or <code>(left/right)</code>, and compare to those exact lowercase words. Section 05’s “Yes” bug shows what happens when the program and the player disagree.</p>
+  </details>
+  <details><summary>Hint 3: build the skeleton first</summary>
+    <p>Before writing any endings, write the outer <code>if</code>/<code>else</code> with a placeholder <code>print</code> in each branch, like step 5. Run it both ways. Then fill in one branch at a time.</p>
+  </details>
+  <details><summary>Hint 4: where do and, or, not fit?</summary>
+    <p>Look at your endings table. Phrases like “has the key <em>and</em> is brave,” “0 books <em>or</em> brave,” and “does <em>not</em> have the map” turn straight into conditions. Make sure each operator ends up on an <code>if</code> line (section 06).</p>
+  </details>
+  <details><summary>Hint 5: a question can live inside a branch</summary>
+    <p>Not every question has to be asked up front. The exemplar only asks about late books on the right path. Just remember that a variable created inside one branch doesn’t exist on the other path, so only use it there.</p>
+  </details>
+  <details><summary>Hint 6: nesting and indentation</summary>
+    <p>Each level of nesting adds one more indent. Line up every <code>else</code> exactly under its matching <code>if</code>. If an ending prints at the wrong time, check its indentation first.</p>
+  </details>
+  <details><summary>Hint 7: switching drivers</summary>
+    <p>A natural place to switch is right after the skeleton works (step 5): one partner builds the questions and skeleton, the other fills in the endings. Both of you should be able to explain every line.</p>
+  </details>
+</section>
+
+<!-- 09 -->
+<section id="ship">
+  <h2><span class="n">09</span>Before you submit</h2>
+  <p>Checks aren’t saved, so this list resets when you reload.</p>
+  <div class="checklist">
+    <label><input type="checkbox"> <span>Both partners’ names are at the top, plus a title and a 1–2 line intro.</span></label>
+    <label><input type="checkbox"> <span>At least 3 decisions use <code>input()</code>, and at least 1 uses <code>int(input(...))</code>.</span></label>
+    <label><input type="checkbox"> <span>At least 3 Boolean variables each store a comparison.</span></label>
+    <label><input type="checkbox"> <span><code>and</code>, <code>or</code>, and <code>not</code> each appear on an <code>if</code> line.</span></label>
+    <label><input type="checkbox"> <span>I used at least 3 different comparison operators.</span></label>
+    <label><input type="checkbox"> <span>There are at least 4 endings, each with a <code># ENDING</code> comment above it.</span></label>
+    <label><input type="checkbox"> <span>Every row of my Test Table is filled in: every ending reached, and every inequality tested at its boundary.</span></label>
+    <label><input type="checkbox"> <span>We switched drivers around the middle, and both partners are turning in the handout.</span></label>
+  </div>
+  <p class="next" style="margin-top:28px">Next up: <strong>4.5 If, Elif, Else</strong>, where you’ll learn a shorter way to write chains like the right path of this story.</p>
+</section>
+</main>
+</div>
+<script src="../js/unit-4-mini-adventure.js"></script>
+</body>
+</html>

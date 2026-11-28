@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>4.11 Loop and a Half — AP CSP Unit 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+<div class="layout">
+<nav id="nav" aria-label="Sections">
+  <div class="brand">4.11 Loop and a Half</div>
+  <div class="sub">AP CSP · Unit 4: Python Control Structures</div>
+  <a href="#map"><span class="n">00</span>Lesson map</a>
+  <a href="#why"><span class="n">01</span>Why “and a half”?</a>
+  <a href="#bc"><span class="n">02</span>break and continue</a>
+  <a href="#valid"><span class="n">03</span>Ask until it’s right</a>
+  <a href="#count"><span class="n">04</span>Counting the tries</a>
+  <a href="#errors"><span class="n">05</span>What can go wrong</a>
+  <a href="#ap"><span class="n">06</span>On the AP exam</a>
+  <a href="#ex"><span class="n">07</span>Exercises 4.11.4–4.11.6</a>
+  <a href="#quiz"><span class="n">08</span>Predict the output</a>
+  <a href="#ship"><span class="n">09</span>Before you submit</a>
+</nav>
+
+<main>
+<section class="hero" id="top">
+  <div>
+    <h1>Loop and a Half</h1>
+    <p class="lead">Sometimes you need to do something <em>before</em> you can decide whether to stop, like ask the user a question and then check the answer. A loop and a half runs “forever” with <code>while True</code>, and jumps out with <code>break</code> the moment the check says you’re done.</p>
+  </div>
+  <div class="hero-lah">
+    <div class="src">
+      <div><b>1</b><span><span class="kw">while</span> True:</span></div>
+      <div><b>2</b><span>    num = <span class="fn">int</span>(<span class="fn">input</span>(<span class="st">"..."</span>))</span><span class="tag t1">first half</span></div>
+      <div><b>3</b><span>    <span class="kw">if</span> num == SENTINEL:</span><span class="tag t2">check</span></div>
+      <div><b>4</b><span>        <span class="kw">break</span></span></div>
+      <div><b>5</b><span>    sum += num</span><span class="tag t3">second half</span></div>
+    </div>
+    <div class="cap">The first half runs every pass. The second half runs only when the check doesn’t <code>break</code>. That’s the “half.”</div>
+  </div>
+</section>
+
+<!-- 00 -->
+<section id="map">
+  <h2><span class="n">00</span>Lesson map</h2>
+  <p>Here’s how this page lines up with your CodeHS assignments for 4.11. Work through the page first, then do the CodeHS items in order.</p>
+  <div class="scroll"><table>
+    <tr><th>CodeHS item</th><th>What it is</th><th>Where this page helps</th></tr>
+    <tr><td>4.11.1 Loop and a Half</td><td>Video</td><td>01, 02</td></tr>
+    <tr><td>4.11.2 Loop and a Half Quiz</td><td>Check for understanding</td><td>02</td></tr>
+    <tr><td>4.11.3 Adding Up Numbers</td><td>Example: a sentinel value</td><td>01</td></tr>
+    <tr><td>4.11.4 Snake Eyes</td><td>Exercise you write</td><td>04, 07</td></tr>
+    <tr><td>4.11.5 Better Password Prompt</td><td>Exercise you write</td><td>03, 07</td></tr>
+    <tr><td>4.11.6 Valid Age Input</td><td>Exercise you write</td><td>03, 07</td></tr>
+    <tr><td>4.11.7 Looper Badge</td><td>Badge</td><td>—</td></tr>
+  </table></div>
+</section>
+
+<!-- 01 -->
+<section id="why">
+  <h2><span class="n">01</span>Why “and a half”?</h2>
+  <p>In 4.10 you added prices until the user typed 0. That version needed the <code>input</code> line <strong>twice</strong>: once before the loop and again at the bottom. Example <strong>4.11.3 Adding Up Numbers</strong> does the same job with the input written only once:</p>
+  <div class="duo">
+<pre class="code"><span class="cm"># 4.10 style: ask twice</span>
+num = <span class="fn">int</span>(<span class="fn">input</span>(<span class="st">"Enter a number: "</span>))
+<span class="kw">while</span> num != SENTINEL:
+    sum += num
+    num = <span class="fn">int</span>(<span class="fn">input</span>(<span class="st">"Enter a number: "</span>))</pre>
+<pre class="code"><span class="cm"># 4.11.3: loop and a half</span>
+<span class="kw">while</span> True:
+    num = <span class="fn">int</span>(<span class="fn">input</span>(<span class="st">"Enter a number: "</span>))
+    <span class="kw">if</span> num == SENTINEL:
+        <span class="kw">break</span>
+    sum += num</pre>
+  </div>
+  <p><code>while True</code> on its own would never stop, because the condition is always True. The only way out is <code>break</code>, which ends the loop immediately and jumps to the first line <em>after</em> it. The <code>SENTINEL</code> (-1 in the example) is a special “I’m done” value that can’t be mistaken for real data.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: run 4.11.3 Adding Up Numbers</div>
+    <div class="stepper2">
+      <div class="src" id="auSrc"></div>
+      <div>
+        <pre class="console" id="auOut" style="max-height:220px;overflow:auto" aria-live="polite"></pre>
+        <div class="prompt" id="auRow"><span>Enter a number: </span><input id="auIn" type="text" autocomplete="off" spellcheck="false" aria-label="Enter a number"></div>
+      </div>
+    </div>
+    <div class="row"><button id="auReset">Restart</button></div>
+    <div class="explain" id="auWhy"></div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section id="bc">
+  <h2><span class="n">02</span><code>break</code> and <code>continue</code></h2>
+  <div class="scroll"><table>
+    <tr><th>Keyword</th><th>What it does</th></tr>
+    <tr><td><code>break</code></td><td>Leaves the loop <strong>completely</strong>, right now. Nothing else in the loop runs.</td></tr>
+    <tr><td><code>continue</code></td><td>Skips the <strong>rest of this pass</strong> and jumps back to the top for the next one.</td></tr>
+  </table></div>
+  <p>Both work in <code>for</code> loops and <code>while</code> loops. Pick one and watch what happens to the numbers 1 through 8.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: break vs. continue</div>
+    <div class="chips" id="bcChips"></div>
+    <pre class="code" id="bcCode"></pre>
+    <div class="bclist" id="bcList" aria-hidden="true"></div>
+    <pre class="term" id="bcOut"></pre>
+    <div class="explain" id="bcWhy"></div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section id="valid">
+  <h2><span class="n">03</span>Ask until it’s right</h2>
+  <p>The most common loop and a half is <strong>input validation</strong>: keep asking until the user gives an answer you can use. The pattern is always the same: <em>ask, check, break if it’s good, otherwise complain and go around again</em>.</p>
+<pre class="code"><span class="fn">print</span>(<span class="st">"Rate the movie from 1 to 5 stars."</span>)
+<span class="kw">while</span> True:
+    stars = <span class="fn">int</span>(<span class="fn">input</span>(<span class="st">"Stars: "</span>))
+    <span class="kw">if</span> stars &gt;= <span class="mono">1</span> <span class="kw">and</span> stars &lt;= <span class="mono">5</span>:
+        <span class="kw">break</span>
+    <span class="fn">print</span>(<span class="st">"Please pick a number from 1 to 5."</span>)
+<span class="fn">print</span>(<span class="st">"Thanks for rating!"</span>)</pre>
+  <div class="lab">
+    <div class="lab-title">Lab: try to get past it</div>
+    <pre class="console" id="rtOut" style="max-height:240px;overflow:auto" aria-live="polite"></pre>
+    <div class="prompt" id="rtRow"><span>Stars: </span><input id="rtIn" type="text" autocomplete="off" spellcheck="false" aria-label="Stars"></div>
+    <div class="row"><button id="rtReset">Restart</button></div>
+    <div class="explain" id="rtWhy"></div>
+  </div>
+  <div class="callout"><p><strong>Special cases go first.</strong> If one particular answer needs its own response, check for it <em>before</em> the general rule. That’s the same lesson as 4.5’s broken movie theater: an earlier check can catch a value before a later one ever sees it.</p></div>
+</section>
+
+<!-- 04 -->
+<section id="count">
+  <h2><span class="n">04</span>Counting the tries</h2>
+  <p>To report how many tries something took, add 1 to a counter on <strong>every</strong> pass, including the last one that breaks. Where you put the <code>+= 1</code> matters: after the <code>break</code>, it never counts the winning try.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: guess the secret word (it’s “apple”)</div>
+    <label style="display:inline-flex;align-items:center;gap:8px;font:600 14px var(--sans);margin-bottom:10px"><input type="checkbox" id="gwBug" style="width:18px;height:18px;accent-color:var(--accent)"> Plant a bug: move <code>tries += 1</code> below the <code>break</code></label>
+    <pre class="code" id="gwCode"></pre>
+    <pre class="console" id="gwOut" style="max-height:220px;overflow:auto" aria-live="polite"></pre>
+    <div class="prompt" id="gwRow"><span>Guess: </span><input id="gwIn" type="text" autocomplete="off" spellcheck="false" aria-label="Guess"></div>
+    <div class="row"><button id="gwReset">Restart</button></div>
+  </div>
+  <h3>Random dice, a preview of 4.12</h3>
+  <p>Snake Eyes uses <code>random.randint(a, b)</code>, which gives a random whole number from <code>a</code> to <code>b</code>, <strong>including both</strong>. The starter code’s <code>import random</code> line makes it available. Lesson 4.12 covers it fully. Here’s what “roll until snake eyes” looks like when it runs:</p>
+  <div class="lab">
+    <div class="lab-title">Lab: roll until snake eyes</div>
+    <div class="dice"><div class="die" id="d1">?</div><div class="die" id="d2">?</div></div>
+    <div class="row"><button id="rollOne">Roll once</button><button class="primary" id="rollAll">Roll until snake eyes</button><button id="rollReset">Clear</button></div>
+    <pre class="console" id="rollOut" style="max-height:240px;overflow:auto" aria-live="polite"></pre>
+  </div>
+</section>
+
+<!-- 05 -->
+<section id="errors">
+  <h2><span class="n">05</span>What can go wrong</h2>
+  <div class="lab">
+    <div class="lab-title">Lab: loop-and-a-half decoder</div>
+    <div class="chips" id="erChips"></div>
+    <pre class="code" id="erCode"></pre>
+    <p class="errmsg" id="erMsg"></p>
+    <div class="explain" id="erWhy" style="margin-top:0"></div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section id="ap">
+  <h2><span class="n">06</span>On the AP exam</h2>
+  <p>AP pseudocode has no <code>break</code> or <code>continue</code>, and no <code>while True</code>. The same idea is written with <code>REPEAT UNTIL</code>, and the reference sheet’s <code>INPUT()</code> asks the user for a value.</p>
+  <div class="duo">
+<pre class="code"><span class="cm"># Python: loop and a half</span>
+<span class="kw">while</span> True:
+    stars = <span class="fn">int</span>(<span class="fn">input</span>(<span class="st">"Stars: "</span>))
+    <span class="kw">if</span> stars &gt;= <span class="mono">1</span> <span class="kw">and</span> stars &lt;= <span class="mono">5</span>:
+        <span class="kw">break</span>
+    <span class="fn">print</span>(<span class="st">"Pick 1 to 5."</span>)</pre>
+<pre class="code"><span class="cm">// AP pseudocode</span>
+stars ← <span class="fn">INPUT</span>()
+<span class="kw">REPEAT UNTIL</span> (stars ≥ 1 <span class="kw">AND</span> stars ≤ 5)
+{
+   <span class="fn">DISPLAY</span>(<span class="st">"Pick 1 to 5."</span>)
+   stars ← <span class="fn">INPUT</span>()
+}</pre>
+  </div>
+  <div class="callout ap"><p><strong>The UNTIL condition is the “good answer” test.</strong> In the loop and a half, the <code>if</code> that leads to <code>break</code> describes when you’re done. That same condition becomes the <code>REPEAT UNTIL</code> condition. Notice the pseudocode has to ask twice, like the 4.10 version.</p></div>
+</section>
+
+<!-- 07 -->
+<section id="ex">
+  <h2><span class="n">07</span>Exercises 4.11.4–4.11.6</h2>
+  <p>Read the instructions in CodeHS carefully; they’re the specification you’re graded on, including the sample runs. The hints below point you at the right ideas without writing the code for you. Open one only when you’re stuck.</p>
+
+  <h3>4.11.4 Snake Eyes</h3>
+  <details><summary>Hint 1: rolling</summary>
+    <p>Keep the <code>import random</code> line at the top. Each pass needs <em>two</em> separate calls to <code>random.randint</code>, one per die. What should the smallest and largest values be?</p>
+  </details>
+  <details><summary>Hint 2: the shape</summary>
+    <p>Inside <code>while True</code>: roll, print, count, then check for snake eyes and <code>break</code>. Snake eyes means <em>both</em> dice are 1, so which logical operator from 4.2 joins the two checks?</p>
+  </details>
+  <details><summary>Hint 3: the format</summary>
+    <p><code>Rolled: 6 5</code> has a single space between the values, so commas in <code>print</code> work here (unlike 4.9’s <code>1,1</code>). The final message goes after the loop and includes the count.</p>
+  </details>
+  <details><summary>Hint 4: the count</summary>
+    <p>The sample shows 8 lines of rolls and says 8 rolls. If you’re always one short, your <code>+= 1</code> is after the <code>break</code> (section 04).</p>
+  </details>
+  <details><summary>Hint 5: testing random code</summary>
+    <p>Snake eyes can take a while. To test faster, temporarily make the dice go from 1 to 2. Just remember to change it back to 1 to 6 before you submit.</p>
+  </details>
+
+  <h3>4.11.5 Better Password Prompt</h3>
+  <details><summary>Hint 1: the secret</summary>
+    <p>The note says the tests need a variable named <code>SECRET</code> set to <code>"abc123"</code>. Make it a constant at the top, and compare to <code>SECRET</code> instead of typing the password again.</p>
+  </details>
+  <details><summary>Hint 2: the shape</summary>
+    <p>It’s the section 03 pattern: ask, check, <code>break</code> if correct, otherwise print the error. “You got it!” goes after the loop.</p>
+  </details>
+  <details><summary>Hint 3: exact text</summary>
+    <p>Match the prompt <code>Enter password: </code> and the error sentence exactly. Comparisons are case-sensitive, which is why “CODEHS” in the sample doesn’t work.</p>
+  </details>
+
+  <h3>4.11.6 Valid Age Input</h3>
+  <details><summary>Hint 1: what’s valid?</summary>
+    <p>Valid means from 0 to 120, <em>inclusive</em>. Write that as two comparisons joined by the right logical operator, and check the boundary values 0 and 120 yourself.</p>
+  </details>
+  <details><summary>Hint 2: the shape</summary>
+    <p>Same pattern as section 03 and Better Password Prompt. Copy the prompt, error message, and confirmation from the example output.</p>
+  </details>
+  <details><summary>Hint 3: testing</summary>
+    <p>Try -1, 0, 120, 121, and a normal age like 20. Only 0, 120, and 20 should get past the loop.</p>
+  </details>
+  <details><summary>Hint 4: the bonus</summary>
+    <p>122 is over 120, so the normal check calls it invalid. The bonus wants a special message <em>and</em> to stop asking. Where must that special check go so it runs before the general rule rejects 122? (Reread the callout in section 03.)</p>
+  </details>
+</section>
+
+<!-- 08 -->
+<section id="quiz">
+  <h2><span class="n">08</span>Predict the output</h2>
+  <p>Decide on your answer before you click. Each answer explains why, so wrong answers are worth reading too.</p>
+  <div class="score" id="score" aria-live="polite">Score: 0 / 0</div>
+  <div id="quizBox"></div>
+  <button id="quizReset">Reset quiz</button>
+</section>
+
+<!-- 09 -->
+<section id="ship">
+  <h2><span class="n">09</span>Before you submit</h2>
+  <p>Run through this list for each exercise. Checks aren’t saved, so it resets when you reload.</p>
+  <div class="checklist">
+    <label><input type="checkbox"> <span>Every <code>while True</code> has a <code>break</code> that the program can actually reach.</span></label>
+    <label><input type="checkbox"> <span>The <code>break</code> is inside an <code>if</code>, so it only happens when the loop should end.</span></label>
+    <label><input type="checkbox"> <span>Messages for “done” (like “You got it!”) are after the loop, not inside it.</span></label>
+    <label><input type="checkbox"> <span>Counters go up on every pass, including the one that breaks.</span></label>
+    <label><input type="checkbox"> <span>Constants the tests need (like <code>SECRET</code>) have the exact name and value.</span></label>
+    <label><input type="checkbox"> <span>I tested the boundary values and at least one wrong answer before a right one.</span></label>
+  </div>
+  <p class="next" style="margin-top:28px">Next up: <strong>4.12 Random Numbers</strong>.</p>
+</section>
+</main>
+</div>
+<script src="../js/4-11-loop-and-a-half.js"></script>
+</body>
+</html>

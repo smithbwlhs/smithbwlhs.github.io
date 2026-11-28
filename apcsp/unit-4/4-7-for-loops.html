@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>4.7 For Loops — AP CSP Unit 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+<div class="layout">
+<nav id="nav" aria-label="Sections">
+  <div class="brand">4.7 For Loops in Python</div>
+  <div class="sub">AP CSP · Unit 4: Python Control Structures</div>
+  <a href="#map"><span class="n">00</span>Lesson map</a>
+  <a href="#anatomy"><span class="n">01</span>Anatomy of a for loop</a>
+  <a href="#repeat"><span class="n">02</span>Repeat N times</a>
+  <a href="#usei"><span class="n">03</span>Using i</a>
+  <a href="#draw"><span class="n">04</span>Drawing with loops</a>
+  <a href="#acc"><span class="n">05</span>Building up a total</a>
+  <a href="#ap"><span class="n">06</span>On the AP exam</a>
+  <a href="#ex"><span class="n">07</span>Exercises 4.7.4–4.7.9</a>
+  <a href="#quiz"><span class="n">08</span>Predict the output</a>
+  <a href="#ship"><span class="n">09</span>Before you submit</a>
+</nav>
+
+<main>
+<section class="hero" id="top">
+  <div>
+    <h1>For Loops</h1>
+    <p class="lead">Need to print something 50 times, or draw 15 circles? A <code>for</code> loop runs the same block of code over and over, and keeps count for you in a variable usually called <code>i</code>. Drag the slider and watch <code>i</code> step through <code>range</code>.</p>
+  </div>
+  <div class="hero-loop">
+    <label for="heroN">for i in range(<span id="heroNVal">5</span>):</label>
+    <input id="heroN" type="range" min="1" max="10" value="5">
+    <div class="rstrip" id="heroStrip" aria-hidden="true"></div>
+    <div class="now" id="heroNow" aria-live="off"></div>
+  </div>
+</section>
+
+<!-- 00 -->
+<section id="map">
+  <h2><span class="n">00</span>Lesson map</h2>
+  <p>Here’s how this page lines up with your CodeHS assignments for 4.7. Work through the page first, then do the CodeHS items in order.</p>
+  <div class="scroll"><table>
+    <tr><th>CodeHS item</th><th>What it is</th><th>Where this page helps</th></tr>
+    <tr><td>4.7.1 Basic For Loop</td><td>Video</td><td>01</td></tr>
+    <tr><td>4.7.2 For Loops Quiz</td><td>Check for understanding</td><td>01, 03</td></tr>
+    <tr><td>4.7.3 For Loop</td><td>Example: <code>for i in range(3)</code></td><td>01</td></tr>
+    <tr><td>4.7.4 Meme Text Generator</td><td>Exercise you write</td><td>02, 07</td></tr>
+    <tr><td>4.7.5 The Worm</td><td>Exercise you write (graphics)</td><td>04, 07</td></tr>
+    <tr><td>4.7.6 Caterpillar</td><td>Exercise you write (graphics)</td><td>03, 04, 07</td></tr>
+    <tr><td>4.7.7 Repeat a Message</td><td>Exercise you write</td><td>02, 07</td></tr>
+    <tr><td>4.7.8 Numbers 1 to N</td><td>Exercise you write</td><td>03, 07</td></tr>
+    <tr><td>4.7.9 Video Game Health</td><td>Exercise you write</td><td>05, 07</td></tr>
+  </table></div>
+</section>
+
+<!-- 01 -->
+<section id="anatomy">
+  <h2><span class="n">01</span>Anatomy of a <code>for</code> loop</h2>
+  <p>Example <strong>4.7.3 For Loop</strong> is just two lines:</p>
+<pre class="code"><span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="mono">3</span>):
+    <span class="fn">print</span>(i)</pre>
+  <div class="scroll"><table>
+    <tr><th>Part</th><th>Job</th></tr>
+    <tr><td><code>range(3)</code></td><td>Makes the numbers <code>0, 1, 2</code>. It <strong>starts at 0</strong> and <strong>stops before 3</strong>, so there are exactly 3 numbers.</td></tr>
+    <tr><td><code>i</code></td><td>The <strong>loop variable</strong>. Each time through, it holds the next number from <code>range</code>.</td></tr>
+    <tr><td><code>:</code> and the indent</td><td>Same rule as <code>if</code>: the indented lines are the <strong>body</strong>, and they run once for each number.</td></tr>
+  </table></div>
+  <p>Step through it. Try <code>range(0)</code> too: what happens when there are no numbers at all?</p>
+  <div class="lab">
+    <div class="lab-title">Lab: step through 4.7.3</div>
+    <div class="chips" id="trChips"></div>
+    <div class="rstrip" id="trStrip" aria-hidden="true"></div>
+    <div class="stepper2">
+      <div class="src" id="trSrc"></div>
+      <div><div class="vars" id="trVars"></div><pre class="term" id="trOut"></pre></div>
+    </div>
+    <div class="row" style="margin-top:12px"><button class="primary" id="trStep">Run next step</button><button id="trReset">Start over</button></div>
+    <div class="explain" id="trWhy"></div>
+  </div>
+  <div class="callout warn"><p><strong>The off-by-one trap:</strong> <code>range(5)</code> gives <code>0, 1, 2, 3, 4</code>. It runs 5 times, but the last value of <code>i</code> is 4, not 5.</p></div>
+</section>
+
+<!-- 02 -->
+<section id="repeat">
+  <h2><span class="n">02</span>Repeat N times</h2>
+  <p>Sometimes you don’t need <code>i</code> at all: you just want something to happen a certain number of times. The body can ignore <code>i</code>, and <code>range</code> still decides how many times it runs.</p>
+  <p>The number can come from the user. <code>range()</code> needs a whole number, so the input has to go through <code>int()</code> first, the same as in 4.3.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: a cheer machine</div>
+    <label class="toggle" style="display:inline-flex;align-items:center;gap:8px;font:600 14px var(--sans);margin-bottom:10px"><input type="checkbox" id="rpBug" style="width:18px;height:18px;accent-color:var(--accent)"> Plant a bug: forget <code>int()</code></label>
+    <pre class="code" id="rpCode"></pre>
+    <div class="chips" id="rpChips"></div>
+    <div class="prompt"><span>How many cheers? </span><input id="rpIn" type="text" autocomplete="off" spellcheck="false" aria-label="How many cheers"></div>
+    <pre class="console" id="rpOut" aria-live="polite"></pre>
+    <div class="explain" id="rpWhy"></div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section id="usei">
+  <h2><span class="n">03</span>Using <code>i</code></h2>
+  <p>Because <code>i</code> changes every time through, you can use it in math to make each repetition a little different. Type an expression using <code>i</code> and see what each pass through the loop would print.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: what does each pass print?</div>
+    <div class="chips" id="exChips"></div>
+    <div class="calc">
+      <label>for i in range( <input type="number" id="exN" value="6" min="0" max="20"> ):</label>
+    </div>
+    <div class="prompt"><span>&nbsp;&nbsp;&nbsp;&nbsp;print(</span><input id="exIn" type="text" autocomplete="off" spellcheck="false" aria-label="Expression using i" value="i + 1"><span style="margin:0 8px 0 0">)</span></div>
+    <div class="scroll" id="exOut" aria-live="polite"></div>
+    <div class="explain" id="exWhy"></div>
+  </div>
+  <div class="callout"><p><strong>Even and odd, again.</strong> <code>i % 2</code> is <code>0</code> on even passes and <code>1</code> on odd ones, so an <code>if</code> inside the loop can do something different every other time. You used the same test in 4.4.5 Even and Odd.</p></div>
+</section>
+
+<!-- 04 -->
+<section id="draw">
+  <h2><span class="n">04</span>Drawing with loops</h2>
+  <p>In <strong>The Worm</strong> and <strong>Caterpillar</strong>, the loop draws one circle per pass, and <code>i</code> decides where each one goes. Two numbers have to be right:</p>
+  <ul>
+    <li><strong>The radius</strong>, so that <code>NUM_CIRCLES</code> circles side by side are exactly as wide as the canvas. Each circle is <code>2 * RADIUS</code> wide.</li>
+    <li><strong>Each circle’s x position</strong>, which is its <em>center</em>. The first center is one radius in from the left edge, and each new circle moves right by one diameter.</li>
+  </ul>
+  <p>Names in ALL CAPS like <code>NUM_CIRCLES</code> and <code>RADIUS</code> are <strong>constants</strong>: values set once and not changed. Using <code>get_width()</code> and <code>get_height()</code> instead of typing numbers means the drawing still fits if the canvas or <code>NUM_CIRCLES</code> changes.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: build a worm</div>
+    <p class="mini">Pick a formula for each number and see what gets drawn. This canvas is 400 × 300, but yours in CodeHS may be a different size, which is why the formulas use <code>get_width()</code>.</p>
+    <div class="calc">
+      <label>NUM_CIRCLES = <input type="range" id="wmN" min="3" max="30" value="15"> <b id="wmNVal">15</b></label>
+    </div>
+    <div class="calc">
+      <label>RADIUS = <select id="wmR"></select></label>
+    </div>
+    <div class="calc">
+      <label>x = <select id="wmX"></select></label>
+    </div>
+    <div class="calc">
+      <label class="toggle" style="display:inline-flex;align-items:center;gap:8px"><input type="checkbox" id="wmC" style="width:18px;height:18px;accent-color:var(--accent)"> Color each circle by <code>i % 2</code> (Caterpillar)</label>
+    </div>
+    <div class="wormbox"><svg id="wmSvg" viewBox="0 0 400 300" role="img" aria-label="Worm preview"></svg></div>
+    <p class="status" id="wmStatus" aria-live="polite"></p>
+    <div class="scroll" id="wmTable"></div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section id="acc">
+  <h2><span class="n">05</span>Building up a total</h2>
+  <p>A very common loop pattern keeps a running total: create a variable <em>before</em> the loop, then change it <em>inside</em> the loop. Here a runner adds 400 meters each lap and reports the distance so far.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: trace the running total</div>
+    <label class="toggle" style="display:inline-flex;align-items:center;gap:8px;font:600 14px var(--sans);margin-bottom:10px"><input type="checkbox" id="acBug" style="width:18px;height:18px;accent-color:var(--accent)"> Plant a bug: move <code>distance = 0</code> inside the loop</label>
+    <div class="stepper2">
+      <div class="src" id="acSrc"></div>
+      <div><div class="vars" id="acVars"></div><pre class="term" id="acOut"></pre></div>
+    </div>
+    <div class="row" style="margin-top:12px"><button class="primary" id="acStep">Run next step</button><button id="acReset">Start over</button></div>
+    <div class="explain" id="acWhy"></div>
+  </div>
+  <div class="callout"><p><strong>Where a line goes decides how often it runs.</strong> Above the loop: once. Indented inside the loop: every pass. Below the loop (not indented): once, after the loop is done. If you only want to print the final total, the <code>print</code> goes below the loop.</p></div>
+</section>
+
+<!-- 06 -->
+<section id="ap">
+  <h2><span class="n">06</span>On the AP exam</h2>
+  <p>The AP reference sheet’s simplest loop is <code>REPEAT n TIMES</code>. It matches a Python <code>for</code> loop that doesn’t use <code>i</code>.</p>
+  <div class="duo">
+<pre class="code"><span class="cm"># Python</span>
+total = <span class="mono">0</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="mono">3</span>):
+    total = total + <span class="mono">5</span>
+<span class="fn">print</span>(total)</pre>
+<pre class="code"><span class="cm">// AP pseudocode</span>
+total ← 0
+<span class="kw">REPEAT</span> 3 <span class="kw">TIMES</span>
+{
+   total ← total + 5
+}
+<span class="fn">DISPLAY</span>(total)</pre>
+  </div>
+  <div class="callout ap"><p><strong>There’s no <code>i</code> in <code>REPEAT n TIMES</code>.</strong> If an exam question needs a counter, it creates its own variable and adds 1 to it inside the loop. The reference sheet has two other loops, <code>REPEAT UNTIL</code> and <code>FOR EACH</code>, which you’ll meet with while loops and lists.</p></div>
+  <p>Exam questions often ask what’s displayed after a loop. Trace it with a table: one row per pass, one column per variable, exactly like the labs on this page.</p>
+</section>
+
+<!-- 07 -->
+<section id="ex">
+  <h2><span class="n">07</span>Exercises 4.7.4–4.7.9</h2>
+  <p>Read the instructions in CodeHS carefully; they’re the specification you’re graded on, including variable names and the example output. The hints below point you at the right ideas without writing the code for you. Open one only when you’re stuck.</p>
+
+  <h3>4.7.4 Meme Text Generator</h3>
+  <details><summary>Hint 1: how many times?</summary>
+    <p>The instructions give you the number of repetitions. Put it straight into <code>range()</code>; there’s no input in this one.</p>
+  </details>
+  <details><summary>Hint 2: the text</summary>
+    <p>Copy the sentence exactly, including the periods. It contains an apostrophe in “world’s,” so wrap the string in double quotes. Check that only the <code>print</code> is indented.</p>
+  </details>
+
+  <h3>4.7.5 The Worm</h3>
+  <details><summary>Hint 1: the radius</summary>
+    <p>All the circles together must be as wide as the canvas, and each is two radii wide. Try the options in section 04’s lab until the worm fits exactly, then think about why that one works.</p>
+  </details>
+  <details><summary>Hint 2: inside the loop</summary>
+    <p>Each pass makes one new circle, sets its position, and adds it. The x position uses <code>i</code> (the formula is in the CodeHS hints), and the y position is the same for every circle: the vertical center.</p>
+  </details>
+  <details><summary>Hint 3: testing</summary>
+    <p>Change <code>NUM_CIRCLES</code> to 5, then 30, and run again. If the worm still stretches exactly across the canvas, you used <code>get_width()</code> correctly.</p>
+  </details>
+
+  <h3>4.7.6 Caterpillar</h3>
+  <details><summary>Hint 1: start from your worm</summary>
+    <p>The size and position math is the same as The Worm. The only new part is the color.</p>
+  </details>
+  <details><summary>Hint 2: alternating colors</summary>
+    <p>Inside the loop, decide each circle’s color with an <code>if</code>/<code>else</code>. Which expression from section 03 tells you whether <code>i</code> is even? Set the color before you add the circle.</p>
+  </details>
+
+  <h3>4.7.7 Repeat a Message</h3>
+  <details><summary>Hint 1: the input</summary>
+    <p>Store the answer in a variable with the exact name from the instructions, and copy the prompt from the example. <code>range()</code> needs a number (section 02).</p>
+  </details>
+  <details><summary>Hint 2: the loop</summary>
+    <p>You already have <code>message</code>. The loop body prints it, and <code>range</code> decides how many times. Test with 3, then 1, then 0.</p>
+  </details>
+
+  <h3>4.7.8 Numbers 1 to N</h3>
+  <details><summary>Hint 1: the problem with i</summary>
+    <p><code>range(n)</code> gives you <code>0</code> up to <code>n - 1</code>, but you need <code>1</code> up to <code>n</code>. Use the lab in section 03: what expression turns <code>0, 1, 2, …</code> into <code>1, 2, 3, …</code>? (Lesson 4.8 shows another way, with a different form of <code>range</code>.)</p>
+  </details>
+  <details><summary>Hint 2: testing</summary>
+    <p>With 5, the first line should be 1 and the last should be 5. Check both ends, then try 1.</p>
+  </details>
+
+  <h3>4.7.9 Video Game Health</h3>
+  <details><summary>Hint 1: a running total</summary>
+    <p>This is the section 05 pattern: a health variable that starts before the loop and goes up by 2 inside it.</p>
+  </details>
+  <details><summary>Hint 2: not going over</summary>
+    <p>The CodeHS hint says to use an <code>if</code>. Inside the loop, only add and print when adding 2 more wouldn’t go past <code>health_points</code>. Because the <code>if</code> guards against going over, the loop is allowed to run a few extra times.</p>
+  </details>
+  <details><summary>Hint 3: testing</summary>
+    <p>Try 5 (the example: 2 and 4), an even number like 6 (should end exactly at 6), 1 (nothing), and 2. Match the example’s output format exactly.</p>
+  </details>
+</section>
+
+<!-- 08 -->
+<section id="quiz">
+  <h2><span class="n">08</span>Predict the output</h2>
+  <p>Decide on your answer before you click. Each answer explains why, so wrong answers are worth reading too.</p>
+  <div class="score" id="score" aria-live="polite">Score: 0 / 0</div>
+  <div id="quizBox"></div>
+  <button id="quizReset">Reset quiz</button>
+</section>
+
+<!-- 09 -->
+<section id="ship">
+  <h2><span class="n">09</span>Before you submit</h2>
+  <p>Run through this list for each exercise. Checks aren’t saved, so it resets when you reload.</p>
+  <div class="checklist">
+    <label><input type="checkbox"> <span>Every <code>for</code> line ends with a colon, and only the lines that should repeat are indented.</span></label>
+    <label><input type="checkbox"> <span>I know how many times each loop runs, and what the first and last value of <code>i</code> are.</span></label>
+    <label><input type="checkbox"> <span>Any number from <code>input()</code> goes through <code>int()</code> before it reaches <code>range()</code>.</span></label>
+    <label><input type="checkbox"> <span>Variable names match the instructions exactly (<code>count</code>, <code>n</code>, <code>health_points</code>…).</span></label>
+    <label><input type="checkbox"> <span>Running totals are created <em>before</em> the loop and changed <em>inside</em> it.</span></label>
+    <label><input type="checkbox"> <span>Graphics use <code>get_width()</code> and <code>get_height()</code>, and still fit when I change <code>NUM_CIRCLES</code>.</span></label>
+    <label><input type="checkbox"> <span>My output matches the example, including the first and last lines.</span></label>
+  </div>
+  <p class="next" style="margin-top:28px">Next up: <strong>4.8 General For Loops</strong>, where <code>range</code> learns to start somewhere other than 0 and count by more than 1.</p>
+</section>
+</main>
+</div>
+<script src="../js/4-7-for-loops.js"></script>
+</body>
+</html>

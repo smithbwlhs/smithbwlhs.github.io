@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>4.9 For Loop Practice — AP CSP Unit 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+<div class="layout">
+<nav id="nav" aria-label="Sections">
+  <div class="brand">4.9 For Loop Practice</div>
+  <div class="sub">AP CSP · Unit 4: Python Control Structures</div>
+  <a href="#map"><span class="n">00</span>Lesson map</a>
+  <a href="#sum"><span class="n">01</span>Constants &amp; sums</a>
+  <a href="#product"><span class="n">02</span>Products start at 1</a>
+  <a href="#filter"><span class="n">03</span>Only some numbers</a>
+  <a href="#nested"><span class="n">04</span>Loops inside loops</a>
+  <a href="#format"><span class="n">05</span>Printing two values</a>
+  <a href="#ap"><span class="n">06</span>On the AP exam</a>
+  <a href="#ex"><span class="n">07</span>Exercises 4.9.4–4.9.7</a>
+  <a href="#quiz"><span class="n">08</span>Predict the output</a>
+  <a href="#ship"><span class="n">09</span>Before you submit</a>
+</nav>
+
+<main>
+<section class="hero" id="top">
+  <div>
+    <h1>For Loop Practice</h1>
+    <p class="lead">This lesson puts loops to work: adding up a range of numbers, multiplying them, picking out only some of them, and putting one loop inside another. Most of it builds on one pattern from 4.7: a variable that grows a little on every pass.</p>
+  </div>
+  <div class="hero-sum">
+    <label for="hsN">MAX = <span id="hsNv">10</span> &nbsp;·&nbsp; sum of 1 to MAX</label>
+    <input id="hsN" type="range" min="1" max="100" value="10">
+    <div class="terms" id="hsTerms"></div>
+    <div class="big" id="hsBig"></div>
+  </div>
+</section>
+
+<!-- 00 -->
+<section id="map">
+  <h2><span class="n">00</span>Lesson map</h2>
+  <p>Here’s how this page lines up with your CodeHS assignments for 4.9. Work through the page first, then do the CodeHS items in order.</p>
+  <div class="scroll"><table>
+    <tr><th>CodeHS item</th><th>What it is</th><th>Where this page helps</th></tr>
+    <tr><td>4.9.1 For Loop Examples</td><td>Video</td><td>01</td></tr>
+    <tr><td>4.9.2 For Loop Examples Quiz</td><td>Check for understanding</td><td>01</td></tr>
+    <tr><td>4.9.3 For Loop Sum</td><td>Example: adding with constants</td><td>01</td></tr>
+    <tr><td>4.9.4 Better Sum</td><td>Exercise you write</td><td>01, 07</td></tr>
+    <tr><td>4.9.5 Factorial</td><td>Exercise you write</td><td>02, 07</td></tr>
+    <tr><td>4.9.6 Challenge: All Dice Values</td><td>Exercise you write (nested loops)</td><td>04, 05, 07</td></tr>
+    <tr><td>4.9.7 Even Better Sum</td><td>Exercise you write</td><td>03, 07</td></tr>
+  </table></div>
+</section>
+
+<!-- 01 -->
+<section id="sum">
+  <h2><span class="n">01</span>Constants and sums</h2>
+  <p>Example <strong>4.9.3 For Loop Sum</strong> adds up a range of numbers. It starts with two <strong>constants</strong>:</p>
+<pre class="code">MIN = <span class="mono">1</span>
+MAX = <span class="mono">100</span>
+
+sum = <span class="mono">0</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(MIN, MAX):
+    sum = sum + i
+
+<span class="fn">print</span>(<span class="st">"The sum was "</span> + <span class="fn">str</span>(sum))</pre>
+  <p>Writing <code>range(MIN, MAX)</code> instead of <code>range(1, 100)</code> avoids <strong>magic numbers</strong>: numbers in the code with no explanation. A constant gives the value a readable name, and if you need to change it, you change it in one place.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: run 4.9.3 with your own constants</div>
+    <div class="inline-in">
+      <label>MIN = <input type="number" id="smMin" value="1"></label>
+      <label>MAX = <input type="number" id="smMax" value="100"></label>
+    </div>
+    <pre class="term" id="smOut" aria-live="polite"></pre>
+    <div class="scroll" id="smTable"></div>
+    <div class="explain" id="smWhy"></div>
+  </div>
+  <div class="callout warn"><p><strong>Look at the example’s own comment:</strong> <em>“range(1, 100) includes the numbers from 1 to 99.”</em> So it adds 1 to 99, and prints 4950, not the sum of 1 to 100. Same rule as 4.8: <code>stop</code> is never included. What would you change to include 100? (Better Sum needs the same idea.)</p></div>
+</section>
+
+<!-- 02 -->
+<section id="product">
+  <h2><span class="n">02</span>Products start at 1</h2>
+  <p>To <em>multiply</em> a range of numbers together, the pattern is the same, with one important change: the starting value. Starting a sum at 0 doesn’t change it, but multiplying anything by 0 gives 0, forever. A running product has to start at 1.</p>
+  <p>Here’s a product of the odd numbers 1 × 3 × 5 × 7 × 9. Try the bug.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: a running product</div>
+    <label style="display:inline-flex;align-items:center;gap:8px;font:600 14px var(--sans);margin-bottom:10px"><input type="checkbox" id="prBug" style="width:18px;height:18px;accent-color:var(--accent)"> Plant a bug: start <code>product</code> at 0</label>
+    <pre class="code" id="prCode"></pre>
+    <div class="scroll" id="prTable"></div>
+    <div class="explain" id="prWhy"></div>
+  </div>
+  <div class="scroll"><table style="width:auto">
+    <tr><th>You’re building a…</th><th>Start at</th><th>Each pass</th></tr>
+    <tr><td>sum</td><td><code>0</code></td><td><code>total = total + i</code> &nbsp;or&nbsp; <code>total += i</code></td></tr>
+    <tr><td>product</td><td><code>1</code></td><td><code>product = product * i</code> &nbsp;or&nbsp; <code>product *= i</code></td></tr>
+    <tr><td>count</td><td><code>0</code></td><td><code>count = count + 1</code></td></tr>
+  </table></div>
+</section>
+
+<!-- 03 -->
+<section id="filter">
+  <h2><span class="n">03</span>Only some numbers</h2>
+  <p>What if you only want to add <em>some</em> of the numbers, like the multiples of 5? There are two good ways:</p>
+  <div class="duo">
+<pre class="code"><span class="cm"># Way 1: check each number with if</span>
+total = <span class="mono">0</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="mono">1</span>, n + <span class="mono">1</span>):
+    <span class="kw">if</span> i % <span class="mono">5</span> == <span class="mono">0</span>:
+        total += i</pre>
+<pre class="code"><span class="cm"># Way 2: only visit the numbers you want</span>
+total = <span class="mono">0</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="mono">5</span>, n + <span class="mono">1</span>, <span class="mono">5</span>):
+    total += i</pre>
+  </div>
+  <p>Way 1 visits every number and uses <code>%</code> (from 4.4 Even and Odd) to decide whether to add it. Way 2 uses a step (from 4.8) so it never visits the others. Both give the same total.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: which numbers get added?</div>
+    <div class="inline-in"><label>n = <input type="number" id="flN" value="23" min="1" max="60"></label></div>
+    <div class="scroll" id="flTable"></div>
+    <div class="explain" id="flWhy"></div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section id="nested">
+  <h2><span class="n">04</span>Loops inside loops</h2>
+  <p>A <strong>nested loop</strong> is a loop inside the body of another loop. The inner loop runs <em>all the way through</em> on every single pass of the outer loop, like the minute hand going all the way around for every hour. So the total number of passes is <code>outer × inner</code>.</p>
+<pre class="code"><span class="kw">for</span> row <span class="kw">in</span> <span class="fn">range</span>(<span class="mono">1</span>, <span class="mono">4</span>):
+    <span class="kw">for</span> col <span class="kw">in</span> <span class="fn">range</span>(<span class="mono">1</span>, <span class="mono">5</span>):
+        <span class="fn">print</span>(row * col)</pre>
+  <p>Each loop needs its own variable name. Step through and watch the order: <code>col</code> changes fastest, and <code>row</code> only moves on when <code>col</code> has finished.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: the order of a nested loop</div>
+    <div class="inline-in">
+      <label>outer: range(1, <input type="number" id="nsR" value="4" min="2" max="7">)</label>
+      <label>inner: range(1, <input type="number" id="nsC" value="5" min="2" max="7">)</label>
+    </div>
+    <div class="nest" id="nsGrid" aria-hidden="true"></div>
+    <div class="row"><button class="primary" id="nsStep">Next pass</button><button id="nsPlay">Play all</button><button id="nsReset">Start over</button></div>
+    <pre class="term" id="nsOut" aria-live="polite" style="max-height:200px;overflow:auto"></pre>
+    <div class="explain" id="nsWhy"></div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section id="format">
+  <h2><span class="n">05</span>Printing two values</h2>
+  <p>When the expected output is exact, like <code>1,1</code> in All Dice Values, <em>how</em> you print matters as much as what you print. Here are the ways to print <code>a = 3</code> and <code>b = 4</code> on one line:</p>
+  <div class="scroll"><table>
+    <tr><th>Code</th><th>Output</th><th>Why</th></tr>
+    <tr><td><code>print(a, b)</code></td><td><code>3 4</code></td><td>A comma between values adds one space.</td></tr>
+    <tr><td><code>print(a, ",", b)</code></td><td><code>3 , 4</code></td><td>Each comma in <code>print</code> adds a space, even around a <code>","</code> string.</td></tr>
+    <tr><td><code>print(str(a) + "," + str(b))</code></td><td><code>3,4</code></td><td><code>+</code> joins strings with nothing in between.</td></tr>
+    <tr><td><code>print(a + "," + b)</code></td><td><span class="fv">TypeError</span></td><td>Can’t join numbers to a string with <code>+</code> without <code>str()</code> (from 4.1).</td></tr>
+    <tr><td><code>print(a + b)</code></td><td><code>7</code></td><td>Two numbers with <code>+</code> get <em>added</em>.</td></tr>
+  </table></div>
+</section>
+
+<!-- 06 -->
+<section id="ap">
+  <h2><span class="n">06</span>On the AP exam</h2>
+  <p>Accumulator loops and nested loops both show up on the exam in pseudocode. The skill is tracing: keep a table of every variable and update it one pass at a time.</p>
+  <div class="duo">
+<pre class="code"><span class="cm">// a sum</span>
+sum ← 0
+n ← 1
+<span class="kw">REPEAT</span> 4 <span class="kw">TIMES</span>
+{
+   sum ← sum + n
+   n ← n + 1
+}
+<span class="fn">DISPLAY</span>(sum)    <span class="cm">// 10</span></pre>
+<pre class="code"><span class="cm">// a nested loop</span>
+count ← 0
+<span class="kw">REPEAT</span> 3 <span class="kw">TIMES</span>
+{
+   <span class="kw">REPEAT</span> 4 <span class="kw">TIMES</span>
+   {
+      count ← count + 1
+   }
+}
+<span class="fn">DISPLAY</span>(count)  <span class="cm">// 12</span></pre>
+  </div>
+  <div class="callout ap"><p><strong>Nested loops multiply.</strong> 3 outer passes × 4 inner passes = 12 times through the innermost line. When an exam question asks how many times a line runs, multiply the counts of every loop around it.</p></div>
+</section>
+
+<!-- 07 -->
+<section id="ex">
+  <h2><span class="n">07</span>Exercises 4.9.4–4.9.7</h2>
+  <p>Read the instructions in CodeHS carefully; they’re the specification you’re graded on. The hints below point you at the right ideas without writing the code for you. Open one only when you’re stuck.</p>
+
+  <h3>4.9.4 Better Sum</h3>
+  <details><summary>Hint 1: two inputs</summary>
+    <p>Ask for both numbers and convert each with <code>int()</code> before using them in <code>range</code>.</p>
+  </details>
+  <details><summary>Hint 2: include the second number</summary>
+    <p>The example 6 to 8 means 6 + 7 + 8, so the second number must be included. <code>stop</code> never is (section 01’s warning). What do you add to the stop to fix that?</p>
+  </details>
+  <details><summary>Hint 3: where things go</summary>
+    <p>The running total starts before the loop, grows inside it, and gets printed after it (not indented), so you print once instead of on every pass.</p>
+  </details>
+  <details><summary>Hint 4: testing</summary>
+    <p>6 and 8 should give 21. Also try the same number twice, like 5 and 5: the answer should be 5.</p>
+  </details>
+
+  <h3>4.9.5 Factorial</h3>
+  <details><summary>Hint 1: the starting value</summary>
+    <p>You’re multiplying, not adding. Reread section 02 before choosing what your result variable starts at.</p>
+  </details>
+  <details><summary>Hint 2: which numbers?</summary>
+    <p>The CodeHS hint says to multiply the numbers from 1 all the way up to N. Make sure N itself is included.</p>
+  </details>
+  <details><summary>Hint 3: testing</summary>
+    <p>4 should give 24, 5 should give 120, and 1 should give 1. The instructions don’t specify the output wording, so print the result with a clear label.</p>
+  </details>
+
+  <h3>4.9.6 Challenge: All Dice Values</h3>
+  <details><summary>Hint 1: two loops</summary>
+    <p>One loop for the first die, and inside its body, a second loop for the second die. Give them different variable names (the CodeHS hint uses <code>i</code> and <code>j</code>).</p>
+  </details>
+  <details><summary>Hint 2: 1 through 6</summary>
+    <p>A die shows 1 to 6, not 0 to 5. Which form of <code>range</code> from 4.8 starts at 1 and includes 6?</p>
+  </details>
+  <details><summary>Hint 3: the exact format</summary>
+    <p>Each line is the two values with a comma and <em>no spaces</em>: <code>1,1</code>. Check section 05’s table to see which <code>print</code> gives exactly that.</p>
+  </details>
+  <details><summary>Hint 4: checking</summary>
+    <p>You should get 6 × 6 = 36 lines. The first is <code>1,1</code>, the seventh is <code>2,1</code>, and the last is <code>6,6</code>.</p>
+  </details>
+
+  <h3>4.9.7 Even Better Sum</h3>
+  <details><summary>Hint 1: two ways</summary>
+    <p>Section 03 shows two ways to add only some numbers: an <code>if</code> with <code>%</code> (the CodeHS hint), or a <code>range</code> with a step. Either works for even numbers.</p>
+  </details>
+  <details><summary>Hint 2: odd n</summary>
+    <p>If n is 9, the last even number is 8. Make sure your loop doesn’t skip 8, and doesn’t add 9 or 10.</p>
+  </details>
+  <details><summary>Hint 3: testing</summary>
+    <p>10 should give 30, 9 should give 20, and 2 should give 2. Print the sum with a sentence like the examples.</p>
+  </details>
+</section>
+
+<!-- 08 -->
+<section id="quiz">
+  <h2><span class="n">08</span>Predict the output</h2>
+  <p>Decide on your answer before you click. Each answer explains why, so wrong answers are worth reading too.</p>
+  <div class="score" id="score" aria-live="polite">Score: 0 / 0</div>
+  <div id="quizBox"></div>
+  <button id="quizReset">Reset quiz</button>
+</section>
+
+<!-- 09 -->
+<section id="ship">
+  <h2><span class="n">09</span>Before you submit</h2>
+  <p>Run through this list for each exercise. Checks aren’t saved, so it resets when you reload.</p>
+  <div class="checklist">
+    <label><input type="checkbox"> <span>My running total starts before the loop: 0 for a sum, 1 for a product.</span></label>
+    <label><input type="checkbox"> <span>My loop includes both ends the instructions ask for (remember, <code>stop</code> is never included).</span></label>
+    <label><input type="checkbox"> <span>Inputs go through <code>int()</code> before I use them in <code>range</code>.</span></label>
+    <label><input type="checkbox"> <span>I print the final result <em>after</em> the loop, not on every pass (unless the instructions want every pass).</span></label>
+    <label><input type="checkbox"> <span>Nested loops use different variable names, and the inner loop is indented inside the outer one.</span></label>
+    <label><input type="checkbox"> <span>Exact output like <code>1,1</code> matches character for character.</span></label>
+    <label><input type="checkbox"> <span>I tested the examples from the instructions plus a small edge case (like 1, or two equal numbers).</span></label>
+  </div>
+  <p class="next" style="margin-top:28px">Next up: <strong>4.10 While Loops</strong>, for repeating when you don’t know ahead of time how many passes you’ll need.</p>
+</section>
+</main>
+</div>
+<script src="../js/4-9-for-loop-practice.js"></script>
+</body>
+</html>

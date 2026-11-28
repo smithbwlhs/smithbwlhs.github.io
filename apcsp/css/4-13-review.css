@@ -1,0 +1,32 @@
+/* Unit 4 Review only (shared styles live in common.css) */
+.scorecard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;width:280px}
+.scorecard .lbl{font:600 13px var(--sans);color:var(--muted)}
+.scorecard .big{font:700 34px var(--mono);margin:4px 0}
+.scorecard .sub{font-size:14px;color:var(--muted)}
+.meter{height:12px;border-radius:6px;background:var(--chip);overflow:hidden;margin-top:10px}
+.meter i{display:block;height:100%;width:0;background:var(--true);transition:width .3s}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;max-width:900px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column}
+.card h3{margin:0 0 6px;font-size:16px}
+.card ul{padding-left:18px;margin:0 0 10px;font-size:14px}
+.card li{margin-bottom:4px}
+.card a{margin-top:auto;font-size:14px;font-weight:600}
+.topic-h{display:flex;align-items:baseline;gap:10px;margin:28px 0 10px;max-width:760px}
+.topic-h h3{margin:0}
+.topic-h .tsc{font:600 13px var(--mono);color:var(--muted)}
+.trow{display:grid;grid-template-columns:minmax(0,190px) minmax(0,1fr) 64px;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);font-size:14px;max-width:760px}
+.trow .bar{height:12px;border-radius:6px;background:var(--chip);overflow:hidden}
+.trow .bar i{display:block;height:100%}
+.trow .n{font:600 13px var(--mono);text-align:right}
+.rev{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:0 10px 10px 0;padding:12px 16px;margin:0 0 10px;max-width:760px}
+.rev h4{margin:0 0 4px;font-size:16px}
+.rev .meta{font-size:13px;color:var(--muted);margin-bottom:6px}
+.rev ol{margin:6px 0 0;padding-left:20px;font-size:14px}
+.solid{display:flex;flex-wrap:wrap;gap:6px;max-width:760px}
+.solid span{background:var(--true-soft);color:var(--true);border-radius:99px;padding:4px 10px;font:600 13px var(--sans)}
+.solid.unf span{background:var(--chip);color:var(--muted)}
+.emailrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.emailrow label{font:600 14px var(--sans);color:var(--muted);width:100%}
+.emailrow input{flex:1 1 240px;font:16px var(--sans);padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink)}
+.emailrow input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+@media (max-width:640px){.scorecard{width:100%}.trow{grid-template-columns:minmax(0,1fr) 64px}.trow .bar{grid-column:1/-1;order:3}}

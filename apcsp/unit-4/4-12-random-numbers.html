@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>4.12 Random Numbers — AP CSP Unit 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+<div class="layout">
+<nav id="nav" aria-label="Sections">
+  <div class="brand">4.12 Random Numbers</div>
+  <div class="sub">AP CSP · Unit 4: Python Control Structures</div>
+  <a href="#map"><span class="n">00</span>Lesson map</a>
+  <a href="#randint"><span class="n">01</span>import and randint</a>
+  <a href="#coin"><span class="n">02</span>Flipping a coin</a>
+  <a href="#loops"><span class="n">03</span>Random inside a loop</a>
+  <a href="#chain"><span class="n">04</span>Pick once, then decide</a>
+  <a href="#guess"><span class="n">05</span>A secret that stays put</a>
+  <a href="#ap"><span class="n">06</span>On the AP exam</a>
+  <a href="#ex"><span class="n">07</span>Exercises 4.12.5–4.12.7</a>
+  <a href="#quiz"><span class="n">08</span>Predict the output</a>
+  <a href="#ship"><span class="n">09</span>Before you submit</a>
+</nav>
+
+<main>
+<section class="hero" id="top">
+  <div>
+    <h1>Random Numbers</h1>
+    <p class="lead">Games, simulations, and quizzes all need a little unpredictability. Python’s <code>random</code> module picks numbers for you, and everything you’ve learned in this unit (variables, <code>if</code>, loops) works the same with random values. Roll the die a few times, then roll it a lot.</p>
+  </div>
+  <div class="hero-die">
+    <code class="c">roll = random.randint(1, 6)</code>
+    <div class="top">
+      <div class="bigdie" id="hdDie" aria-live="polite">?</div>
+      <div class="row" style="margin:0"><button class="primary" id="hdOne">Roll</button><button id="hdMany">Roll 600 times</button></div>
+    </div>
+    <div class="hist" id="hdHist" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- 00 -->
+<section id="map">
+  <h2><span class="n">00</span>Lesson map</h2>
+  <p>Here’s how this page lines up with your CodeHS assignments for 4.12. Work through the page first, then do the CodeHS items in order.</p>
+  <div class="scroll"><table>
+    <tr><th>CodeHS item</th><th>What it is</th><th>Where this page helps</th></tr>
+    <tr><td>4.12.1 Random Numbers</td><td>Video</td><td>01, 02</td></tr>
+    <tr><td>4.12.2 Random Numbers Quiz</td><td>Check for understanding</td><td>01</td></tr>
+    <tr><td>4.12.3 Rolling a Die</td><td>Example</td><td>01</td></tr>
+    <tr><td>4.12.4 Flipping a Coin</td><td>Example</td><td>02</td></tr>
+    <tr><td>4.12.5 Lots of Dice</td><td>Exercise you write</td><td>03, 07</td></tr>
+    <tr><td>4.12.6 Magic 8 Ball</td><td>Exercise you write</td><td>04, 07</td></tr>
+    <tr><td>4.12.7 Number Guessing Game</td><td>Exercise you write</td><td>05, 07</td></tr>
+    <tr><td>4.12.8 Mindsets</td><td>Survey</td><td>—</td></tr>
+  </table></div>
+</section>
+
+<!-- 01 -->
+<section id="randint">
+  <h2><span class="n">01</span><code>import</code> and <code>randint</code></h2>
+  <p>Example <strong>4.12.3 Rolling a Die</strong>:</p>
+<pre class="code"><span class="kw">import</span> random
+
+roll = random.randint(<span class="mono">1</span>, <span class="mono">6</span>)
+<span class="fn">print</span>(<span class="st">"You rolled a "</span> + <span class="fn">str</span>(roll))</pre>
+  <div class="scroll"><table>
+    <tr><th>Part</th><th>Job</th></tr>
+    <tr><td><code>import random</code></td><td>Loads Python’s random module. It comes with Python but isn’t loaded until you ask, so this line goes at the <strong>top</strong> of the program.</td></tr>
+    <tr><td><code>random.randint(1, 6)</code></td><td>Returns a random whole number from 1 to 6, <strong>including both ends</strong>. The <code>random.</code> in front says which module the function comes from.</td></tr>
+    <tr><td><code>roll = …</code></td><td>Stores the result so you can print it, compare it, or use it again. Every call picks a <em>new</em> number, so save it if you need the same one twice.</td></tr>
+  </table></div>
+  <div class="callout warn"><p><strong><code>randint</code> is not <code>range</code>.</strong> <code>range(1, 6)</code> stops <em>before</em> 6, but <code>random.randint(1, 6)</code> can return 6. For a 1-to-10 number, it’s <code>random.randint(1, 10)</code>, not 11.</p></div>
+  <div class="lab">
+    <div class="lab-title">Lab: what can randint return?</div>
+    <div class="ctl">
+      <label>random.randint( <input type="number" id="riA" value="1"> , <input type="number" id="riB" value="6"> )</label>
+      <button class="primary" id="riOne">Call it once</button>
+      <button id="riMany">Call it 3,000 times</button>
+    </div>
+    <pre class="term" id="riOut"></pre>
+    <div class="hist" id="riHist" aria-hidden="true"></div>
+    <div class="explain" id="riWhy"></div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section id="coin">
+  <h2><span class="n">02</span>Flipping a coin</h2>
+  <p>Example <strong>4.12.4 Flipping a Coin</strong> makes a random Boolean:</p>
+<pre class="code"><span class="kw">import</span> random
+
+is_heads = random.choice([<span class="bt">True</span>, <span class="bf">False</span>])
+<span class="fn">print</span>(<span class="st">"You flipped heads: "</span> + <span class="fn">str</span>(is_heads))</pre>
+  <p><code>random.choice</code> picks one item from the square brackets. Those brackets make a <strong>list</strong>, which you’ll learn in Unit 7. You can get the same random Boolean with only what you know now, by combining <code>randint</code> with a comparison from 4.3:</p>
+<pre class="code">is_heads = random.randint(<span class="mono">0</span>, <span class="mono">1</span>) == <span class="mono">1</span>    <span class="cm"># True half the time</span></pre>
+  <div class="lab">
+    <div class="lab-title">Lab: flip both ways</div>
+    <div class="ctl"><button class="primary" id="cnFlip">Flip 1,000 times each way</button></div>
+    <div class="hist" id="cnHist" aria-hidden="true"></div>
+    <div class="explain" id="cnWhy"></div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section id="loops">
+  <h2><span class="n">03</span>Random inside a loop</h2>
+  <p>To roll many times, the <code>randint</code> call has to be <strong>inside</strong> the loop, so it runs on every pass. Call it once before the loop and you get one random number, printed over and over.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: where does the roll go?</div>
+    <label style="display:inline-flex;align-items:center;gap:8px;font:600 14px var(--sans);margin-bottom:10px"><input type="checkbox" id="lpBug" style="width:18px;height:18px;accent-color:var(--accent)"> Plant a bug: roll once, before the loop</label>
+    <pre class="code" id="lpCode"></pre>
+    <div class="ctl"><button class="primary" id="lpRun">Run</button></div>
+    <pre class="term" id="lpOut"></pre>
+    <div class="explain" id="lpWhy"></div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section id="chain">
+  <h2><span class="n">04</span>Pick once, then decide</h2>
+  <p>To choose between several outcomes, pick <strong>one</strong> random number, store it, and then use an <code>if</code>/<code>elif</code>/<code>else</code> chain from 4.5 to decide what it means. Here’s a weather forecaster with four outcomes.</p>
+  <div class="duo">
+<pre class="code"><span class="cm"># Right: pick once, store it</span>
+pick = random.randint(<span class="mono">1</span>, <span class="mono">4</span>)
+<span class="kw">if</span> pick == <span class="mono">1</span>:
+    <span class="fn">print</span>(<span class="st">"Sunny"</span>)
+<span class="kw">elif</span> pick == <span class="mono">2</span>:
+    <span class="fn">print</span>(<span class="st">"Cloudy"</span>)
+<span class="kw">elif</span> pick == <span class="mono">3</span>:
+    <span class="fn">print</span>(<span class="st">"Rainy"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="st">"Snowy"</span>)</pre>
+<pre class="code"><span class="cm"># Buggy: a new number in every check</span>
+<span class="kw">if</span> random.randint(<span class="mono">1</span>, <span class="mono">4</span>) == <span class="mono">1</span>:
+    <span class="fn">print</span>(<span class="st">"Sunny"</span>)
+<span class="kw">elif</span> random.randint(<span class="mono">1</span>, <span class="mono">4</span>) == <span class="mono">2</span>:
+    <span class="fn">print</span>(<span class="st">"Cloudy"</span>)
+<span class="kw">elif</span> random.randint(<span class="mono">1</span>, <span class="mono">4</span>) == <span class="mono">3</span>:
+    <span class="fn">print</span>(<span class="st">"Rainy"</span>)
+<span class="kw">elif</span> random.randint(<span class="mono">1</span>, <span class="mono">4</span>) == <span class="mono">4</span>:
+    <span class="fn">print</span>(<span class="st">"Snowy"</span>)</pre>
+  </div>
+  <div class="lab">
+    <div class="lab-title">Lab: run both 4,000 times</div>
+    <div class="ctl"><button class="primary" id="wxRun">Run both</button></div>
+    <div class="duo">
+      <div><h4 style="margin:0 0 6px;font-size:14px;color:var(--muted)">Pick once</h4><div class="hist" id="wxA"></div></div>
+      <div><h4 style="margin:0 0 6px;font-size:14px;color:var(--muted)">New number in every check</h4><div class="hist" id="wxB"></div></div>
+    </div>
+    <div class="explain" id="wxWhy"></div>
+  </div>
+  <div class="callout"><p><strong>Debug prints are temporary.</strong> While you test, it helps to print the random number so you can check the chain picked the right message. Delete that line before you submit, especially when the instructions say to print only one line.</p></div>
+</section>
+
+<!-- 05 -->
+<section id="guess">
+  <h2><span class="n">05</span>A secret that stays put</h2>
+  <p>In a guessing game, the secret number is chosen <strong>once, before the loop</strong>. The loop keeps asking (a loop and a half from 4.11) until the guess matches. If you pick the secret inside the loop, it changes after every guess and the hints become meaningless.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: guess a number from 1 to 20</div>
+    <div class="ctl">
+      <label><input type="checkbox" id="gsBug" style="width:18px;height:18px;accent-color:var(--accent)"> Plant a bug: pick the secret inside the loop</label>
+      <label><input type="checkbox" id="gsPeek" style="width:18px;height:18px;accent-color:var(--accent)"> Debug print: show the secret</label>
+    </div>
+    <pre class="console" id="gsOut" style="max-height:260px;overflow:auto" aria-live="polite"></pre>
+    <div class="prompt" id="gsRow"><span>Your guess: </span><input id="gsIn" type="text" autocomplete="off" spellcheck="false" aria-label="Your guess"></div>
+    <div class="row"><button id="gsReset">New game</button></div>
+    <div class="explain" id="gsWhy"></div>
+  </div>
+  <div class="callout"><p><strong>Smart guessing.</strong> Always guess the middle of what’s left: 10, then 5 or 15, and so on. You’ll never need more than 5 guesses for 1 to 20. That strategy is called <em>binary search</em>, and it comes back later in AP CSP.</p></div>
+</section>
+
+<!-- 06 -->
+<section id="ap">
+  <h2><span class="n">06</span>On the AP exam</h2>
+  <div class="scroll"><table>
+    <tr><th>Python</th><th>AP pseudocode</th></tr>
+    <tr><td><code>import random</code><br><code>random.randint(a, b)</code></td><td><code>RANDOM(a, b)</code> (no import needed)</td></tr>
+  </table></div>
+  <p>The reference sheet says <code>RANDOM(a, b)</code> returns a random integer from <code>a</code> to <code>b</code>, <strong>including</strong> both, and each result is equally likely, just like <code>randint</code>.</p>
+  <div class="callout ap"><p><strong>Two kinds of exam questions.</strong> First: <em>which values are possible?</em> Trace every path the random value could take. Second: <strong>simulations</strong>. Programs use random numbers to model real events like dice, weather, or traffic, which lets you explore situations that would be slow, expensive, or impossible to test in real life. The trade-off: a simulation is a simplified model, so its results are only as good as its assumptions.</p></div>
+</section>
+
+<!-- 07 -->
+<section id="ex">
+  <h2><span class="n">07</span>Exercises 4.12.5–4.12.7</h2>
+  <p>Read the instructions in CodeHS carefully; they’re the specification you’re graded on. The hints below point you at the right ideas without writing the code for you. Open one only when you’re stuck.</p>
+
+  <h3>4.12.5 Lots of Dice</h3>
+  <details><summary>Hint 1: the setup</summary>
+    <p>The starter code already imports <code>random</code>. You need a loop that runs exactly 100 times. Which kind of loop from 4.7 is built for “do this N times”?</p>
+  </details>
+  <details><summary>Hint 2: where the roll goes</summary>
+    <p>Each pass needs its own roll. Section 03 shows what happens if you roll once before the loop.</p>
+  </details>
+  <details><summary>Hint 3: checking</summary>
+    <p>Print just the number, one per line. Run it twice: the numbers should be different each time, and you should see both 1s and 6s.</p>
+  </details>
+
+  <h3>4.12.6 Magic 8 Ball</h3>
+  <details><summary>Hint 1: one number</summary>
+    <p>Pick one random number from 1 to 4 and store it in a variable before any <code>if</code>. Section 04 shows why calling <code>randint</code> in each condition goes wrong.</p>
+  </details>
+  <details><summary>Hint 2: the chain</summary>
+    <p>Four numbers, four responses, exactly one printed: that’s an <code>if</code>/<code>elif</code>/<code>else</code> chain. Copy each response exactly, including the punctuation.</p>
+  </details>
+  <details><summary>Hint 3: the tip vs. “one line”</summary>
+    <p>The instructions suggest printing the random number to check your work, but they also say the program should print only one line. Use the debug print while you test, then delete it before you submit.</p>
+  </details>
+  <details><summary>Hint 4: testing</summary>
+    <p>Run it several times until you’ve seen all four responses. If one never shows up, check the numbers in your conditions.</p>
+  </details>
+
+  <h3>4.12.7 Number Guessing Game</h3>
+  <details><summary>Hint 1: the secret</summary>
+    <p>Pick the secret from 1 to 10 once, before the loop (section 05).</p>
+  </details>
+  <details><summary>Hint 2: the loop</summary>
+    <p>The CodeHS hints suggest <code>while True</code> with <code>break</code>, the 4.11 pattern. Each pass: ask with the exact prompt from the example, convert with <code>int()</code>, then decide which message to print.</p>
+  </details>
+  <details><summary>Hint 3: three outcomes</summary>
+    <p>Too low, too high, or correct: one chain. Only the correct guess should end the loop. Match the messages exactly; they have no punctuation.</p>
+  </details>
+  <details><summary>Hint 4: testing without guessing forever</summary>
+    <p>While you test, print the secret at the start so you can check every message on purpose. Remove that line before you submit.</p>
+  </details>
+</section>
+
+<!-- 08 -->
+<section id="quiz">
+  <h2><span class="n">08</span>Predict the output</h2>
+  <p>Decide on your answer before you click. Each answer explains why, so wrong answers are worth reading too.</p>
+  <div class="score" id="score" aria-live="polite">Score: 0 / 0</div>
+  <div id="quizBox"></div>
+  <button id="quizReset">Reset quiz</button>
+</section>
+
+<!-- 09 -->
+<section id="ship">
+  <h2><span class="n">09</span>Before you submit</h2>
+  <p>Run through this list for each exercise. Checks aren’t saved, so it resets when you reload.</p>
+  <div class="checklist">
+    <label><input type="checkbox"> <span><code>import random</code> is the first line.</span></label>
+    <label><input type="checkbox"> <span>Every call is written <code>random.randint(a, b)</code>, and I remembered it includes <code>b</code>.</span></label>
+    <label><input type="checkbox"> <span>Each random value is picked exactly where it should be: once before a decision, or inside a loop for a new value each pass.</span></label>
+    <label><input type="checkbox"> <span>I stored the random number in a variable before comparing it.</span></label>
+    <label><input type="checkbox"> <span>I removed any debug prints that showed the random number.</span></label>
+    <label><input type="checkbox"> <span>I ran the program several times and saw every possible outcome.</span></label>
+  </div>
+  <p class="mini" style="margin-top:14px">4.12.8 Mindsets is a short survey with no right answers. Answer honestly; it’s about how you feel about computer science.</p>
+  <p class="next" style="margin-top:28px">Next up: <strong>4.13 Python Control Structures Quiz</strong>, the unit test. Every page from 4.1 to 4.12 is good review.</p>
+</section>
+</main>
+</div>
+<script src="../js/4-12-random-numbers.js"></script>
+</body>
+</html>

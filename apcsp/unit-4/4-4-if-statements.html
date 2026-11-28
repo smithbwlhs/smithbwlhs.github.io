@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>4.4 If Statements — AP CSP Unit 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+<div class="layout">
+<nav id="nav" aria-label="Sections">
+  <div class="brand">4.4 If Statements</div>
+  <div class="sub">AP CSP · Unit 4: Python Control Structures</div>
+  <a href="#map"><span class="n">00</span>Lesson map</a>
+  <a href="#if"><span class="n">01</span>Anatomy of an if</a>
+  <a href="#errors"><span class="n">02</span>Colons &amp; indentation</a>
+  <a href="#else"><span class="n">03</span>else: the other path</a>
+  <a href="#names"><span class="n">04</span>Comparing strings</a>
+  <a href="#two"><span class="n">05</span>One decision or two?</a>
+  <a href="#ap"><span class="n">06</span>On the AP exam</a>
+  <a href="#ex"><span class="n">07</span>Exercises 4.4.6–4.4.8</a>
+  <a href="#quiz"><span class="n">08</span>Predict the output</a>
+  <a href="#ship"><span class="n">09</span>Before you submit</a>
+</nav>
+
+<main>
+<section class="hero" id="top">
+  <div>
+    <h1>If Statements</h1>
+    <p class="lead">You can build Booleans with <code>and</code>, <code>or</code>, <code>not</code>, and comparisons. Now your program can finally <em>act</em> on them: run some lines only when a condition is <span class="tv">True</span>, and other lines when it’s <span class="fv">False</span>. Flip the switch and watch which line runs.</p>
+  </div>
+  <div class="switch">
+    <button id="heroSwitch" role="switch" aria-checked="true" aria-label="raining"></button>
+    <code id="heroVar">raining = True</code>
+    <pre class="hero-code" id="heroCode" aria-live="polite"></pre>
+  </div>
+</section>
+
+<!-- 00 -->
+<section id="map">
+  <h2><span class="n">00</span>Lesson map</h2>
+  <p>Here’s how this page lines up with your CodeHS assignments for 4.4. Work through the page first, then do the CodeHS items in order.</p>
+  <div class="scroll"><table>
+    <tr><th>CodeHS item</th><th>What it is</th><th>Where this page helps</th></tr>
+    <tr><td>4.4.1 If Statements</td><td>Video</td><td>01–03</td></tr>
+    <tr><td>4.4.2 If Statements Quiz</td><td>Check for understanding</td><td>01, 03</td></tr>
+    <tr><td>4.4.3 Negative Numbers</td><td>Example: <code>if</code></td><td>01</td></tr>
+    <tr><td>4.4.4 Great Names</td><td>Example: comparing strings</td><td>04</td></tr>
+    <tr><td>4.4.5 Even and Odd</td><td>Example: <code>if</code> / <code>else</code></td><td>03</td></tr>
+    <tr><td>4.4.6 Teenagers</td><td>Exercise you write</td><td>02, 03, 07</td></tr>
+    <tr><td>4.4.7 Phone Battery Warning</td><td>Exercise you write</td><td>02, 03, 07</td></tr>
+    <tr><td>4.4.8 Free Popcorn</td><td>Exercise you write</td><td>03, 05, 07</td></tr>
+    <tr><td>4.4.9 AP Practice: If/Else Statements</td><td>AP-style questions</td><td>06, then 08 for practice</td></tr>
+  </table></div>
+</section>
+
+<!-- 01 -->
+<section id="if">
+  <h2><span class="n">01</span>Anatomy of an <code>if</code></h2>
+  <p>Example <strong>4.4.3 Negative Numbers</strong> is the smallest useful <code>if</code> statement:</p>
+<pre class="code">number = <span class="fn">int</span>(<span class="fn">input</span>(<span class="st">"Number: "</span>))
+<span class="kw">if</span> number &lt; <span class="mono">0</span> :
+    <span class="fn">print</span>(<span class="st">"Number is negative."</span>)</pre>
+  <div class="scroll"><table>
+    <tr><th>Part</th><th>In this example</th><th>Job</th></tr>
+    <tr><td>The keyword</td><td><code>if</code></td><td>Lowercase, always.</td></tr>
+    <tr><td>The condition</td><td><code>number &lt; 0</code></td><td>Any expression that gives <span class="tv">True</span> or <span class="fv">False</span>: a Boolean variable, a comparison, or a mix with <code>and</code>/<code>or</code>/<code>not</code>.</td></tr>
+    <tr><td>The colon</td><td><code>:</code></td><td>Marks the end of the condition. (The space before it in this example is allowed but not needed.)</td></tr>
+    <tr><td>The body</td><td>the indented <code>print</code></td><td>Runs only when the condition is <span class="tv">True</span>. Indentation is how Python knows which lines belong to the <code>if</code>.</td></tr>
+  </table></div>
+  <p>The example’s comments suggest a second version that stores the comparison in a Boolean instead, like you did in 4.3. Run both with the same number and compare. The highlighted lines are the ones that ran.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: if vs. storing a Boolean (4.4.3)</div>
+    <div id="flowNeg"></div>
+  </div>
+  <p>Both versions compute the same Boolean. The difference is what happens next: the stored version always prints, while the <code>if</code> version <em>decides whether to print at all</em>. When the number isn’t negative, it prints nothing.</p>
+</section>
+
+<!-- 02 -->
+<section id="errors">
+  <h2><span class="n">02</span>Colons &amp; indentation</h2>
+  <p>Python is fussy about the shape of an <code>if</code> statement. Most errors in this lesson come from a missing colon or from indentation. Pick a broken program to see what Python says and why.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: error decoder</div>
+    <div class="chips" id="errChips"></div>
+    <div class="src" id="errSrc" style="margin-bottom:10px"></div>
+    <p class="errmsg" id="errMsg"></p>
+    <div class="explain" id="errWhy" style="margin-top:0"></div>
+  </div>
+  <div class="callout warn"><p><strong>Pick one way to indent and stick to it.</strong> CodeHS examples indent with the Tab key; some starter code uses four spaces. Either is fine, but don’t mix them in the same block. The Tab key in the CodeHS editor is the easiest habit.</p></div>
+</section>
+
+<!-- 03 -->
+<section id="else">
+  <h2><span class="n">03</span><code>else</code>: the other path</h2>
+  <p>An <code>else</code> block runs when the <code>if</code> condition is <span class="fv">False</span>. With <code>if</code>/<code>else</code>, <strong>exactly one</strong> of the two blocks runs, every time. <code>else</code> never has a condition of its own; it just ends with a colon.</p>
+  <p>Example <strong>4.4.5 Even and Odd</strong> uses the modulus operator <code>%</code> from Unit 3. <code>num % 2</code> is the remainder after dividing by 2: <code>0</code> for even numbers, <code>1</code> for odd ones.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: run 4.4.5 Even and Odd</div>
+    <div id="flowEven"></div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section id="names">
+  <h2><span class="n">04</span>Comparing strings</h2>
+  <p>Example <strong>4.4.4 Great Names</strong> compares text instead of numbers. Read it closely before you run it:</p>
+<pre class="code"><span class="cm"># This program reads the user's name</span>
+<span class="cm"># and checks if it is equal to "Jeremy"</span>
+name = <span class="fn">input</span>(<span class="st">"Enter name: "</span>)
+<span class="kw">if</span> name &lt;= <span class="st">"Jeremy"</span>:
+    <span class="fn">print</span>(<span class="st">"Great name."</span>)</pre>
+  <p>The comment says “equal to,” but the code uses <code>&lt;=</code>. For strings, <code>&lt;</code> and <code>&gt;</code> compare letter by letter, roughly like alphabetical order, so <code>&lt;=</code> means “comes before or is the same as.” Predict what happens for each name below, then run it.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: run 4.4.4 Great Names</div>
+    <div id="flowName"></div>
+  </div>
+  <div class="callout"><p><strong>Capitals matter.</strong> Python orders characters by their code numbers, and every capital letter comes before every lowercase letter. That’s why <code>"jeremy" &lt;= "Jeremy"</code> is <span class="fv">False</span>, and <code>"Zoe" &lt; "adam"</code> is <span class="tv">True</span>. To check for exactly one name, use <code>==</code>.</p></div>
+</section>
+
+<!-- 05 -->
+<section id="two">
+  <h2><span class="n">05</span>One decision or two?</h2>
+  <p>Two separate <code>if</code> statements are two separate decisions. Python checks both, so <em>both</em> bodies can run, or neither. An <code>if</code>/<code>else</code> is one decision with two outcomes, so exactly one body runs.</p>
+  <p>Here’s a game that hands out badges. Try a score under 100, between 100 and 499, and 500 or more.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: same input, two programs</div>
+    <div id="flowBadge"></div>
+  </div>
+  <p>Neither program is wrong; they answer different questions. Before you write, ask: <strong>“Should only one of these messages ever print, or can more than one print?”</strong> Exactly one: use <code>if</code>/<code>else</code>. Each can happen on its own: use separate <code>if</code> statements.</p>
+</section>
+
+<!-- 06 -->
+<section id="ap">
+  <h2><span class="n">06</span>On the AP exam</h2>
+  <p>The AP reference sheet calls this <strong>selection</strong>. The pseudocode uses curly braces <code>{ }</code> to mark the blocks, and puts the condition in parentheses.</p>
+  <div class="duo">
+<pre class="code"><span class="cm"># Python</span>
+<span class="kw">if</span> score &gt;= <span class="mono">90</span>:
+    <span class="fn">print</span>(<span class="st">"A"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="st">"Not an A"</span>)</pre>
+<pre class="code"><span class="cm">// AP pseudocode</span>
+<span class="kw">IF</span> (score ≥ 90)
+{
+   <span class="fn">DISPLAY</span>(<span class="st">"A"</span>)
+}
+<span class="kw">ELSE</span>
+{
+   <span class="fn">DISPLAY</span>(<span class="st">"Not an A"</span>)
+}</pre>
+  </div>
+  <div class="callout ap"><p><strong>Braces, not indentation, decide what’s inside on the exam.</strong> In Python, indentation is the rule. In AP pseudocode, everything between <code>{</code> and its matching <code>}</code> belongs to the block. Exam questions often put an <code>IF</code> <em>inside</em> another block, so match braces carefully and trace from the outside in.</p></div>
+  <p><strong>4.4.9 AP Practice</strong> has questions like that, plus conditions such as <code>NOT (a OR b)</code>. The equivalence lab on the <a href="4-3-comparison-operators.html#ap">4.3 page</a> helps with those. Try tracing this nested one: decide what it displays <em>before</em> you flip the switches.</p>
+  <div class="lab">
+    <div class="lab-title">Lab: trace AP pseudocode</div>
+    <div class="row" id="apTogs" role="group" aria-label="Input variables"></div>
+    <div class="src" id="apSrc"></div>
+    <pre class="term" id="apOut" aria-live="polite" style="margin-top:10px"></pre>
+    <div class="explain" id="apWhy"></div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section id="ex">
+  <h2><span class="n">07</span>Exercises 4.4.6–4.4.8</h2>
+  <p>Read the instructions in CodeHS carefully; they’re the specification you’re graded on, including the prompts and the exact messages. The hints below point you at the right ideas without writing the code for you. Open one only when you’re stuck.</p>
+
+  <h3>4.4.6 Teenagers</h3>
+  <details><summary>Hint 1: the condition</summary>
+    <p>The instructions describe a range with two limits, joined by “and.” You built this exact shape in 4.3.4 Grade Range. Translate “greater than or equal to” and “less than or equal to” into operators, one at a time.</p>
+  </details>
+  <details><summary>Hint 2: two messages, one of them always</summary>
+    <p>Every run prints exactly one of the two messages. Which structure from this page guarantees exactly one? Copy both messages from the sample output exactly, including the comma and the period.</p>
+  </details>
+  <details><summary>Hint 3: testing</summary>
+    <p>The samples test 13, 17, and 20. Also test 12 and 19, the other side of each boundary. If 19 says “not a teenager,” look at your second comparison.</p>
+  </details>
+
+  <h3>4.4.7 Phone Battery Warning</h3>
+  <details><summary>Hint 1: reading the battery level</summary>
+    <p>Copy the prompt from the examples, including the colon and space. The percentage is a number you’ll compare, so convert it the same way 4.4.3 does.</p>
+  </details>
+  <details><summary>Hint 2: “20 or above”</summary>
+    <p>Does a battery at exactly 20 get “Battery OK” or “Low Battery”? Reread the instructions, then pick the operator that matches. Only one message ever prints.</p>
+  </details>
+  <details><summary>Hint 3: testing</summary>
+    <p>Test 19, 20, and 21. Exactly one of those is on the “Low Battery” side.</p>
+  </details>
+
+  <h3>4.4.8 Free Popcorn</h3>
+  <details><summary>Hint 1: the main part</summary>
+    <p>Read the number of tickets, then print one of two messages. “If … otherwise …” in the instructions is a strong clue about which structure to use.</p>
+  </details>
+  <details><summary>Hint 2: the extra challenge</summary>
+    <p>The soda message is printed <em>also</em>, on top of the popcorn message. Reread section 05: is the soda a separate decision, or one of the two outcomes of the popcorn decision? Make sure 4 or 5 tickets still print exactly one line.</p>
+  </details>
+  <details><summary>Hint 3: testing</summary>
+    <p>Try 3, 4, 5, 6, and 7 tickets. Write down what each one <em>should</em> print before you run it, using the examples in the instructions.</p>
+  </details>
+</section>
+
+<!-- 08 -->
+<section id="quiz">
+  <h2><span class="n">08</span>Predict the output</h2>
+  <p>Decide on your answer before you click. Each answer explains why, so wrong answers are worth reading too.</p>
+  <div class="score" id="score" aria-live="polite">Score: 0 / 0</div>
+  <div id="quizBox"></div>
+  <button id="quizReset">Reset quiz</button>
+</section>
+
+<!-- 09 -->
+<section id="ship">
+  <h2><span class="n">09</span>Before you submit</h2>
+  <p>Run through this list for 4.4.6, 4.4.7, and 4.4.8. Checks aren’t saved, so it resets when you reload.</p>
+  <div class="checklist">
+    <label><input type="checkbox"> <span>Every <code>if</code> and <code>else</code> line ends with a colon, and <code>else</code> has no condition.</span></label>
+    <label><input type="checkbox"> <span>Every body line is indented the same way, and lines that should always run are <em>not</em> indented.</span></label>
+    <label><input type="checkbox"> <span>My input goes through <code>int()</code> before I compare it, and my conditions use <code>==</code>, never <code>=</code>.</span></label>
+    <label><input type="checkbox"> <span>I used <code>if</code>/<code>else</code> where exactly one message should print, and a separate <code>if</code> where a message can print in addition.</span></label>
+    <label><input type="checkbox"> <span>My prompts and messages match the instructions exactly, including punctuation.</span></label>
+    <label><input type="checkbox"> <span>I tested the values on both sides of every boundary.</span></label>
+  </div>
+  <p class="next" style="margin-top:28px">Next up: <strong>Unit 4 Project 1: Mini Adventure</strong>, then <strong>4.5 If, Elif, Else</strong>, for choosing between more than two paths.</p>
+</section>
+</main>
+</div>
+<script src="../js/4-4-if-statements.js"></script>
+</body>
+</html>
